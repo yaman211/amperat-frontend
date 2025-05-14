@@ -42,6 +42,15 @@ const routes: RouteRecordRaw = {
         title: 'ضع الكاميرة على الكود',
       },
     },
+    {
+      path: 'clock-qr-scan',
+      component: () => import('./clock-qr-scan/index.vue'),
+      props: true,
+      meta: {
+        title: 'ضع الكاميرة على الكود',
+        notForLoggedInUsers: true,
+      },
+    },
   ],
 };
 

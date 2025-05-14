@@ -23,6 +23,14 @@ const routes: RouteRecordRaw = {
         title: 'حساب جديد',
       },
     },
+    {
+      path: 'main',
+      component: () => import('./main/index.vue'),
+      meta: {
+        notForLoggedInUsers: true,
+        title: 'الرئيسية',
+      },
+    },
   ],
 };
 

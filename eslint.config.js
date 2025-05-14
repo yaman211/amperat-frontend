@@ -87,6 +87,8 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/require-await': 'off',
       '@typescript-eslint/no-base-to-string': 'off',
       '@typescript-eslint/await-thenable': 'off',
+      '@typescript-eslint/no-array-delete': 'off',
+      '@typescript-eslint/no-duplicate-type-constituents': 'off',
 
       // allow debugger during development only
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
