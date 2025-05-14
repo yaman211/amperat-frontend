@@ -1,1 +1,26 @@
 // app global css in SCSS form
+
+@font-face {
+  font-family: 'cairo';
+  font-style: normal;
+  src: url('../assets/cairo.ttf');
+}
+
+* {
+  font-family: cairo;
+}
+
+$border-size: (
+  'xs': 6px,
+  'sm': 8px,
+  'md': 10px,
+  'lg': 12px,
+  'xl': 14px,
+  'none': 0px,
+);
+
+@each $name, $size in $border-size {
+  .rounded-#{$name} {
+    border-radius: $size !important;
+  }
+}

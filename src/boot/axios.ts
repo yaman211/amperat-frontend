@@ -1,10 +1,10 @@
-import { defineBoot } from '#q-app/wrappers';
-import axios, { type AxiosInstance } from 'axios';
+import { boot } from 'quasar/wrappers';
+import axios, { AxiosInstance } from 'axios';
+import { LocalStorage, Notify } from 'quasar';
 
-declare module 'vue' {
+declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $axios: AxiosInstance;
-    $api: AxiosInstance;
   }
 }
 
@@ -14,9 +14,35 @@ declare module 'vue' {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: 'https://api.example.com' });
+const api = axios.create({ baseURL: process.env.BASE_URL });
 
-export default defineBoot(({ app }) => {
+export default boot(({ app }) => {
+  api.interceptors.response.use(
+    (res) => res,
+    (err) => {
+      console.error(err);
+      if (!err.response) {
+        Notify.create({
+          message: 'تأكد من الاتصال بالانترنت',
+          type: 'negative',
+        });
+        throw err;
+      }
+      const msg = err.response.data?.message || 'حدث خطأ ما';
+      Notify.create({
+        message: msg,
+        type: 'negative',
+      });
+      throw err;
+    }
+  );
+
+  api.interceptors.request.use((config) => {
+    if (LocalStorage.has('token'))
+      config.headers['Authorization'] =
+        'Bearer ' + LocalStorage.getItem<string>('token');
+    return config;
+  });
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
   app.config.globalProperties.$axios = axios;
