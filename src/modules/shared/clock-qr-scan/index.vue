@@ -1,42 +1,48 @@
 <template>
-  <div></div>
+  <div class="flex justify-center items-center" style="height: 80vh">
+    <div style="border: 2px solid cyan; width: 300px; height: 300px" class="q-mx-auto q-mt">
+      <div class="scan"></div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { Notify } from 'quasar';
-import { useScanBarcode, isValidClockCode } from 'src/utils/barcode';
+import { useScanBarcode } from 'src/utils/barcode';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useScanBarcodeStore } from './store';
+import { useScanQrCodeStore } from './store';
 
 const { startScan } = useScanBarcode();
-const scanBarcodeStore = useScanBarcodeStore();
-scanBarcodeStore.$reset();
+const scanQrCodeStore = useScanQrCodeStore();
+scanQrCodeStore.$reset();
 const router = useRouter();
 
 onMounted(async () => {
+  // console.log('test');
   const res = await startScan();
-  if (!isValidClockCode(res)) {
-    Notify.create({
-      message: 'الكود الممسوح غير صحيح',
-      type: 'negative',
-    });
-    scanBarcodeStore.$reset();
-    router.back();
-  } else {
-    scanBarcodeStore.setCode(res as string);
-    const from = router.options.history.state.back;
-    console.log({ from });
-    if (from) {
-      router.push({
-        path: from.toString(),
-        query: {
-          'clock-search-id': scanBarcodeStore.id,
-        },
-      });
-    }
-  }
+  console.log({ res });
+  scanQrCodeStore.setCode(res as string);
+
+  router.replace({
+    path: `/shared/clock-details/token/${res}`,
+  });
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.scan {
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(cyan, transparent);
+  animation: scanning 1.5s linear alternate infinite;
+}
+
+@keyframes scanning {
+  0% {
+    transform: translatey(0px);
+  }
+  100% {
+    transform: translatey(270px);
+  }
+}
+</style>

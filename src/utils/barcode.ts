@@ -3,6 +3,7 @@ import { onUnmounted } from 'vue';
 
 export const useScanBarcode = () => {
   const q = useQuasar();
+  console.log(q.capacitor);
   const BarcodeScanner = q.capacitor.Plugins.BarcodeScanner;
 
   const startScan = async (): Promise<string | undefined> => {

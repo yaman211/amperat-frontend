@@ -5,6 +5,7 @@ import {
   CLOCKS_SEARCH,
   CLOCK_BY_ID,
   CLOCK_BY_ID_LAST_READING,
+  CLOCK_BY_TOKEN,
   MY_CLOCKS,
 } from 'src/modules/shared/endpoints';
 import { Pagination } from './pagination.model';
@@ -49,6 +50,11 @@ export class Clock {
     const res = await api.get(CLOCK_BY_ID(id));
     return new Clock(res.data);
   }
+  static async getClockByToken(token: string) {
+    const res = await api.get(CLOCK_BY_TOKEN(token));
+    return new Clock(res.data);
+  }
+
   static async search(params: { ownerName?: string }): Promise<Clock[]> {
     const res = await api.get(CLOCKS_SEARCH, { params });
     return res.data.map((c: any) => new Clock(c));

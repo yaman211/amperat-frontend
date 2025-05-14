@@ -2,30 +2,10 @@
   <div>
     <Loader v-if="clockDetailsStore.loading" />
     <div v-else-if="clockDetailsStore.clock != undefined">
-      <ClockCard
-        :clock="clockDetailsStore.clock"
-        hideDetailsBtn
-        showEditBtn
-        showBarcode
-      />
-      <q-tabs
-        v-model="tab"
-        class="bg-grey-2 q-my-md rounded-md"
-        dense
-        align="justify"
-      >
-        <q-tab
-          class="text-primary"
-          name="readings"
-          icon="analytics"
-          label="التأشيرات"
-        />
-        <q-tab
-          class="text-primary"
-          name="invoices"
-          icon="paid"
-          label="الفواتير"
-        />
+      <ClockCard :clock="clockDetailsStore.clock" hideDetailsBtn showEditBtn showBarcode />
+      <q-tabs v-model="tab" class="bg-grey-2 q-my-md rounded-md" dense align="justify">
+        <q-tab class="text-primary" name="readings" icon="analytics" label="التأشيرات" />
+        <q-tab class="text-primary" name="invoices" icon="paid" label="الفواتير" />
       </q-tabs>
       <q-tab-panels
         v-model="tab"
@@ -47,15 +27,11 @@
                 <div class="flex justify-between">
                   <div class="text-weight-bold">
                     الإستهلاك:
-                    <span class="text-primary">{{
-                      reading.consuming + 'كيلو'
-                    }}</span>
+                    <span class="text-primary">{{ reading.consuming + 'كيلو' }}</span>
                   </div>
                   <div class="text-weight-bold">
                     التاريخ:
-                    <span class="text-primary">{{
-                      dateFormatter(reading.createdAt)
-                    }}</span>
+                    <span class="text-primary">{{ dateFormatter(reading.createdAt) }}</span>
                   </div>
                 </div>
                 <div class="text-weight-bold text-center q-mt-sm">
@@ -83,23 +59,17 @@
                 <div class="flex justify-between">
                   <div class="text-weight-bold">
                     الإستهلاك:
-                    <span class="text-primary">{{
-                      invoice.consuming + 'كيلو'
-                    }}</span>
+                    <span class="text-primary">{{ invoice.consuming + 'كيلو' }}</span>
                   </div>
                   <div class="text-weight-bold">
                     التاريخ:
-                    <span class="text-primary">{{
-                      dateFormatter(invoice.createdAt)
-                    }}</span>
+                    <span class="text-primary">{{ dateFormatter(invoice.createdAt) }}</span>
                   </div>
                 </div>
                 <div class="flex justify-center">
                   <div class="text-weight-bold">
                     المبلغ المدفوع:
-                    <span class="text-primary">{{
-                      invoice.price + 'ل.س'
-                    }}</span>
+                    <span class="text-primary">{{ invoice.price + 'ل.س' }}</span>
                   </div>
                 </div>
               </q-card>
@@ -123,19 +93,33 @@ import { onUnmounted, ref } from 'vue';
 import { useClockDetailsStore } from './store';
 import { dateFormatter } from 'src/utils/date';
 const props = defineProps<{
-  id: string;
+  id?: string;
+  token?: string;
 }>();
 
 const clockDetailsStore = useClockDetailsStore();
 const tab = ref<'readings' | 'invoices'>('readings');
 
-clockDetailsStore.fetchClockData(+props.id);
+if (props.id) {
+  clockDetailsStore.fetchClockData(+props.id);
+} else if (props.token) {
+  clockDetailsStore.fetchClockDataByToken(props.token);
+}
+
 const onLoadReadings = async (page: number, done: (d: boolean) => void) => {
-  await clockDetailsStore.fetchClockReadings(+props.id, page - 1);
+  if (props.id) {
+    await clockDetailsStore.fetchClockReadings(+props?.id, page - 1);
+  } else if (props.token) {
+    await clockDetailsStore.fetchClockReadingsByToken(props.token, page - 1);
+  }
   done(clockDetailsStore.readings.length === clockDetailsStore.readingsCount);
 };
 const onLoadInvoices = async (page: number, done: (d: boolean) => void) => {
-  await clockDetailsStore.fetchClockInvoices(+props.id, page - 1);
+  if (props.id) {
+    await clockDetailsStore.fetchClockInvoices(+props.id, page - 1);
+  } else if (props.token) {
+    await clockDetailsStore.fetchClockInvoicesByToken(props.token, page - 1);
+  }
   done(clockDetailsStore.invoices.length === clockDetailsStore.invoicesCount);
 };
 onUnmounted(() => {

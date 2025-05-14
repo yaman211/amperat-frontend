@@ -19,5 +19,6 @@ export default {
     CLOCK_DETAILS: 'sharedClockDetails',
     CLOCK_EDIT: 'sharedClockEdit',
     SCAN_BARCODE: 'sharedScanBarcode',
+    SCAN_QR_CODE: 'sharedScanQrCode',
   },
 };

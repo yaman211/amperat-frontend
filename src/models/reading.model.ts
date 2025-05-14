@@ -1,5 +1,5 @@
 import { api } from 'src/boot/axios';
-import { CLOCK_BY_ID_READINGS } from 'src/modules/shared/endpoints';
+import { CLOCK_BY_ID_READINGS, CLOCK_BY_Token_READINGS } from 'src/modules/shared/endpoints';
 import { isDate } from 'src/utils/date';
 import { Pagination } from './pagination.model';
 
@@ -20,6 +20,12 @@ export class Reading {
 
   static async getClockReadings(clockId: number, params = {}) {
     const res = await api.get(CLOCK_BY_ID_READINGS(clockId), {
+      params,
+    });
+    return new Pagination(Reading, res.data);
+  }
+  static async getClockReadingsByToken(token: string, params = {}) {
+    const res = await api.get(CLOCK_BY_Token_READINGS(token), {
       params,
     });
     return new Pagination(Reading, res.data);

@@ -1,5 +1,9 @@
 <template>
-  <div></div>
+  <div class="flex justify-center items-center" style="height: 80vh">
+    <div style="border: 2px solid cyan; width: 300px; height: 200px" class="q-mx-auto q-mt">
+      <div class="scan"></div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -39,4 +43,20 @@ onMounted(async () => {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.scan {
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(cyan, transparent);
+  animation: scanning 1.5s linear alternate infinite;
+}
+
+@keyframes scanning {
+  0% {
+    transform: translatey(0px);
+  }
+  100% {
+    transform: translatey(270px);
+  }
+}
+</style>

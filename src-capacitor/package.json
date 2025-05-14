@@ -5,6 +5,7 @@
   "author": "Yaman <m.alwazzeh3@namaa-solutions.com>",
   "private": true,
   "dependencies": {
+    "@capacitor-community/barcode-scanner": "^4.0.1",
     "@capacitor/android": "^7.2.0",
     "@capacitor/app": "^7.0.0",
     "@capacitor/cli": "^7.0.0",
