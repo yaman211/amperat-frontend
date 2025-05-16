@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "529126641087",
+    "project_id": "amperat-86eb1",
+    "storage_bucket": "amperat-86eb1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529126641087:android:e9bfa5595af2433071a50a",
+        "android_client_info": {
+          "package_name": "com.amperat.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDb0eLl6iECl18KeID-o1zh-Tltcr-ovB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

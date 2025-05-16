@@ -92,6 +92,7 @@ import ClockCard from '../clocks-list/components/clock-card.vue';
 import { onUnmounted, ref } from 'vue';
 import { useClockDetailsStore } from './store';
 import { dateFormatter } from 'src/utils/date';
+
 const props = defineProps<{
   id?: string;
   token?: string;

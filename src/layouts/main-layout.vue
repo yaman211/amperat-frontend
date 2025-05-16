@@ -2,14 +2,7 @@
   <q-layout view="lHh Lpr lFf" style="min-height: 0px">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-img
           :src="require('src/assets/logo-white.svg')"
@@ -18,9 +11,7 @@
           @click="router.push('/')"
         />
 
-        <q-toolbar-title>
-          أمبيرات {{ pageName ? `- ${pageName}` : '' }}
-        </q-toolbar-title>
+        <q-toolbar-title> أمبيرات {{ pageName ? `- ${pageName}` : '' }} </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -31,12 +22,8 @@
           style="height: 100px; max-width: 100px"
           class="rounded-borders q-mx-auto"
         />
-        <div class="text-weight-bold text-h6 text-center text-primary q-mt-md">
-          أمبيرات
-        </div>
-        <div
-          class="text-weight-medium text-subtitle1 text-center text-grey-8 q-mt-sm q-px-md"
-        >
+        <div class="text-weight-bold text-h6 text-center text-primary q-mt-md">أمبيرات</div>
+        <div class="text-weight-medium text-subtitle1 text-center text-grey-8 q-mt-sm q-px-md">
           طريقك لإدارة إشتراكاتك في خدمات المولدات
         </div>
         <div class="q-mt-lg column items-center q-gutter-y-md">
@@ -50,12 +37,7 @@
               leftDrawerOpen = false;
             "
           />
-          <q-btn
-            label="تواصل مع إدارة التطبيق"
-            outline
-            color="primary"
-            @click="contactUs"
-          />
+          <q-btn label="تواصل مع إدارة التطبيق" outline color="primary" @click="contactUs" />
           <q-btn
             v-if="authStore.isLoggedIn"
             label="تسجيل الخروج"
@@ -79,6 +61,10 @@
 import { useAuthStore } from 'src/modules/auth/store';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useFcm } from 'src/utils/firebase-notifications';
+
+const { init } = useFcm();
+init();
 
 const leftDrawerOpen = ref(false);
 const authStore = useAuthStore();

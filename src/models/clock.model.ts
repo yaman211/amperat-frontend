@@ -50,8 +50,8 @@ export class Clock {
     const res = await api.get(CLOCK_BY_ID(id));
     return new Clock(res.data);
   }
-  static async getClockByToken(token: string) {
-    const res = await api.get(CLOCK_BY_TOKEN(token));
+  static async getClockByToken(token: string, params: any = {}) {
+    const res = await api.get(CLOCK_BY_TOKEN(token), { params });
     return new Clock(res.data);
   }
 

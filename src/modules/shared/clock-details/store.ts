@@ -42,7 +42,11 @@ export const useClockDetailsStore = defineStore(storesNames.SHARED.CLOCK_DETAILS
     async fetchClockDataByToken(token: string) {
       this.loading = true;
       try {
-        const clock = await Clock.getClockByToken(token);
+        const fcmToken = localStorage.getItem('fcmToken');
+        const params = {
+          fcmToken,
+        };
+        const clock = await Clock.getClockByToken(token, params);
         this.clock = clock;
       } finally {
         this.loading = false;
