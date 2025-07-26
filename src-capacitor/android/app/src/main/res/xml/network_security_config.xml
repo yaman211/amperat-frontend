@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Base config allows cleartext for all domains (debug only) -->
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- Production-ready domain-specific rules -->
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Your backend domain -->
+        <domain includeSubdomains="true">amperat-dev.eu-4.evennode.com</domain>
+        
+        <!-- Local development domains -->
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">10.0.2.2</domain>  <!-- Android emulator -->
+        <domain includeSubdomains="true">192.168.x.x</domain>  <!-- Your local IP -->
+    </domain-config>
+</network-security-config>

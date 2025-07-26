@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
 // "export default () => {}" function below (which runs individually
 // for each client)
 const api = axios.create({ baseURL: process.env.BASE_URL });
+api.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 export default boot(({ app }) => {
   api.interceptors.response.use(
@@ -34,13 +35,12 @@ export default boot(({ app }) => {
         type: 'negative',
       });
       throw err;
-    }
+    },
   );
 
   api.interceptors.request.use((config) => {
     if (LocalStorage.has('token'))
-      config.headers['Authorization'] =
-        'Bearer ' + LocalStorage.getItem<string>('token');
+      config.headers['Authorization'] = 'Bearer ' + LocalStorage.getItem<string>('token');
     return config;
   });
   // for use inside Vue files (Options API) through this.$axios and this.$api
