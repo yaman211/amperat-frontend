@@ -3,6 +3,8 @@
     <div class="text-subtitle1">إختر إحدى الطرق التالية:</div>
     <div class="column q-gutter-y-lg q-mb-lg q-mt-xs">
       <q-select
+        outlined
+        rounded
         filled
         :options="options"
         @filter="filterFn"
@@ -16,14 +18,14 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              لم يتم العثور على نتائج
-            </q-item-section>
+            <q-item-section class="text-grey"> لم يتم العثور على نتائج </q-item-section>
           </q-item>
         </template>
       </q-select>
       <q-separator />
       <q-input
+        outlined
+        rounded
         filled
         label="ادخل رقم الساعة"
         v-model="clockId"

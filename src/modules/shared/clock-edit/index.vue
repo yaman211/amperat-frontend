@@ -7,34 +7,35 @@
       <div class="q-pa-md q-mx-auto" style="width: 300px">
         <q-form @submit="onSubmit" class="q-gutter-md q-mt-md">
           <q-input
-            filled
             v-model="ownerName"
             label="اسم المالك الجديد"
             lazy-rules
             :rules="[(val) => !!val || 'أدخل اسم مالك صحيح']"
+            outlined
+            rounded
+            filled
           />
           <q-input
-            filled
             v-model="ownerPhone"
             label="رقم موبايل حساب المالك"
             lazy-rules
             :rules="[
-              (val) =>
-                !val ||
-                (val && val.length === 10 && !isNaN(val)) ||
-                'أدخل رقم موبايل صحيح',
+              (val) => !val || (val && val.length === 10 && !isNaN(val)) || 'أدخل رقم موبايل صحيح',
             ]"
             type="number"
+            outlined
+            rounded
+            filled
           />
           <q-input
-            filled
             v-model="boxNumber"
             label="رقم العلبة"
             lazy-rules
-            :rules="[
-              (val) => !val || (val > 0 && !isNaN(val)) || 'أدخل رقم علبة صحيح',
-            ]"
+            :rules="[(val) => !val || (val > 0 && !isNaN(val)) || 'أدخل رقم علبة صحيح']"
             type="number"
+            outlined
+            rounded
+            filled
           />
           <q-toggle
             checked-icon="check"
@@ -52,6 +53,7 @@
               color="primary"
               class="full-width"
               :loading="clockEditStore.editLoading"
+              rounded
             />
           </div>
         </q-form>

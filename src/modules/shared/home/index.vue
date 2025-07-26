@@ -11,15 +11,10 @@
       </div>
       <div class="text-weight-bold" v-if="authStore.user?.vendor">
         العمل الحالي
-        <span class="text-primary"
-          >{{ $t(`userRoles.${authStore.user?.role}`) }}
-        </span>
+        <span class="text-primary">{{ $t(`userRoles.${authStore.user?.role}`) }} </span>
       </div>
     </q-card>
-    <q-banner
-      class="bg-primary rounded-md text-white q-mt-md"
-      v-if="authStore.user?.myInvite"
-    >
+    <q-banner class="bg-primary rounded-md text-white q-mt-md" v-if="authStore.user?.myInvite">
       لديك دعوة من {{ authStore.user?.myInvite.vendor.name }} للعمل كـ
       {{ $t(`userRoles.${authStore.user?.myInvite.role}`) }}
       <template v-slot:action>
@@ -48,15 +43,15 @@
       <div
         v-for="(action, i) in allowedActions"
         :key="i"
-        :class="$q.platform.is.desktop ? 'col-4 q-pa-sm' : ''"
+        :class="$q.platform.is.desktop ? 'col-3 q-pa-sm' : ''"
       >
         <q-card
-          class="q-pa-md rounded-md row justify-center items-center q-gutter-x-sm cursor-pointer"
+          class="q-pa-md rounded-md column justify-center items-center q-gutter-x-sm cursor-pointer"
           @click="action.handler()"
-          style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)"
+          style="background: radial-gradient(circle, #428177 0%, #054239 100%)"
         >
-          <q-icon :name="action.icon" size="30px" />
-          <div class="text-weight-bold">{{ action.name }}</div>
+          <q-icon :name="action.icon" size="60px" />
+          <div class="text-weight-bold text-h6">{{ action.name }}</div>
         </q-card>
       </div>
     </div>
@@ -75,9 +70,7 @@ const authStore = useAuthStore();
 const inviteLoading = ref(false);
 const $q = useQuasar();
 
-const inviteRespond = async (
-  status: InviteStatus.ACCEPTED | InviteStatus.REJECTED
-) => {
+const inviteRespond = async (status: InviteStatus.ACCEPTED | InviteStatus.REJECTED) => {
   inviteLoading.value = true;
   try {
     await authStore.user?.myInvite?.respondToInvite(status);
@@ -166,6 +159,14 @@ const actions = [
       router.push('/management/edit-vendor');
     },
     can: () => authStore.user?.isManager,
+  },
+  {
+    name: 'إحصائيات المولدات',
+    icon: 'analytics',
+    handler: () => {
+      router.push('/statistics/governmental-dashboard');
+    },
+    can: () => authStore.user?.isGovernmental,
   },
 ];
 

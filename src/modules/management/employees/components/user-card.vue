@@ -38,6 +38,8 @@
           hint="اختر الوظيفة الجديدة"
           v-model="role"
           :options="roleOptions"
+          outlined
+          rounded
           filled
           lazy-rules
           map-options

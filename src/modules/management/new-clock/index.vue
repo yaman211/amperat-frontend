@@ -3,41 +3,47 @@
     <div class="q-pa-md q-mx-auto" style="width: 300px">
       <q-form @submit="onSubmit" class="q-gutter-md q-mt-md">
         <q-input
-          filled
           v-model="ownerName"
           label="اسم المالك"
           lazy-rules
           :rules="[(val) => !!val || 'أدخل اسم مالك صحيح']"
+          outlined
+          rounded
+          filled
         />
         <q-input
-          filled
           v-model="currentReading"
           label="التأشيرة الحالية"
           lazy-rules
           type="number"
           :rules="[(val) => !isNaN(val) || 'أدخل رقم تأشيرة صحيح']"
+          outlined
+          rounded
+          filled
         />
         <q-input
-          filled
           v-model="consuming"
           label="الإستهلاك الحالي"
           lazy-rules
           type="number"
           :rules="[(val) => !isNaN(val) || 'أدخل استهلاك صحيح']"
+          outlined
+          rounded
+          filled
         >
           <template v-slot:append>
             <q-badge class="text-caption" color="grey-8">كيلو واط</q-badge>
           </template>
         </q-input>
         <q-input
-          filled
           v-model="boxNumber"
           label="رقم العلبة"
           lazy-rules
-          :rules="[
-            (val) => !val || (val > 0 && !isNaN(val)) || 'أدخل رقم علبة صحيح',
-          ]"
+          :rules="[(val) => !val || (val > 0 && !isNaN(val)) || 'أدخل رقم علبة صحيح']"
           type="number"
+          outlined
+          rounded
+          filled
         />
 
         <div>
@@ -47,6 +53,7 @@
             color="primary"
             class="full-width"
             :loading="newClockStore.loading"
+            rounded
           />
         </div>
       </q-form>

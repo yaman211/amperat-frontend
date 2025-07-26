@@ -8,39 +8,43 @@
     <div class="q-pa-md q-mx-auto" style="width: 300px">
       <q-form @submit="onSubmit" class="q-gutter-md q-mt-md">
         <q-input
-          filled
           v-model="firstName"
           label="الاسم"
           lazy-rules
           :rules="[(val) => (val && val.length >= 3) || 'ثلاثة أحرف على الأقل']"
+          outlined
+          rounded
+          filled
         />
         <q-input
-          filled
           v-model="lastName"
           label="الكنية"
           lazy-rules
           :rules="[(val) => (val && val.length >= 3) || 'ثلاثة أحرف على الأقل']"
+          outlined
+          rounded
+          filled
         />
         <q-input
-          filled
           v-model="phone"
           label="رقم الموبايل"
           lazy-rules
-          :rules="[
-            (val) =>
-              (val && val.length === 10 && !isNaN(val)) ||
-              'أدخل رقم موبايل صحيح',
-          ]"
+          :rules="[(val) => (val && val.length === 10 && !isNaN(val)) || 'أدخل رقم موبايل صحيح']"
           type="number"
+          outlined
+          rounded
+          filled
         />
 
         <q-input
           v-model="password"
-          filled
           :type="isPwd ? 'password' : 'text'"
           label="كلمة المرور"
           lazy-rules
           :rules="[(val) => (val && val.length >= 8) || 'على الأقل 8 محارف']"
+          outlined
+          rounded
+          filled
         >
           <template v-slot:append>
             <q-icon
@@ -58,6 +62,7 @@
             color="primary"
             class="full-width"
             :loading="signUpStore.loading"
+            rounded
           />
         </div>
       </q-form>
@@ -91,9 +96,9 @@ const onSubmit = async () => {
     password: password.value,
   });
 
-  router.push('/');
+  router.push('/auth/login');
   Notify.create({
-    message: 'تم إنشاء الحساب مرحباً بك',
+    message: 'تم إنشاء الحساب الرجاء التواصل مع الإدارة للتأكيد',
     type: 'positive',
   });
 };

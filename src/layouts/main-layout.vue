@@ -49,7 +49,12 @@
       </div>
     </q-drawer>
 
-    <q-page-container class="q-px-md q-mt-md">
+    <q-img
+      :src="require('src/assets/pattern.png')"
+      class="absolute"
+      style="height: 100%; opacity: 0.1"
+    />
+    <q-page-container class="q-px-md q-mt-md" style="min-height: calc(100vh - 50px)">
       <q-pull-to-refresh @refresh="refresh">
         <router-view />
       </q-pull-to-refresh>
@@ -76,7 +81,7 @@ function refresh() {
   window.location.reload();
 }
 function contactUs() {
-  window.open('tel:0982322946"');
+  window.open('tel:0943383502');
 }
 
 const route = useRoute();

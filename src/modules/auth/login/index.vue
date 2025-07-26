@@ -8,21 +8,25 @@
     <div class="q-pa-md q-mx-auto" style="width: 300px">
       <q-form @submit="onSubmit" class="q-gutter-md q-mt-md">
         <q-input
-          filled
           v-model="phone"
           label="رقم الموبايل"
           lazy-rules
           :rules="[(val) => (val && val.length === 10 && !isNaN(val)) || 'أدخل رقم موبايل صحيح']"
           type="number"
+          outlined
+          rounded
+          filled
         />
 
         <q-input
           v-model="password"
-          filled
           :type="isPwd ? 'password' : 'text'"
           label="كلمة المرور"
           lazy-rules
           :rules="[(val) => (val && val.length >= 8) || 'على الأقل 8 محارف']"
+          outlined
+          rounded
+          filled
         >
           <template v-slot:append>
             <q-icon
@@ -40,6 +44,7 @@
             color="primary"
             class="full-width"
             :loading="loginStore.loading"
+            rounded
           />
         </div>
       </q-form>

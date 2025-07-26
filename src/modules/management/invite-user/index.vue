@@ -7,26 +7,26 @@
 
       <q-form @submit="onSubmit" class="q-gutter-md q-mt-md">
         <q-input
-          filled
           v-model="phone"
           label="رقم الموبايل"
           lazy-rules
-          :rules="[
-            (val) =>
-              (val && val.length === 10 && !isNaN(val)) ||
-              'أدخل رقم موبايل صحيح',
-          ]"
+          :rules="[(val) => (val && val.length === 10 && !isNaN(val)) || 'أدخل رقم موبايل صحيح']"
           type="number"
+          outlined
+          rounded
+          filled
         />
 
         <q-select
           v-model="role"
           :options="roleOptions"
-          filled
           lazy-rules
           map-options
           emit-value
           :rules="[(val) => !!val || 'الحقل مطلوب']"
+          outlined
+          rounded
+          filled
         />
 
         <div>
@@ -36,11 +36,12 @@
             color="primary"
             class="full-width"
             :loading="loading"
+            rounded
           />
         </div>
       </q-form>
       <div class="text-weight-bold q-mt-md text-negative text-center">
-        ملاحظة: يجب أن يكون صاحب الرقم لديه حساب على التطبيق
+        ملاحظة: يجب أن يكون صاحب الرقم لديه حساب مؤكد على التطبيق
       </div>
     </div>
   </div>

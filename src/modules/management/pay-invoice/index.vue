@@ -1,14 +1,6 @@
 <template>
   <div>
-    <q-stepper
-      v-model="step"
-      vertical
-      color="primary"
-      class="rounded-md"
-      animated
-      flat
-      bordered
-    >
+    <q-stepper v-model="step" vertical color="primary" class="rounded-md" animated flat bordered>
       <q-step :name="1" title="إختيار الساعة" icon="settings" :done="step > 1">
         <ClockSearch v-if="!clock" @input="setClock($event)" />
         <div v-else>
@@ -21,59 +13,40 @@
           />
         </div>
         <q-stepper-navigation>
-          <q-btn
-            @click="toStep2()"
-            color="primary"
-            label="متابعة"
-            :disable="!clock"
-          />
+          <q-btn @click="toStep2()" color="primary" label="متابعة" :disable="!clock" />
         </q-stepper-navigation>
       </q-step>
-      <q-step
-        :name="2"
-        title="اضافة الفاتورة"
-        icon="create_new_folder"
-        :done="step > 2"
-      >
+      <q-step :name="2" title="اضافة الفاتورة" icon="create_new_folder" :done="step > 2">
         <ClockCard v-if="clock" :clock="clock" hideDetailsBtn flat bordered />
 
         <q-form @submit="onSubmit" class="q-gutter-md q-mt-md">
           <q-input
             v-model="consuming"
-            filled
             type="number"
             label="الاستهلاك بالكيلو"
             lazyRules
-            :rules="[
-              (val) => (+val >= 0 && !isNaN(val)) || 'أدخل استهلاك صحيح',
-            ]"
+            :rules="[(val) => (+val >= 0 && !isNaN(val)) || 'أدخل استهلاك صحيح']"
             autofocus
             suffix="كيلو"
+            outlined
+            rounded
+            filled
           />
           <q-input
             v-model="price"
-            filled
             type="number"
             label="المبلغ المدفوع"
             lazyRules
             :rules="[(val) => (+val >= 0 && !isNaN(val)) || 'أدخل سعر صحيح']"
             suffix="ليرة سورية"
+            outlined
+            rounded
+            filled
           />
 
           <div>
-            <q-btn
-              type="submit"
-              color="primary"
-              label="إضافة"
-              :loading="payInvoiceStore.loading"
-            />
-            <q-btn
-              outline
-              @click="step = 1"
-              color="primary"
-              label="عودة"
-              class="q-ml-sm"
-            />
+            <q-btn type="submit" color="primary" label="إضافة" :loading="payInvoiceStore.loading" />
+            <q-btn outline @click="step = 1" color="primary" label="عودة" class="q-ml-sm" />
           </div>
         </q-form>
       </q-step>
@@ -127,11 +100,7 @@ const onSubmit = () => {
       color: 'primary',
     },
   }).onOk(async () => {
-    await payInvoiceStore.createInvoice(
-      clock.value as Clock,
-      +consuming.value,
-      +price.value
-    );
+    await payInvoiceStore.createInvoice(clock.value as Clock, +consuming.value, +price.value);
     Notify.create({
       message: 'تم اضافة الفاتورة',
       type: 'positive',

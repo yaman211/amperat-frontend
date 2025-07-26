@@ -5,26 +5,32 @@
     <div class="q-pa-md q-mx-auto" style="width: 300px">
       <q-form @submit="onSubmit" class="q-gutter-md q-mt-md">
         <q-input
-          filled
           v-model="name"
           label="اسم المولدة"
           lazy-rules
           :rules="[(val) => !!val || 'أدخل اسم صحيح']"
+          outlined
+          rounded
+          filled
         />
         <q-input
-          filled
           v-model="address"
           label="العنوان"
           lazy-rules
           :rules="[(val) => !!val || 'أدخل عنوان صحيح']"
+          outlined
+          rounded
+          filled
         />
         <q-input
-          filled
           v-model="kwPrice"
           label="سعر الكيلو"
           lazy-rules
           type="number"
           :rules="[(val) => !isNaN(val) || 'أدخل سعر صحيح']"
+          outlined
+          rounded
+          filled
         />
 
         <div>
@@ -34,6 +40,7 @@
             color="primary"
             class="full-width"
             :loading="loading"
+            rounded
           />
         </div>
       </q-form>

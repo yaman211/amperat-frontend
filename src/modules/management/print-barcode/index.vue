@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="q-mx-lg">
-      <q-input label="رقم العلبة" v-model="boxNumber" filled type="number">
+      <q-input label="رقم العلبة" v-model="boxNumber" outlined rounded filled type="number">
         <template v-slot:prepend>
           <q-btn
             outline
@@ -12,7 +12,15 @@
           />
         </template>
       </q-input>
-      <q-input label="رقم الساعة" v-model="clockId" class="q-mt-md" filled type="number">
+      <q-input
+        label="رقم الساعة"
+        v-model="clockId"
+        class="q-mt-md"
+        outlined
+        rounded
+        filled
+        type="number"
+      >
         <template v-slot:prepend>
           <q-btn
             outline
@@ -23,11 +31,13 @@
           />
         </template>
       </q-input>
+
       <q-btn
         v-if="barcodeStore.clocks.length"
         label="طباعة"
         color="primary"
         class="q-mt-md full-width"
+        rounded
         @click="print"
       />
       <q-tabs v-model="tab" class="text-white q-mt-md bg-primary">

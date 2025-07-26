@@ -1,14 +1,6 @@
 <template>
   <div>
-    <q-stepper
-      v-model="step"
-      vertical
-      color="primary"
-      class="rounded-md"
-      animated
-      flat
-      bordered
-    >
+    <q-stepper v-model="step" vertical color="primary" class="rounded-md" animated flat bordered>
       <q-step :name="1" title="إختيار الساعة" icon="settings" :done="step > 1">
         <ClockSearch v-if="!clock" @input="setClock($event)" />
         <div v-else>
@@ -30,44 +22,29 @@
           />
         </q-stepper-navigation>
       </q-step>
-      <q-step
-        :name="2"
-        title="إضافة التأشيرة"
-        icon="create_new_folder"
-        :done="step > 2"
-      >
+      <q-step :name="2" title="إضافة التأشيرة" icon="create_new_folder" :done="step > 2">
         <q-form @submit="onSubmit" class="q-gutter-md q-mt-md">
           <div class="text-subtitle1 text-weight-medium">
             آخر تأشيرة للساعة {{ lastReading?.readingNumber }}
           </div>
           <q-input
             v-model="readingNumber"
-            filled
             type="number"
             label="رقم التأشيرة الجديد"
             lazyRules
             :rules="[
               (val) =>
-                (!!+val && !isNaN(val) && isValidReadingNumber(val)) ||
-                'أدخل رقم تأشيرة صحيح',
+                (!!+val && !isNaN(val) && isValidReadingNumber(val)) || 'أدخل رقم تأشيرة صحيح',
             ]"
             autofocus
+            outlined
+            rounded
+            filled
           />
 
           <div>
-            <q-btn
-              type="submit"
-              color="primary"
-              label="إضافة"
-              :loading="newReadingStore.loading"
-            />
-            <q-btn
-              outline
-              @click="step = 1"
-              color="primary"
-              label="عودة"
-              class="q-ml-sm"
-            />
+            <q-btn type="submit" color="primary" label="إضافة" :loading="newReadingStore.loading" />
+            <q-btn outline @click="step = 1" color="primary" label="عودة" class="q-ml-sm" />
           </div>
         </q-form>
       </q-step>
@@ -125,8 +102,7 @@ const isValidReadingNumber = (readingNumber: number) => {
 
 const $q = useQuasar();
 const onSubmit = () => {
-  const consuming =
-    +readingNumber.value - (lastReading.value?.readingNumber as number);
+  const consuming = +readingNumber.value - (lastReading.value?.readingNumber as number);
   $q.dialog({
     title: 'إضافة تأشيرة',
     message: `هل انت متأكد من إضافة ${consuming} كيلو  للمشترك ${clock.value?.ownerName} ؟`,
@@ -134,10 +110,7 @@ const onSubmit = () => {
       color: 'primary',
     },
   }).onOk(async () => {
-    await newReadingStore.createReading(
-      clock.value as Clock,
-      +readingNumber.value
-    );
+    await newReadingStore.createReading(clock.value as Clock, +readingNumber.value);
     Notify.create({
       message: 'تم اضافة التأشيرة',
       type: 'positive',
