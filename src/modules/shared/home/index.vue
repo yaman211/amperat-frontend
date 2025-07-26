@@ -88,7 +88,7 @@ onMounted(async () => {
 
 const actions = [
   {
-    name: 'قائمة الساعات',
+    name: 'قائمة ساعاتك',
     icon: 'sticky_note_2',
     handler: () => {
       router.push('/shared/clocks-list');
