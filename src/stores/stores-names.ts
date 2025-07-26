@@ -21,4 +21,7 @@ export default {
     SCAN_BARCODE: 'sharedScanBarcode',
     SCAN_QR_CODE: 'sharedScanQrCode',
   },
+  STATISTICS: {
+    INDEX: 'statistics',
+  },
 };

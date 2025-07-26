@@ -43,7 +43,7 @@ export default defineConfig((ctx) => {
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-file#build
     build: {
       // publicPath: '/',
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
 
       // webpackTranspile: false,
 
@@ -75,8 +75,8 @@ export default defineConfig((ctx) => {
       // "chain" is a webpack-chain object https://github.com/sorrycc/webpack-chain
       // chainWebpack (/* chain, { isClient, isServer } */) {}
       env: {
-        // BASE_URL: '192.168.1.110:3000',
-        BASE_URL: 'http://amperat-dev-2.eu-4.evennode.com',
+        BASE_URL: 'http://127.0.0.1:3000',
+        // BASE_URL: 'http://amperat-dev-2.eu-4.evennode.com',
       },
     },
 

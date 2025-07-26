@@ -2,6 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 import SharedModuleRoutes from '../modules/shared/routes';
 import AuthModuleRoutes from '../modules/auth/routes';
 import ManagementModuleRoutes from '../modules/management/routes';
+import StatisticsModuleRoutes from '../modules/statistics/routes';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -19,6 +20,7 @@ const routes: RouteRecordRaw[] = [
       SharedModuleRoutes,
       AuthModuleRoutes,
       ManagementModuleRoutes,
+      StatisticsModuleRoutes,
     ],
   },
 

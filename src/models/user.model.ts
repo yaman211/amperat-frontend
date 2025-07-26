@@ -11,17 +11,19 @@ export enum UserRoles {
   ACCOUNTANT = 'accountant',
   MANAGER = 'manager',
   SUPER_ADMIN = 'super-admin',
+  GOVERNMENTAL = 'governmental',
 }
+
 export default class User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  password: string;
-  phone: string;
-  role: UserRoles;
-  vendorId: number | null;
-  vendor: Vendor | null;
-  myInvite: Invite | null;
+  id!: number;
+  firstName!: string;
+  lastName!: string;
+  password!: string;
+  phone!: string;
+  role!: UserRoles;
+  vendorId!: number | null;
+  vendor!: Vendor | null;
+  myInvite!: Invite | null;
 
   constructor(obj: any) {
     Object.keys(obj).forEach((key) => {
@@ -74,5 +76,9 @@ export default class User {
 
   public get isAccountant() {
     return this.role === UserRoles.ACCOUNTANT;
+  }
+
+  public get isGovernmental() {
+    return this.role === UserRoles.GOVERNMENTAL;
   }
 }

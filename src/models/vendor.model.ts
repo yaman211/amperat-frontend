@@ -1,5 +1,5 @@
 import { api } from 'src/boot/axios';
-import { VENDOR_BY_ID } from 'src/modules/management/endpoints';
+import { VENDOR_BY_ID, VENDOR_SEARCH } from 'src/modules/management/endpoints';
 
 export enum VendorStatus {
   ACTIVE = 'active',
@@ -7,11 +7,11 @@ export enum VendorStatus {
 }
 
 export class Vendor {
-  id: number;
-  name: string;
-  address: string;
-  kwPrice: number;
-  status: VendorStatus;
+  id!: number;
+  name!: string;
+  address!: string;
+  kwPrice!: number;
+  status!: VendorStatus;
 
   constructor(obj: any) {
     Object.keys(obj).forEach((key) => {
@@ -22,5 +22,10 @@ export class Vendor {
   async update(data: { name: string; address: string; kwPrice: number }) {
     await api.put(VENDOR_BY_ID(this.id), data);
     Object.assign(this, data);
+  }
+
+  static async search(params: { name?: string }): Promise<Vendor[]> {
+    const res = await api.get(VENDOR_SEARCH, { params });
+    return res.data.map((c: any) => new Vendor(c));
   }
 }
