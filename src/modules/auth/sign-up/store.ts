@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { api } from 'src/boot/axios';
 import storesNames from 'src/stores/stores-names';
 import { SIGN_UP } from '../endpoints';
-import { useAuthStore } from '../store';
+// import { useAuthStore } from '../store';
 
 export const useSignUpStore = defineStore(storesNames.AUTH.SIGN_UP, {
   state: () => ({
@@ -10,17 +10,12 @@ export const useSignUpStore = defineStore(storesNames.AUTH.SIGN_UP, {
   }),
   getters: {},
   actions: {
-    async signup(data: {
-      firstName: string;
-      lastName: string;
-      phone: string;
-      password: string;
-    }) {
+    async signup(data: { firstName: string; lastName: string; phone: string; password: string }) {
       this.loading = true;
       try {
-        const res = await api.post(SIGN_UP, data);
-        const authStore = useAuthStore();
-        authStore.setCredentials(res.data);
+        await api.post(SIGN_UP, data);
+        // const authStore = useAuthStore();
+        // authStore.setCredentials(res.data);
       } finally {
         this.loading = false;
       }
