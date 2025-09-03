@@ -2,10 +2,10 @@
   <div class="column justify-center items-center" style="height: 95vh">
     <q-img
       :src="require('src/assets/logo.svg')"
-      style="height: 100px; max-width: 100px"
+      style="width: 100px"
       class="rounded-borders q-mx-auto"
     />
-    <div class="q-pa-md q-mx-auto q-mt-md" style="width: 300px">
+    <div class="q-pa-md q-mx-auto q-mt-md" style="width: 320px">
       <q-card flat bordered class="rounded-lg q-pa-lg" @click="onQueryClicked">
         <div class="column justify-center items-center">
           <q-icon name="query_stats" size="100px" color="primary" class="q-mb-sm" />

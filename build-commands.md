@@ -45,3 +45,14 @@ The dependencies of the src-capacitor package.json is:
     "@capacitor/push-notifications": "^6.0.0"
   }
 ```
+
+---
+
+#For Web deployment:
+
+1- run:
+
+`npm run build`
+
+2- Move the dist/spa content to the dist-frontend project (it contains express serve file).
+3- push the updates to even node

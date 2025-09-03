@@ -48,7 +48,7 @@
         <q-card
           class="q-pa-md rounded-md column justify-center items-center q-gutter-x-sm cursor-pointer"
           @click="action.handler()"
-          style="background: radial-gradient(circle, #428177 0%, #054239 100%)"
+          style="background: #0094ce"
         >
           <q-icon :name="action.icon" size="60px" />
           <div class="text-weight-bold text-h6">{{ action.name }}</div>

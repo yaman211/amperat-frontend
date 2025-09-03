@@ -1,11 +1,7 @@
 <template>
-  <div class="column justify-center items-center" style="height: 95vh">
-    <q-img
-      :src="require('src/assets/logo.svg')"
-      style="height: 100px; max-width: 100px"
-      class="rounded-borders q-mx-auto"
-    />
-    <div class="q-pa-md q-mx-auto" style="width: 300px">
+  <div class="column justify-center items-center" style="min-height: calc(100vh - 70px)">
+    <q-img :src="require('src/assets/logo.svg')" style="width: 100px" class="q-mx-auto" />
+    <div class="q-pa-md q-mx-auto" style="width: 320px">
       <q-form @submit="onSubmit" class="q-gutter-md q-mt-md">
         <q-input
           v-model="phone"

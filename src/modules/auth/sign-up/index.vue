@@ -1,8 +1,8 @@
 <template>
-  <div class="column justify-center items-center no-wrap" style="height: 95vh">
+  <div class="column justify-center items-center no-wrap" style="min-height: calc(100vh - 70px)">
     <q-img
       :src="require('src/assets/logo.svg')"
-      style="height: 100px; max-width: 100px"
+      style="width: 100px"
       class="rounded-borders q-mx-auto"
     />
     <div class="q-pa-md q-mx-auto" style="width: 300px">
