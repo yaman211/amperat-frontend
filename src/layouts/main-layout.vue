@@ -1,5 +1,9 @@
 <template>
-  <q-layout view="lHh Lpr lFf" style="min-height: 0px; background-color: #f7f7f7">
+  <q-layout
+    view="lHh Lpr lFf"
+    style="min-height: 0px"
+    :style="scanningBarcode ? '' : 'background-color: #f7f7f7'"
+  >
     <q-header elevated>
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
@@ -103,5 +107,9 @@ if (authStore.isLoggedIn) {
 const pageName = computed(() => {
   if (route.meta && route.meta.title) return route.meta.title;
   return '';
+});
+
+const scanningBarcode = computed(() => {
+  return route.path.includes('clock-qr-scan') || route.path.includes('scan-barcode');
 });
 </script>
