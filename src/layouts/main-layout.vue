@@ -87,7 +87,7 @@ function refresh() {
   window.location.reload();
 }
 function contactUs() {
-  window.open('tel:0943383502');
+  window.open('tel:0945152171');
 }
 
 const route = useRoute();
