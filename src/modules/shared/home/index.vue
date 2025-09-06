@@ -38,7 +38,7 @@
     <div
       class="q-my-lg text-white"
       :class="$q.platform.is.desktop ? 'row' : 'column q-gutter-md'"
-      :style="$q.platform.is.desktop ? '' : 'max-width: 400px'"
+      :style="$q.platform.is.desktop ? '' : ''"
     >
       <div
         v-for="(action, i) in allowedActions"
@@ -46,13 +46,31 @@
         :class="$q.platform.is.desktop ? 'col-3 q-pa-sm' : ''"
       >
         <q-card
+          flat
+          bordered
+          class="rounded-lg q-pa-md bg-primary text-white"
+          @click="action.handler()"
+        >
+          <div class="column justify-center items-center">
+            <div
+              class="q-pa-md rounded-lg justify-center items-center q-mb-sm"
+              style="background-color: #fff3"
+            >
+              <q-icon :name="action.icon" size="25px" color="white" />
+            </div>
+            <div class="text-h6 text-center">{{ action.name }}</div>
+            <!-- <div class="text-caption text-center">عرض تفاصيل استهلاك الكهرباء والفواتير</div> -->
+          </div>
+        </q-card>
+
+        <!-- <q-card
           class="q-pa-md rounded-md column justify-center items-center q-gutter-x-sm cursor-pointer"
           @click="action.handler()"
           style="background: #0094ce"
         >
           <q-icon :name="action.icon" size="60px" />
           <div class="text-weight-bold text-h6">{{ action.name }}</div>
-        </q-card>
+        </q-card> -->
       </div>
     </div>
   </div>
@@ -93,7 +111,7 @@ const actions = [
     handler: () => {
       router.push('/shared/clocks-list');
     },
-    can: () => true,
+    can: () => false,
   },
   {
     name: 'استعراض بيانات ساعة',
