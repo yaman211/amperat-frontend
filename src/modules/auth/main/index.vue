@@ -48,12 +48,12 @@
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 
-// const $q = useQuasar();
+const $q = useQuasar();
 const router = useRouter();
 
-// if (!$q.platform.is.capacitor) {
-//   router.push('/auth/login');
-// }
+if (!$q.platform.is.capacitor) {
+  router.push('/auth/login');
+}
 
 const onQueryClicked = () => {
   router.push('/shared/clock-qr-scan');
