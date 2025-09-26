@@ -60,6 +60,50 @@ const routes: RouteRecordRaw = {
         title: 'طباعة كود',
       },
     },
+    {
+      path: 'sectors',
+      component: () => import('./sectors/pages/list.vue'),
+      meta: {
+        title: 'القطاعات',
+      },
+    },
+    {
+      name: 'sector-create',
+      path: 'sectors/create',
+      component: () => import('./sectors/pages/create.vue'),
+      meta: {
+        title: 'إضافة قطاع',
+      },
+    },
+    {
+      name: 'sector-update',
+      path: 'sectors/:id',
+      component: () => import('./sectors/pages/update.vue'),
+      props: true,
+      meta: {
+        title: 'تعديل قطاع',
+      },
+    },
+    {
+      path: 'boxes/:sectorId',
+      name: 'boxes',
+      props: true,
+      component: () => import('./boxes/pages/list.vue'),
+      meta: { title: 'العلب' },
+    },
+    {
+      path: 'boxes/create',
+      name: 'box-create',
+      component: () => import('./boxes/pages/create.vue'),
+      meta: { title: 'إضافة علبة' },
+    },
+    {
+      path: 'boxes/:sectorId/:id/update',
+      name: 'box-update',
+      component: () => import('./boxes/pages/update.vue'),
+      meta: { title: 'تعديل علبة' },
+      props: true,
+    },
   ],
 };
 

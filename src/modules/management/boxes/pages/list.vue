@@ -1,0 +1,89 @@
+<template>
+  <q-page padding>
+    <div class="row items-center q-mb-md">
+      <div class="col">
+        <h2>العلب</h2>
+      </div>
+      <q-btn color="primary" label="إضافة علبة" @click="goToCreate" />
+    </div>
+    <q-card-section>
+      <div class="row q-col-gutter-md">
+        <div v-for="box in boxes" :key="box.id" class="col-12 col-sm-6 col-md-4">
+          <q-card
+            clickable
+            @click="goToBox(box.id)"
+            class="q-mx-sm q-pa-sm"
+            style="border-radius: 18px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07)"
+          >
+            <q-card-section class="column items-center">
+              <q-avatar size="48px" color="primary" text-color="white" class="q-mb-xs">
+                <q-icon name="inventory_2" size="28px" />
+              </q-avatar>
+              <div class="text-h6 q-mb-xs">{{ box.boxNumber }}</div>
+            </q-card-section>
+            <q-separator />
+            <q-card-actions align="right">
+              <q-btn flat icon="edit" color="primary" @click.stop="goToUpdate(box.id)" />
+              <q-btn flat icon="delete" color="negative" @click.stop="deleteBox(box.id)" />
+            </q-card-actions>
+          </q-card>
+        </div>
+      </div>
+    </q-card-section>
+  </q-page>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { Box } from 'src/models/box.model';
+import { useQuasar } from 'quasar';
+
+const props = defineProps<{
+  sectorId: number;
+}>();
+
+const $q = useQuasar();
+
+const router = useRouter();
+const boxes = ref<Box[]>([]);
+
+const fetchBoxes = async () => {
+  const res = await Box.getSectorBoxes(props.sectorId);
+  boxes.value = res;
+};
+
+const goToBox = (boxId: number) => {
+  // TODO: navigate to clocks list with a box + sector filters
+};
+
+const goToCreate = () => {
+  router.push({ name: 'box-create' });
+};
+
+const goToUpdate = (boxId: number) => {
+  router.push({ name: 'box-update', params: { id: boxId } });
+};
+
+const deleteBox = async (boxId: number) => {
+  $q.dialog({
+    title: 'حذف العلبة',
+    message: `هل أنت متأكد من إزالة العلبة؟`,
+    ok: {
+      color: 'negative',
+    },
+    cancel: {},
+  }).onOk(async function () {
+    await Box.delete(boxId);
+    fetchBoxes();
+  });
+};
+
+onMounted(fetchBoxes);
+</script>
+
+<style scoped>
+.q-card {
+  cursor: pointer;
+}
+</style>

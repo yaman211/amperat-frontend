@@ -48,7 +48,7 @@
         <q-card
           flat
           bordered
-          class="rounded-lg q-pa-md bg-primary text-white"
+          class="rounded-lg q-pa-md bg-primary text-white cursor-pointer"
           @click="action.handler()"
         >
           <div class="column justify-center items-center">
@@ -185,6 +185,14 @@ const actions = [
       router.push('/statistics/governmental-dashboard');
     },
     can: () => authStore.user?.isGovernmental,
+  },
+  {
+    name: 'القطاعات',
+    icon: 'domain',
+    handler: () => {
+      router.push('/management/sectors');
+    },
+    can: () => authStore.user?.isManager,
   },
 ];
 
