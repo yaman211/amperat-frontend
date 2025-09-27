@@ -56,7 +56,7 @@
 import ClockSearch from 'src/components/clock-search.vue';
 import ClockCard from 'src/modules/shared/clocks-list/components/clock-card.vue';
 import { Clock } from 'src/models/clock.model';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useScanBarcodeStore } from 'src/modules/shared/scan-barcode/store';
 import { useRoute, useRouter } from 'vue-router';
 import { Notify, useQuasar } from 'quasar';
@@ -73,6 +73,13 @@ scanBarcodeStore.$reset();
 const route = useRoute();
 const router = useRouter();
 const newReadingStore = useNewReadingStore();
+
+onMounted(async () => {
+  if (route.query.clockId) {
+    const c = await Clock.getClock(+route.query.clockId);
+    setClock(c);
+  }
+});
 
 const setClock = (c: Clock) => {
   readingNumber.value = '';

@@ -11,7 +11,7 @@
         <div v-for="box in boxes" :key="box.id" class="col-12 col-sm-6 col-md-4">
           <q-card
             clickable
-            @click="goToBox(box.id)"
+            @click="goToBox(box)"
             class="q-mx-sm q-pa-sm"
             style="border-radius: 18px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07)"
           >
@@ -53,8 +53,14 @@ const fetchBoxes = async () => {
   boxes.value = res;
 };
 
-const goToBox = (boxId: number) => {
-  // TODO: navigate to clocks list with a box + sector filters
+const goToBox = (box: Box) => {
+  router.push({
+    path: '/management/clocks-list',
+    query: {
+      sectorId: box.sectorId,
+      boxId: box.id,
+    },
+  });
 };
 
 const goToCreate = () => {

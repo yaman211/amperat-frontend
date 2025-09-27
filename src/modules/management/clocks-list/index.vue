@@ -241,6 +241,9 @@ import { api } from 'src/boot/axios';
 import SectorSelect from 'src/modules/management/sectors/components/sector-select.vue';
 import BoxSelect from 'src/modules/management/boxes/components/box-select.vue';
 import { ClockStatus } from 'src/models/clock.model';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const clocks = ref<any[]>([]);
 const loading = ref<boolean>(false);
@@ -248,8 +251,8 @@ const filters = ref({
   ownerName: undefined,
   // minConsuming: undefined,
   // maxConsuming: undefined,
-  sectorId: undefined,
-  boxId: undefined,
+  sectorId: route.query.sectorId || undefined,
+  boxId: route.query.boxId || undefined,
   consuming: undefined,
 });
 
