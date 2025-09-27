@@ -163,6 +163,14 @@ const actions = [
     can: () => authStore.user?.isManager || authStore.user?.isAccountant,
   },
   {
+    name: 'القطاعات',
+    icon: 'domain',
+    handler: () => {
+      router.push('/management/sectors');
+    },
+    can: () => authStore.user?.isManager,
+  },
+  {
     name: 'إدارة العمال',
     icon: 'manage_accounts',
     handler: () => {
@@ -195,10 +203,10 @@ const actions = [
     can: () => authStore.user?.isGovernmental,
   },
   {
-    name: 'القطاعات',
-    icon: 'domain',
+    name: 'الإحصائيات',
+    icon: 'analytics',
     handler: () => {
-      router.push('/management/sectors');
+      router.push('/statistics/manager-dashboard');
     },
     can: () => authStore.user?.isManager,
   },

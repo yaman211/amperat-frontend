@@ -11,6 +11,13 @@ const routes: RouteRecordRaw = {
         title: 'الإحصائيات',
       },
     },
+    {
+      path: 'manager-dashboard',
+      component: () => import('./manager-dashboard/index.vue'),
+      meta: {
+        title: 'الإحصائيات',
+      },
+    },
   ],
 };
 
