@@ -187,7 +187,7 @@ const actions = [
     can: () => authStore.user?.isManager,
   },
   {
-    name: 'تعديل المولدة',
+    name: 'معلومات المولدة',
     icon: 'settings',
     handler: () => {
       router.push('/management/edit-vendor');
