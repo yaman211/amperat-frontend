@@ -2,13 +2,14 @@
   <q-select
     v-model="inputValue"
     :options="options"
-    option-label="name"
+    option-label="boxNumber"
     option-value="id"
     label="العلبة"
     :rules="[(val) => !!val || 'مطلوب']"
     filled
     emit-value
     map-options
+    :disabled="!sectorId"
   />
 </template>
 
@@ -16,7 +17,10 @@
 import { ref, onMounted, watch, defineProps, defineEmits, computed } from 'vue';
 import { Box } from 'src/models/box.model';
 
-const props = defineProps<{ modelValue: number; sectorId: number }>();
+const props = defineProps<{
+  modelValue?: number | undefined;
+  sectorId?: number | undefined;
+}>();
 const emit = defineEmits(['update:modelValue']);
 const options = ref<Box[]>([]);
 

@@ -4,6 +4,8 @@ export const VENDOR_BY_ID = (id: number) => `/vendors/${id}`;
 export const VENDOR_SEARCH = `/vendors/search`;
 export const CLOCK_INVOICE_BY_ID = (clockId: number) => `/invoice/${clockId}`;
 export const CLOCKS_BY_BOX = (boxId: number) => `/boxes/${boxId}/clocks`;
+export const CLOCKS_BY_BOX_BY_NUMBER = (boxNumber: number) =>
+  `/boxes/${boxNumber}/clocks-by-box-number`;
 
 export const SECTOR_BY_ID = (id: number) => `/sectors/${id}`;
 export const SECTORS = '/sectors';

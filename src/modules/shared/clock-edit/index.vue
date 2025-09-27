@@ -27,7 +27,10 @@
             rounded
             filled
           />
-          <q-input
+
+          <SectorSelect v-model="sector" outlined rounded filled />
+          <BoxSelect v-model="box" :sectorId="sector" outlined rounded filled />
+          <!-- <q-input
             v-model="boxNumber"
             label="رقم العلبة"
             lazy-rules
@@ -36,7 +39,7 @@
             outlined
             rounded
             filled
-          />
+          /> -->
           <q-toggle
             checked-icon="check"
             unchecked-icon="clear"
@@ -70,13 +73,16 @@ import { useClockEditStore } from './store';
 import { useRouter } from 'vue-router';
 import { Notify } from 'quasar';
 import { ClockStatus } from 'src/models/clock.model';
+import SectorSelect from 'src/modules/management/sectors/components/sector-select.vue';
+import BoxSelect from 'src/modules/management/boxes/components/box-select.vue';
 const props = defineProps<{
   id: string;
 }>();
 
 const ownerName = ref('');
 const ownerPhone = ref('');
-const boxNumber = ref<number | undefined>(undefined);
+const sector = ref<number | undefined>(undefined);
+const box = ref<number | undefined>(undefined);
 const status = ref(ClockStatus.ACTIVE);
 const router = useRouter();
 const clockEditStore = useClockEditStore();
@@ -84,7 +90,8 @@ clockEditStore.fetchClockData(+props.id).then((_) => {
   if (clockEditStore.clock) {
     status.value = clockEditStore.clock.status;
     ownerName.value = clockEditStore.clock.ownerName;
-    boxNumber.value = clockEditStore.clock.boxNumber || undefined;
+    sector.value = clockEditStore.clock.box?.sectorId || undefined;
+    box.value = clockEditStore.clock.box?.id || undefined;
     if (clockEditStore.clock.user) {
       ownerPhone.value = clockEditStore.clock.user.phone;
     }
@@ -96,7 +103,7 @@ const onSubmit = async () => {
     ownerName: ownerName.value,
     status: status.value,
     userPhone: ownerPhone.value || null,
-    boxNumber: boxNumber.value ? +boxNumber.value : null,
+    boxId: box.value ? +box.value : null,
   });
   router.push(`/shared/clock-details/${clockEditStore.clock?.id}`);
   Notify.create({

@@ -13,26 +13,19 @@
       </div>
       <div class="text-weight-bold">
         رقم العلبة:
-        <span class="text-primary">{{ clock.boxNumber || '--' }}</span>
+        <span class="text-primary">{{ clock.box?.boxNumber || '--' }}</span>
       </div>
       <div class="text-weight-bold">
         {{ clock.consuming < 0 ? 'الرصيد' : 'الإستهلاك' }} الحالي:
         <span class="text-primary">{{
-          clock.consuming < 0
-            ? `${-clock.consuming} كيلو مقدماً`
-            : `${clock.consuming} كيلو`
+          clock.consuming < 0 ? `${-clock.consuming} كيلو مقدماً` : `${clock.consuming} كيلو`
         }}</span>
       </div>
       <div class="text-weight-bold">
         الحالة:
-        <span
-          :class="
-            clock.status === ClockStatus.ACTIVE
-              ? 'text-primary'
-              : 'text-negative'
-          "
-          >{{ $t(`clockStatus.${clock.status}`) }}</span
-        >
+        <span :class="clock.status === ClockStatus.ACTIVE ? 'text-primary' : 'text-negative'">{{
+          $t(`clockStatus.${clock.status}`)
+        }}</span>
       </div>
     </div>
     <div class="full-width flex justify-center q-mt-md" v-if="showBarcode">
@@ -47,10 +40,7 @@
         @click="openDetails()"
       />
     </div>
-    <div
-      class="full-width q-mt-md"
-      v-if="showEditBtn && $q.platform.is.desktop && canEdit"
-    >
+    <div class="full-width q-mt-md" v-if="showEditBtn && $q.platform.is.desktop && canEdit">
       <q-btn
         label="طباعة الكود"
         icon="print"
@@ -100,9 +90,7 @@ function openEdit() {
 }
 
 const canEdit = computed(() => {
-  return (
-    authStore.user && (authStore.user.isManager || authStore.user.isAccountant)
-  );
+  return authStore.user && (authStore.user.isManager || authStore.user.isAccountant);
 });
 </script>
 

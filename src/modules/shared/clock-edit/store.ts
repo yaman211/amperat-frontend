@@ -8,11 +8,11 @@ export const useClockEditStore = defineStore(storesNames.SHARED.CLOCK_EDIT, {
       clock: undefined,
       loading: false,
       editLoading: false,
-    } as {
+    }) as {
       clock: Clock | undefined;
       loading: boolean;
       editLoading: boolean;
-    }),
+    },
   getters: {},
   actions: {
     async fetchClockData(id: number) {
@@ -28,7 +28,7 @@ export const useClockEditStore = defineStore(storesNames.SHARED.CLOCK_EDIT, {
       ownerName?: string;
       status?: ClockStatus;
       userPhone?: string | null;
-      boxNumber?: number | null;
+      boxId?: number | null;
     }) {
       this.editLoading = true;
       try {

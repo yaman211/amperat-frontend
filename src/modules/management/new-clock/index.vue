@@ -35,7 +35,10 @@
             <q-badge class="text-caption" color="grey-8">كيلو واط</q-badge>
           </template>
         </q-input>
-        <q-input
+
+        <SectorSelect v-model="sector" outlined rounded filled />
+        <BoxSelect v-model="box" :sectorId="sector" outlined rounded filled />
+        <!-- <q-input
           v-model="boxNumber"
           label="رقم العلبة"
           lazy-rules
@@ -44,7 +47,7 @@
           outlined
           rounded
           filled
-        />
+        /> -->
 
         <div>
           <q-btn
@@ -66,11 +69,14 @@ import { Notify } from 'quasar';
 import { ref, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useNewClockStore } from './store';
+import BoxSelect from '../boxes/components/box-select.vue';
+import SectorSelect from '../sectors/components/sector-select.vue';
 
 const ownerName = ref('');
 const currentReading = ref(0);
 const consuming = ref(0);
-const boxNumber = ref(null);
+const sector = ref(undefined);
+const box = ref(undefined);
 const newClockStore = useNewClockStore();
 const router = useRouter();
 
@@ -79,7 +85,8 @@ const onSubmit = async () => {
     ownerName: ownerName.value,
     currentReading: +currentReading.value,
     consuming: +consuming.value,
-    boxNumber: boxNumber.value ? +boxNumber.value : null,
+    boxId: box.value,
+    // boxNumber: boxNumber.value ? +boxNumber.value : null,
   });
   router.push(`/shared/clock-details/${clock.id}`);
   Notify.create({

@@ -13,7 +13,8 @@ export const useNewClockStore = defineStore(storesNames.MANAGEMENT.NEW_CLOCK, {
       userId?: number;
       currentReading: number;
       consuming?: number;
-      boxNumber?: number | null;
+      // boxNumber?: number | null;
+      boxId?: number | undefined;
     }) {
       try {
         this.loading = true;
