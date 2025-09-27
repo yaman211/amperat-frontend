@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-card class="q-pa-md rounded-md column q-gutter-sm" bordered flat>
+    <q-card class="q-pa-md rounded-md column q-gutter-sm">
       <div class="text-weight-bold">
         أهلاً وسهلاً بك يا
         <span class="text-primary"> {{ authStore.user?.fullName }}</span>
@@ -112,6 +112,14 @@ const actions = [
       router.push('/shared/clocks-list');
     },
     can: () => false,
+  },
+  {
+    name: 'قائمة الساعات',
+    icon: 'sticky_note_2',
+    handler: () => {
+      router.push('/management/clocks-list');
+    },
+    can: () => authStore.user?.isManager || authStore.user?.isAccountant,
   },
   {
     name: 'استعراض بيانات ساعة',

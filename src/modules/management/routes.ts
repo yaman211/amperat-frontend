@@ -104,6 +104,13 @@ const routes: RouteRecordRaw = {
       meta: { title: 'تعديل علبة' },
       props: true,
     },
+    {
+      path: 'clocks-list',
+      name: 'clocks-list',
+      component: () => import('./clocks-list/index.vue'),
+      meta: { title: 'قائمة العدادات' },
+      props: true,
+    },
   ],
 };
 

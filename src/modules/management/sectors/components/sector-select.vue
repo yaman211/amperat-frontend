@@ -5,7 +5,7 @@
     option-label="name"
     option-value="id"
     label="القطاع"
-    :rules="[(val) => !!val || 'مطلوب']"
+    :rules="withoutValidation ? undefined : [(val) => !!val || 'مطلوب']"
     filled
     emit-value
     map-options
@@ -16,7 +16,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { Sector } from 'src/models/sector.model';
 
-const props = defineProps<{ modelValue?: number | undefined }>();
+const props = defineProps<{ modelValue?: number | undefined; withoutValidation?: boolean }>();
 const emit = defineEmits(['update:modelValue']);
 const options = ref<Sector[]>([]);
 
