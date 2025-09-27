@@ -76,7 +76,7 @@ export default defineConfig((ctx) => {
       // chainWebpack (/* chain, { isClient, isServer } */) {}
       env: {
         // BASE_URL: 'http://127.0.0.1:3000',
-        BASE_URL: 'http://amperat-dev-3.eu-4.evennode.com',
+        BASE_URL: 'http://amperat-dev-4.eu-4.evennode.com',
       },
     },
 
