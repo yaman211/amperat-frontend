@@ -116,7 +116,11 @@ const onSubmit = () => {
       message: 'تم اضافة الفاتورة',
       type: 'positive',
     });
-    router.push('/management/invoice-details/' + invoice?.id);
+    if ($q.platform.is.desktop) {
+      router.push('/management/invoice-details/' + invoice?.id);
+    } else {
+      router.push('/');
+    }
   });
 };
 
