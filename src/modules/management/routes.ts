@@ -111,6 +111,13 @@ const routes: RouteRecordRaw = {
       meta: { title: 'قائمة العدادات' },
       props: true,
     },
+    {
+      path: 'invoice-details/:id',
+      name: 'invoice-details',
+      component: () => import('./invoice-details/index.vue'),
+      meta: { title: 'تفاصيل الفاتورة' },
+      props: true,
+    },
   ],
 };
 

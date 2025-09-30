@@ -24,19 +24,28 @@
                 :key="reading.id"
                 class="q-pa-md rounded-lg"
               >
-                <div class="flex justify-between">
-                  <div class="text-weight-bold">
-                    الإستهلاك:
-                    <span class="text-primary">{{ reading.consuming + 'كيلو' }}</span>
+                <div class="row items-center justify-between q-gutter-x-md q-mb-sm">
+                  <div class="row items-center q-gutter-x-md">
+                    <q-icon name="bolt" color="primary" size="sm" />
+                    <div class="text-weight-bold">
+                      الإستهلاك:
+                      <span class="text-primary">{{ reading.consuming + ' كيلو' }}</span>
+                    </div>
                   </div>
-                  <div class="text-weight-bold">
-                    التاريخ:
-                    <span class="text-primary">{{ dateFormatter(reading.createdAt) }}</span>
+                  <div class="row items-center q-gutter-x-md">
+                    <q-icon name="event" color="primary" size="sm" />
+                    <div class="text-weight-bold">
+                      التاريخ:
+                      <span class="text-primary">{{ dateFormatter(reading.createdAt) }}</span>
+                    </div>
                   </div>
                 </div>
-                <div class="text-weight-bold text-center q-mt-sm">
-                  رقم التأشيرة:
-                  <span class="text-primary">{{ reading.readingNumber }}</span>
+                <div class="row items-center justify-center q-gutter-x-md q-mt-sm">
+                  <q-icon name="confirmation_number" color="primary" size="sm" />
+                  <div class="text-weight-bold">
+                    رقم التأشيرة:
+                    <span class="text-primary">{{ reading.readingNumber }}</span>
+                  </div>
                 </div>
               </q-card>
             </div>
@@ -56,21 +65,46 @@
                 :key="invoice.id"
                 class="q-pa-md rounded-lg"
               >
-                <div class="flex justify-between">
-                  <div class="text-weight-bold">
-                    الإستهلاك:
-                    <span class="text-primary">{{ invoice.consuming + 'كيلو' }}</span>
+                <div class="row items-center justify-between q-gutter-x-md q-mb-sm">
+                  <div class="row items-center q-gutter-x-md">
+                    <q-icon name="bolt" color="primary" size="sm" />
+                    <div class="text-weight-bold">
+                      الإستهلاك:
+                      <span class="text-primary">{{ invoice.consuming + ' كيلو' }}</span>
+                    </div>
                   </div>
-                  <div class="text-weight-bold">
-                    التاريخ:
-                    <span class="text-primary">{{ dateFormatter(invoice.createdAt) }}</span>
+                  <div class="row items-center q-gutter-x-md">
+                    <q-icon name="event" color="primary" size="sm" />
+                    <div class="text-weight-bold">
+                      التاريخ:
+                      <span class="text-primary">{{ dateFormatter(invoice.createdAt) }}</span>
+                    </div>
                   </div>
                 </div>
-                <div class="flex justify-center">
-                  <div class="text-weight-bold">
-                    المبلغ المدفوع:
-                    <span class="text-primary">{{ invoice.price + 'ل.س' }}</span>
+                <div class="row items-center justify-between q-gutter-x-md">
+                  <div class="row items-center q-gutter-x-md">
+                    <q-icon name="attach_money" color="primary" size="sm" />
+                    <div class="text-weight-bold">
+                      المبلغ المدفوع:
+                      <span class="text-primary">{{ invoice.price + ' ل.س' }}</span>
+                    </div>
                   </div>
+                  <div class="row items-center q-gutter-x-md">
+                    <q-icon name="confirmation_number" color="primary" size="sm" />
+                    <div class="text-weight-bold">
+                      رقم آخر تأشيرة:
+                      <span class="text-primary">{{ invoice.lastReadingNumber }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row justify-end q-mt-md">
+                  <q-btn
+                    color="primary"
+                    label="تفاصيل الفاتورة"
+                    @click="$router.push(`/management/invoice-details/${invoice.id}`)"
+                    size="sm"
+                    flat
+                  />
                 </div>
               </q-card>
             </div>

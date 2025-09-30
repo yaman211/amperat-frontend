@@ -107,12 +107,16 @@ const onSubmit = () => {
       color: 'primary',
     },
   }).onOk(async () => {
-    await payInvoiceStore.createInvoice(clock.value as Clock, +consuming.value, +price.value);
+    const invoice = await payInvoiceStore.createInvoice(
+      clock.value as Clock,
+      +consuming.value,
+      +price.value,
+    );
     Notify.create({
       message: 'تم اضافة الفاتورة',
       type: 'positive',
     });
-    router.push('/');
+    router.push('/management/invoice-details/' + invoice?.id);
   });
 };
 

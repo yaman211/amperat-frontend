@@ -1,31 +1,41 @@
 <template>
   <q-card class="q-pa-md rounded-lg">
     <div class="column q-gutter-y-sm">
-      <div class="text-weight-bold">
-        رقم الساعة: <span class="text-primary">{{ clock.id }}</span>
+      <div class="text-weight-bold flex items-center">
+        <q-icon name="tag" class="q-mr-sm" />
+        رقم الساعة:
+        <span class="q-ml-sm text-primary">{{ clock.id }}</span>
       </div>
-      <div class="text-weight-bold">
-        اسم المالك: <span class="text-primary">{{ clock.ownerName }}</span>
+      <div class="text-weight-bold flex items-center">
+        <q-icon name="person" class="q-mr-sm" />
+        اسم المالك:
+        <span class="q-ml-sm text-primary">{{ clock.ownerName }}</span>
       </div>
-      <div class="text-weight-bold">
+      <div class="text-weight-bold flex items-center">
+        <q-icon name="business" class="q-mr-sm" />
         مقدم الخدمة:
-        <span class="text-primary">{{ clock.vendor.name }}</span>
+        <span class="q-ml-sm text-primary">{{ clock.vendor.name }}</span>
       </div>
-      <div class="text-weight-bold">
+      <div class="text-weight-bold flex items-center">
+        <q-icon name="inventory" class="q-mr-sm" />
         رقم العلبة:
-        <span class="text-primary">{{ clock.box?.boxNumber || '--' }}</span>
+        <span class="q-ml-sm text-primary">{{ clock.box?.boxNumber || '--' }}</span>
       </div>
-      <div class="text-weight-bold">
+      <div class="text-weight-bold flex items-center">
+        <q-icon :name="clock.consuming < 0 ? 'account_balance_wallet' : 'bolt'" class="q-mr-sm" />
         {{ clock.consuming < 0 ? 'الرصيد' : 'الإستهلاك' }} الحالي:
-        <span class="text-primary">{{
+        <span class="q-ml-sm text-primary">{{
           clock.consuming < 0 ? `${-clock.consuming} كيلو مقدماً` : `${clock.consuming} كيلو`
         }}</span>
       </div>
-      <div class="text-weight-bold">
+      <div class="text-weight-bold flex items-center">
+        <q-icon name="info" class="q-mr-sm" />
         الحالة:
-        <span :class="clock.status === ClockStatus.ACTIVE ? 'text-primary' : 'text-negative'">{{
-          $t(`clockStatus.${clock.status}`)
-        }}</span>
+        <span
+          class="q-ml-sm"
+          :class="clock.status === ClockStatus.ACTIVE ? 'text-primary' : 'text-negative'"
+          >{{ $t(`clockStatus.${clock.status}`) }}</span
+        >
       </div>
     </div>
     <div class="full-width flex justify-center q-mt-md" v-if="showBarcode">
