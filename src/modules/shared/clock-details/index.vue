@@ -2,7 +2,15 @@
   <div>
     <Loader v-if="clockDetailsStore.loading" />
     <div v-else-if="clockDetailsStore.clock != undefined">
-      <ClockCard :clock="clockDetailsStore.clock" hideDetailsBtn showEditBtn showBarcode />
+      <ClockCard
+        :clock="clockDetailsStore.clock"
+        hideDetailsBtn
+        showEditBtn
+        showBarcode
+        :lastInvoice="
+          clockDetailsStore.invoices?.length > 0 ? clockDetailsStore.invoices[0] : undefined
+        "
+      />
       <q-tabs v-model="tab" class="bg-grey-2 q-my-md rounded-md" dense align="justify">
         <q-tab class="text-primary" name="readings" icon="analytics" label="التأشيرات" />
         <q-tab class="text-primary" name="invoices" icon="paid" label="الفواتير" />
@@ -97,7 +105,14 @@
                     </div>
                   </div>
                 </div>
-                <div class="row justify-end q-mt-md">
+                <div class="row items-center justify-between q-gutter-x-md q-mt-sm">
+                  <div class="row items-center q-gutter-x-md">
+                    <q-icon name="confirmation_number" color="primary" size="sm" />
+                    <div class="text-weight-bold">
+                      التأشيرة المدفوع لها:
+                      <span class="text-primary">{{ invoice.paidUntilReadingNumber || '--' }}</span>
+                    </div>
+                  </div>
                   <q-btn
                     color="primary"
                     label="تفاصيل الفاتورة"

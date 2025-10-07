@@ -13,6 +13,7 @@ export class Invoice {
   consuming: number;
   price: number;
   lastReadingNumber: number;
+  paidUntilReadingNumber: number;
   clock?: Clock;
   createdAt: Date;
 

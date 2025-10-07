@@ -38,6 +38,10 @@
       <div>
         <span class="label">القيمة المدفوعة:</span> <span>{{ invoice.price }}</span>
       </div>
+      <div>
+        <span class="label">التأشيرة المدفوع لها:</span>
+        <span>{{ invoice.paidUntilReadingNumber }}</span>
+      </div>
     </div>
     <div class="divider"></div>
     <div class="footer-note text-center">

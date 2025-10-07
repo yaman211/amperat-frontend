@@ -29,6 +29,11 @@
         }}</span>
       </div>
       <div class="text-weight-bold flex items-center">
+        <q-icon name="confirmation_number" class="q-mr-sm" />
+        التأشيرة المدفوع لها:
+        <span class="q-ml-sm text-primary">{{ lastInvoice?.paidUntilReadingNumber || '--' }}</span>
+      </div>
+      <div class="text-weight-bold flex items-center">
         <q-icon name="info" class="q-mr-sm" />
         الحالة:
         <span
@@ -81,9 +86,11 @@ import { ClockStatus } from 'src/models/clock.model';
 import ClockBarcode from 'src/components/clock-barcode.vue';
 import { useAuthStore } from 'src/modules/auth/store';
 import { computed } from 'vue';
+import { Invoice } from 'src/models/invoice.model';
 
 const props = defineProps<{
   clock: Clock;
+  lastInvoice?: Invoice;
   hideDetailsBtn?: boolean;
   showEditBtn?: boolean;
   showBarcode?: boolean;
