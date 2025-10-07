@@ -1,2 +1,3 @@
-export const CLOCKS_COUNT = '/clocks/count';
+export const CLOCKS_COUNT = '/clocks/count-by-consuming';
 export const INVOICES_COUNT_AMOUNT = '/invoices/invoices-amount';
+export const READINGS_CONSUMING = '/readings/consuming-amount';

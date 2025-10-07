@@ -1,6 +1,6 @@
 <template>
   <q-card class="q-pa-md rounded-lg">
-    <div class="text-h5 q-mb-md text-weight-medium">إحصائيات الفواتير</div>
+    <div class="text-h5 q-mb-md text-weight-medium">قيمة الفواتير المدفوعة</div>
     <Loader v-if="statisticsStore.loading" style="height: 300px" />
     <template v-else-if="!statisticsStore.invoices.labels.length">
       <NoData />
