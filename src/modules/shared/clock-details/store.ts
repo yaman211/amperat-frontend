@@ -18,6 +18,9 @@ export const useClockDetailsStore = defineStore(storesNames.SHARED.CLOCK_DETAILS
       invoicesLoading: false,
       invoices: [],
       invoicesCount: 0,
+
+      lastReading: null,
+      lastInvoice: null,
     }) as {
       clock: Clock | undefined;
       loading: boolean;
@@ -27,6 +30,8 @@ export const useClockDetailsStore = defineStore(storesNames.SHARED.CLOCK_DETAILS
       invoicesLoading: boolean;
       invoices: Invoice[];
       invoicesCount: number;
+      lastReading: Reading | null;
+      lastInvoice: Invoice | null;
     },
   getters: {},
   actions: {
@@ -52,7 +57,7 @@ export const useClockDetailsStore = defineStore(storesNames.SHARED.CLOCK_DETAILS
         this.loading = false;
       }
     },
-    async fetchClockReadings(id: number, page: number) {
+    async fetchClockReadings(id: number, page: number, justLast = false) {
       this.invoices = [];
       this.readingsLoading = true;
       try {
@@ -60,13 +65,18 @@ export const useClockDetailsStore = defineStore(storesNames.SHARED.CLOCK_DETAILS
           offset: page * PER_PAGE,
           limit: PER_PAGE,
         });
-        this.readingsCount = data.count;
-        this.readings.push(...data.rows);
+        if (!justLast) {
+          this.readingsCount = data.count;
+          this.readings.push(...data.rows);
+        }
+        if (page === 0) {
+          this.lastReading = data.rows[0] || null;
+        }
       } finally {
         this.readingsLoading = false;
       }
     },
-    async fetchClockReadingsByToken(token: string, page: number) {
+    async fetchClockReadingsByToken(token: string, page: number, justLast = false) {
       this.invoices = [];
       this.readingsLoading = true;
       try {
@@ -74,13 +84,18 @@ export const useClockDetailsStore = defineStore(storesNames.SHARED.CLOCK_DETAILS
           offset: page * PER_PAGE,
           limit: PER_PAGE,
         });
-        this.readingsCount = data.count;
-        this.readings.push(...data.rows);
+        if (!justLast) {
+          this.readingsCount = data.count;
+          this.readings.push(...data.rows);
+        }
+        if (page === 0) {
+          this.lastReading = data.rows[0] || null;
+        }
       } finally {
         this.readingsLoading = false;
       }
     },
-    async fetchClockInvoices(id: number, page: number) {
+    async fetchClockInvoices(id: number, page: number, justLast = false) {
       this.readings = [];
       this.invoicesLoading = true;
       try {
@@ -88,13 +103,18 @@ export const useClockDetailsStore = defineStore(storesNames.SHARED.CLOCK_DETAILS
           offset: page * PER_PAGE,
           limit: PER_PAGE,
         });
-        this.invoicesCount = data.count;
-        this.invoices.push(...data.rows);
+        if (!justLast) {
+          this.invoicesCount = data.count;
+          this.invoices.push(...data.rows);
+        }
+        if (page === 0) {
+          this.lastInvoice = data.rows[0] || null;
+        }
       } finally {
         this.invoicesLoading = false;
       }
     },
-    async fetchClockInvoicesByToken(token: string, page: number) {
+    async fetchClockInvoicesByToken(token: string, page: number, justLast = false) {
       this.readings = [];
       this.invoicesLoading = true;
       try {
@@ -102,8 +122,13 @@ export const useClockDetailsStore = defineStore(storesNames.SHARED.CLOCK_DETAILS
           offset: page * PER_PAGE,
           limit: PER_PAGE,
         });
-        this.invoicesCount = data.count;
-        this.invoices.push(...data.rows);
+        if (!justLast) {
+          this.invoicesCount = data.count;
+          this.invoices.push(...data.rows);
+        }
+        if (page === 0) {
+          this.lastInvoice = data.rows[0] || null;
+        }
       } finally {
         this.invoicesLoading = false;
       }

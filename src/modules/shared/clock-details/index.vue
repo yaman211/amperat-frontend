@@ -7,9 +7,8 @@
         hideDetailsBtn
         showEditBtn
         showBarcode
-        :lastInvoice="
-          clockDetailsStore.invoices?.length > 0 ? clockDetailsStore.invoices[0] : undefined
-        "
+        :lastInvoice="clockDetailsStore.lastInvoice || undefined"
+        :lastReading="clockDetailsStore.lastReading || undefined"
       />
       <q-tabs v-model="tab" class="bg-grey-2 q-my-md rounded-md" dense align="justify">
         <q-tab class="text-primary" name="readings" icon="analytics" label="التأشيرات" />
@@ -138,7 +137,7 @@
 <script lang="ts" setup>
 import Loader from 'src/components/loader.vue';
 import ClockCard from '../clocks-list/components/clock-card.vue';
-import { onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useClockDetailsStore } from './store';
 import { dateFormatter } from 'src/utils/date';
 
@@ -174,6 +173,16 @@ const onLoadInvoices = async (page: number, done: (d: boolean) => void) => {
 };
 onUnmounted(() => {
   clockDetailsStore.$reset();
+});
+
+onMounted(async () => {
+  if (props.id) {
+    clockDetailsStore.fetchClockReadings(+props?.id, 0, true);
+    clockDetailsStore.fetchClockInvoices(+props.id, 0, true);
+  } else if (props.token) {
+    clockDetailsStore.fetchClockReadingsByToken(props.token, 0, true);
+    clockDetailsStore.fetchClockInvoicesByToken(props.token, 0, true);
+  }
 });
 </script>
 

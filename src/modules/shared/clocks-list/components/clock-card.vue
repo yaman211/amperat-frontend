@@ -28,7 +28,12 @@
           clock.consuming < 0 ? `${-clock.consuming} كيلو مقدماً` : `${clock.consuming} كيلو`
         }}</span>
       </div>
-      <div class="text-weight-bold flex items-center">
+      <div class="text-weight-bold flex items-center" v-if="lastReading?.readingNumber">
+        <q-icon name="confirmation_number" class="q-mr-sm" />
+        آخر تأشيرة:
+        <span class="q-ml-sm text-primary">{{ lastReading?.readingNumber || '--' }}</span>
+      </div>
+      <div class="text-weight-bold flex items-center" v-if="lastInvoice?.paidUntilReadingNumber">
         <q-icon name="confirmation_number" class="q-mr-sm" />
         التأشيرة المدفوع لها:
         <span class="q-ml-sm text-primary">{{ lastInvoice?.paidUntilReadingNumber || '--' }}</span>
@@ -87,10 +92,12 @@ import ClockBarcode from 'src/components/clock-barcode.vue';
 import { useAuthStore } from 'src/modules/auth/store';
 import { computed } from 'vue';
 import { Invoice } from 'src/models/invoice.model';
+import { Reading } from 'src/models/reading.model';
 
 const props = defineProps<{
   clock: Clock;
   lastInvoice?: Invoice;
+  lastReading?: Reading;
   hideDetailsBtn?: boolean;
   showEditBtn?: boolean;
   showBarcode?: boolean;
