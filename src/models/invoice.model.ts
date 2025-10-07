@@ -1,5 +1,9 @@
 import { api } from 'src/boot/axios';
-import { CLOCK_INVOICE_BY_ID, INVOICE_BY_ID } from 'src/modules/management/endpoints';
+import {
+  CLOCK_INVOICE_BY_ID,
+  INVOICE_BY_ID,
+  REVERT_LAST_INVOICE,
+} from 'src/modules/management/endpoints';
 import { Pagination } from './pagination.model';
 import { CLOCK_BY_ID_INVOICES, CLOCK_BY_TOKEN_INVOICES } from 'src/modules/shared/endpoints';
 import { isDate } from 'src/utils/date';
@@ -45,5 +49,9 @@ export class Invoice {
 
   static getInvoiceById(id: number): Promise<Invoice> {
     return api.get(INVOICE_BY_ID(id)).then(({ data }) => new Invoice(data));
+  }
+
+  static revertLastInvoice(clockId: number): Promise<Invoice> {
+    return api.post(REVERT_LAST_INVOICE(clockId));
   }
 }

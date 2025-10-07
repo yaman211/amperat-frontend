@@ -68,7 +68,7 @@
           <q-infinite-scroll @load="onLoadInvoices" :offset="100">
             <div class="column q-gutter-y-md q-px-md q-mb-sm">
               <q-card
-                v-for="invoice in clockDetailsStore.invoices"
+                v-for="(invoice, idx) in clockDetailsStore.invoices"
                 :key="invoice.id"
                 class="q-pa-md rounded-lg"
               >
@@ -112,13 +112,23 @@
                       <span class="text-primary">{{ invoice.paidUntilReadingNumber || '--' }}</span>
                     </div>
                   </div>
-                  <q-btn
-                    color="primary"
-                    label="تفاصيل الفاتورة"
-                    @click="$router.push(`/management/invoice-details/${invoice.id}`)"
-                    size="sm"
-                    flat
-                  />
+                  <div class="row items-center q-gutter-x-md">
+                    <q-btn
+                      color="primary"
+                      label="تفاصيل الفاتورة"
+                      @click="$router.push(`/management/invoice-details/${invoice.id}`)"
+                      size="sm"
+                      flat
+                    />
+                    <q-btn
+                      v-if="idx === 0 && clockDetailsStore.invoices?.length > 1"
+                      color="primary"
+                      label="حذف الفاتورة"
+                      @click="revertLastInvoice"
+                      size="sm"
+                      flat
+                    />
+                  </div>
                 </div>
               </q-card>
             </div>
@@ -140,6 +150,8 @@ import ClockCard from '../clocks-list/components/clock-card.vue';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { useClockDetailsStore } from './store';
 import { dateFormatter } from 'src/utils/date';
+import { Notify, useQuasar } from 'quasar';
+import { Invoice } from 'src/models/invoice.model';
 
 const props = defineProps<{
   id?: string;
@@ -171,6 +183,24 @@ const onLoadInvoices = async (page: number, done: (d: boolean) => void) => {
   }
   done(clockDetailsStore.invoices.length === clockDetailsStore.invoicesCount);
 };
+const $q = useQuasar();
+const revertLastInvoice = async () => {
+  $q.dialog({
+    title: 'حذف الفاتورة',
+    message: 'هل انت متأكد من حذف آخر فاتورة؟',
+    ok: {
+      color: 'primary',
+    },
+  }).onOk(async () => {
+    await Invoice.revertLastInvoice(+(props.id as string));
+    Notify.create({
+      message: 'تم اضافة التأشيرة',
+      type: 'positive',
+    });
+    window.location.reload();
+  });
+};
+
 onUnmounted(() => {
   clockDetailsStore.$reset();
 });

@@ -4,6 +4,7 @@ export const VENDOR_BY_ID = (id: number) => `/vendors/${id}`;
 export const VENDOR_SEARCH = `/vendors/search`;
 export const CLOCK_INVOICE_BY_ID = (clockId: number) => `/invoices/${clockId}`;
 export const INVOICE_BY_ID = (id: number) => `/invoices/details/${id}`;
+export const REVERT_LAST_INVOICE = (clockId: number) => `/invoices/${clockId}/revert-last-invoice`;
 export const CLOCKS_BY_BOX = (boxId: number) => `/boxes/${boxId}/clocks`;
 export const CLOCKS_BY_BOX_BY_NUMBER = (boxNumber: number) =>
   `/boxes/${boxNumber}/clocks-by-box-number`;
