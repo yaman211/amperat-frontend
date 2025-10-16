@@ -25,7 +25,11 @@
         <q-icon :name="clock.consuming < 0 ? 'account_balance_wallet' : 'bolt'" class="q-mr-sm" />
         {{ clock.consuming < 0 ? 'الرصيد' : 'الإستهلاك' }} الحالي:
         <span class="q-ml-sm text-primary">{{
-          clock.consuming < 0 ? `${-clock.consuming} كيلو مقدماً` : `${clock.consuming} كيلو`
+          clock.consuming < 0
+            ? `${-clock.consuming} كيلو لقدام`
+            : clock.consuming == 0
+              ? 'لا يوجد'
+              : `${clock.consuming} كيلو كسر`
         }}</span>
       </div>
       <div class="text-weight-bold flex items-center" v-if="lastReading?.readingNumber">

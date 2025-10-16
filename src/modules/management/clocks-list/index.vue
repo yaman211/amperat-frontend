@@ -258,11 +258,11 @@ const filters = ref({
 
 const consumingOptions = [
   {
-    label: 'تم الدفع مقدماً',
+    label: 'تم الدفع لقدام',
     value: '1',
   },
   {
-    label: 'عليها استهلاك غير مدفوع',
+    label: 'عليها كسر',
     value: '2',
   },
 ];
@@ -280,7 +280,11 @@ const columns = [
     name: 'consuming',
     label: 'الاستهلاك',
     field: (clock: any) => {
-      return clock.consuming < 0 ? `${-clock.consuming} كيلو مقدماً` : `${clock.consuming} كيلو`;
+      return clock.consuming < 0
+        ? `${-clock.consuming} كيلو لقدام`
+        : clock.consuming == 0
+          ? 'لا يوجد'
+          : `${clock.consuming} كيلو كسر`;
     },
     align: 'left' as const,
   },
