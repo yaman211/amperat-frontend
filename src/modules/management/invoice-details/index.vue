@@ -6,7 +6,7 @@
         opacity: 0.1;
         position: absolute;
         width: 30%;
-        top: 50%;
+        top: 30%;
         left: 50%;
         transform: translate(-50%, -50%);
       "
@@ -55,6 +55,13 @@
       </div>
     </div>
     <div class="divider"></div>
+    <div class="invoice-body">
+      <div>
+        <span class="label">النتيجة:</span>
+        <span>{{ formatConsuming(invoice.consumingBeforeTheInvoice - invoice.consuming) }}</span>
+      </div>
+    </div>
+    <div class="divider"></div>
     <div class="footer-note text-center">
       <p>شكراً لزيارتكم</p>
     </div>
@@ -67,6 +74,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { Invoice } from 'src/models/invoice.model';
+import { formatConsuming } from 'src/utils';
 
 const props = defineProps<{ id: string }>();
 
