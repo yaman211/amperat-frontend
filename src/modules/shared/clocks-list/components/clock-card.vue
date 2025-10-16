@@ -60,26 +60,38 @@
         @click="openDetails()"
       />
     </div>
-    <div class="full-width q-mt-md" v-if="showEditBtn && $q.platform.is.desktop && canEdit">
-      <q-btn
-        label="طباعة الكود"
-        icon="print"
-        color="primary"
-        class="q-mx-sm text-weight-bold full-width"
-        :to="{
-          path: '/management/print-barcode',
-          query: { clockId: clock.id },
-        }"
-      />
-    </div>
-    <div class="full-width q-mt-md" v-if="showEditBtn && canEdit">
-      <q-btn
-        icon="edit"
-        label="تعديل الساعة"
-        color="primary"
-        class="q-mx-sm text-weight-bold full-width"
-        @click="openEdit()"
-      />
+    <div class="full-width q-mt-md" v-if="showEditBtn && $q.platform.is.desktop && canEdit"></div>
+    <div class="row q-col-gutter-md q-mt-md" v-if="showEditBtn && canEdit">
+      <div class="col-12 col-md-4 q-px-sm">
+        <q-btn
+          label="طباعة الكود"
+          icon="print"
+          color="primary"
+          class="text-weight-bold full-width"
+          :to="{
+            path: '/management/print-barcode',
+            query: { clockId: clock.id },
+          }"
+        />
+      </div>
+      <div class="col-12 col-md-4 q-px-sm">
+        <q-btn
+          icon="receipt_long"
+          label="إضافة فاتورة جديدة"
+          color="secondary"
+          class="text-weight-bold full-width"
+          @click="$router.push(`/management/pay-invoice?clockId=${clock.id}`)"
+        />
+      </div>
+      <div class="col-12 col-md-4 q-px-sm">
+        <q-btn
+          icon="edit"
+          label="تعديل الساعة"
+          color="primary"
+          class="text-weight-bold full-width"
+          @click="openEdit()"
+        />
+      </div>
     </div>
   </q-card>
 </template>
