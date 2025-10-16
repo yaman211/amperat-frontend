@@ -1,5 +1,16 @@
 <template>
-  <div class="invoice-print" ref="content">
+  <div class="invoice-print" ref="content" style="position: relative">
+    <q-img
+      :src="require('src/assets/logo.svg')"
+      style="
+        opacity: 0.1;
+        position: absolute;
+        width: 30%;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      "
+    />
     <div class="invoice-header">
       <div class="q-mb-sm">
         <span class="invoice-title">مولدة {{ clock.vendor?.name || '--' }}</span>
@@ -30,17 +41,24 @@
     <div class="divider"></div>
     <div class="invoice-body">
       <div>
-        <span class="label">رقم آخر تأشيرة:</span> <span>{{ invoice.lastReadingNumber }}</span>
-      </div>
-      <div>
         <span class="label">الكمية المدفوعة:</span> <span>{{ invoice.consuming }} كيلو</span>
       </div>
       <div>
         <span class="label">القيمة المدفوعة:</span> <span>{{ invoice.price }}</span>
       </div>
       <div>
+        <span class="label">رقم آخر تأشيرة:</span> <span>{{ invoice.lastReadingNumber }}</span>
+      </div>
+      <div>
         <span class="label">التأشيرة المدفوع لها:</span>
         <span>{{ invoice.paidUntilReadingNumber }}</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="invoice-body">
+      <div>
+        <span class="label">النتيجة:</span>
+        <span>{{ formatConsuming(invoice.consumingBeforeTheInvoice - invoice.consuming) }}</span>
       </div>
     </div>
     <div class="divider"></div>
@@ -56,6 +74,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { Invoice } from 'src/models/invoice.model';
+import { formatConsuming } from 'src/utils';
 
 const props = defineProps<{ id: string }>();
 

@@ -147,16 +147,7 @@
               :aria-label="'عرض'"
               class="q-mr-xs"
             />
-            <q-btn
-              flat
-              dense
-              round
-              icon="edit"
-              color="secondary"
-              @click="$router.push(`/shared/clock-edit/${props.row.id}`)"
-              :aria-label="'تعديل'"
-              class="q-mr-xs"
-            />
+
             <q-btn
               flat
               dense
@@ -175,6 +166,16 @@
               color="orange"
               @click="$router.push(`/management/pay-invoice?clockId=${props.row.id}`)"
               :aria-label="'إضافة فاتورة'"
+            />
+            <q-btn
+              flat
+              dense
+              round
+              icon="edit"
+              color="secondary"
+              @click="$router.push(`/shared/clock-edit/${props.row.id}`)"
+              :aria-label="'تعديل'"
+              class="q-mr-xs"
             />
           </q-card-actions>
         </q-card>
@@ -204,16 +205,6 @@
             flat
             dense
             round
-            icon="edit"
-            color="secondary"
-            @click="$router.push(`/shared/clock-edit/${props.row.id}`)"
-            :aria-label="'تعديل'"
-            class="q-mr-xs"
-          />
-          <q-btn
-            flat
-            dense
-            round
             icon="add_chart"
             color="green"
             @click="$router.push(`/management/new-reading?clockId=${props.row.id}`)"
@@ -228,6 +219,16 @@
             color="orange"
             @click="$router.push(`/management/pay-invoice?clockId=${props.row.id}`)"
             :aria-label="'إضافة فاتورة'"
+          />
+          <q-btn
+            flat
+            dense
+            round
+            icon="edit"
+            color="secondary"
+            @click="$router.push(`/shared/clock-edit/${props.row.id}`)"
+            :aria-label="'تعديل'"
+            class="q-mr-xs"
           />
         </q-td>
       </template>
@@ -258,11 +259,11 @@ const filters = ref({
 
 const consumingOptions = [
   {
-    label: 'تم الدفع مقدماً',
+    label: 'تم الدفع لقدام',
     value: '1',
   },
   {
-    label: 'عليها استهلاك غير مدفوع',
+    label: 'عليها كسر',
     value: '2',
   },
 ];
@@ -280,7 +281,11 @@ const columns = [
     name: 'consuming',
     label: 'الاستهلاك',
     field: (clock: any) => {
-      return clock.consuming < 0 ? `${-clock.consuming} كيلو مقدماً` : `${clock.consuming} كيلو`;
+      return clock.consuming < 0
+        ? `${-clock.consuming} كيلو لقدام`
+        : clock.consuming == 0
+          ? 'لا يوجد'
+          : `${clock.consuming} كيلو كسر`;
     },
     align: 'left' as const,
   },
