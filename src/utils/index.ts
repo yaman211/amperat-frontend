@@ -6,6 +6,6 @@ export const formatConsuming = (consuming: number) => {
     return `${consuming} كيلو كسر`;
   }
   if (consuming < 0) {
-    return `${consuming} كيلو لقدام`;
+    return `${Math.abs(consuming)} كيلو لقدام`;
   }
 };

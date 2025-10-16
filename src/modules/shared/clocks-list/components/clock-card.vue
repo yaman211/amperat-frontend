@@ -21,6 +21,16 @@
         رقم العلبة:
         <span class="q-ml-sm text-primary">{{ clock.box?.boxNumber || '--' }}</span>
       </div>
+      <div class="text-weight-bold flex items-center" v-if="lastReading?.readingNumber">
+        <q-icon name="confirmation_number" class="q-mr-sm" />
+        آخر تأشيرة:
+        <span class="q-ml-sm text-primary">{{ lastReading?.readingNumber || '--' }}</span>
+      </div>
+      <div class="text-weight-bold flex items-center" v-if="lastInvoice?.paidUntilReadingNumber">
+        <q-icon name="confirmation_number" class="q-mr-sm" />
+        التأشيرة المدفوع لها:
+        <span class="q-ml-sm text-primary">{{ lastInvoice?.paidUntilReadingNumber || '--' }}</span>
+      </div>
       <div class="text-weight-bold flex items-center">
         <q-icon :name="clock.consuming < 0 ? 'account_balance_wallet' : 'bolt'" class="q-mr-sm" />
         {{ clock.consuming < 0 ? 'الرصيد' : 'الإستهلاك' }} الحالي:
@@ -31,16 +41,6 @@
               ? 'لا يوجد'
               : `${clock.consuming} كيلو كسر`
         }}</span>
-      </div>
-      <div class="text-weight-bold flex items-center" v-if="lastReading?.readingNumber">
-        <q-icon name="confirmation_number" class="q-mr-sm" />
-        آخر تأشيرة:
-        <span class="q-ml-sm text-primary">{{ lastReading?.readingNumber || '--' }}</span>
-      </div>
-      <div class="text-weight-bold flex items-center" v-if="lastInvoice?.paidUntilReadingNumber">
-        <q-icon name="confirmation_number" class="q-mr-sm" />
-        التأشيرة المدفوع لها:
-        <span class="q-ml-sm text-primary">{{ lastInvoice?.paidUntilReadingNumber || '--' }}</span>
       </div>
       <div class="text-weight-bold flex items-center">
         <q-icon name="info" class="q-mr-sm" />
