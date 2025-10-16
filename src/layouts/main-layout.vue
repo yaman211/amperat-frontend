@@ -91,7 +91,7 @@ function refresh() {
   window.location.reload();
 }
 function contactUs() {
-  window.open('tel:0945152171');
+  window.open('https://wa.me/963945152171');
 }
 
 const route = useRoute();
