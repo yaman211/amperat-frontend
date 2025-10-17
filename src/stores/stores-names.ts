@@ -1,3 +1,5 @@
+import { VERSION } from 'vue-i18n';
+
 export default {
   AUTH: {
     INDEX: 'auth',
@@ -24,4 +26,5 @@ export default {
   STATISTICS: {
     INDEX: 'statistics',
   },
+  VERSIONS: 'versions',
 };
