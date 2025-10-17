@@ -44,11 +44,10 @@ export const useVersionsStore = defineStore(storesNames.VERSIONS, {
         this.latestVersion = res.latestVersion || '';
         this.updateAvailable = res.updateAvailable || false;
         this.versionInfo = res.versionInfo || null;
-      } catch (error) {
-        this.hasError = true;
-      } finally {
         this.isChecked = true;
         this.checkingForUpdates = false;
+      } catch (error) {
+        this.hasError = true;
       }
     },
   },

@@ -10,15 +10,16 @@
         style="width: 250px"
         class="rounded-borders"
       />
-      <q-spinner color="primary" size="50px" class="q-mt-xl" />
+      <q-spinner color="primary" size="50px" class="q-mt-xl" v-if="!versionsStore.hasError" />
       <div class="text-h6 text-grey-8 q-mt-md" v-if="!versionsStore.hasError">
         جاري التحقق من التحديثات...
       </div>
-      <div class="q-mt-md" v-else>
-        حصل خطأ أثناء التحقق من التحديثات.
+      <div class="column items-center" v-else>
+        <div class="text-h6 text-red-6 q-mt-xl">حصل خطأ أثناء التحقق من التحديثات.</div>
+        <div class="text-h6 text-red-6 q-mt-sm">تأكد من اتصالك بالانترنت</div>
         <q-btn
           label="إعادة المحاولة"
-          color="primary"
+          color="secondary"
           class="q-mt-lg"
           icon="refresh"
           @click="versionsStore.checkVersion()"
