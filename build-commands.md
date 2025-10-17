@@ -27,6 +27,10 @@ It will ask for the password of the key, It is "532**\*\*\*\***A\*@".
 example:
 `C:/Users/Yaman/AppData/Local/Android/Sdk/build-tools/34.0.0/apksigner.bat sign --ks D:/Front-End/Amperat/keys/my-release-key.keystore --out D:/Front-End/Amperat/releases/v0.0.1/app-release.apk D:/Front-End/Amperat/releases/v0.0.1/app-release-zipaligned-unsigned.apk`
 
+### Upload it to the server:
+
+`scp app-v1.0.0.apk root@72.61.178.48:/var/www/cdn.amperat.cloud/apks/`
+
 # Notes:
 
 ### I downgrade the app to capacitor v6.
