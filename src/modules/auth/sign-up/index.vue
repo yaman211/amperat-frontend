@@ -79,6 +79,7 @@ import { Notify } from 'quasar';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useSignUpStore } from './store';
+import { useRecaptcha } from 'src/hooks/use-recaptcha';
 
 const phone = ref('');
 const firstName = ref('');
@@ -87,7 +88,8 @@ const password = ref('');
 const isPwd = ref(true);
 const signUpStore = useSignUpStore();
 const router = useRouter();
-
+const { loadRecaptcha } = useRecaptcha();
+loadRecaptcha();
 const onSubmit = async () => {
   await signUpStore.signup({
     firstName: firstName.value,

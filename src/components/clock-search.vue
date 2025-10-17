@@ -46,7 +46,7 @@
       </q-input>
       <q-separator />
       <q-btn
-        v-if="$q.platform.is.mobile"
+        v-if="$q.platform.is.capacitor"
         outline
         label="امسح الرمز"
         color="primary"

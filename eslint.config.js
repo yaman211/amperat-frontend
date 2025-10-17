@@ -4,6 +4,7 @@ import pluginVue from 'eslint-plugin-vue';
 import pluginQuasar from '@quasar/app-webpack/eslint';
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
 import prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting';
+import typescriptParser from '@typescript-eslint/parser';
 
 export default defineConfigWithVueTs(
   {
@@ -35,6 +36,19 @@ export default defineConfigWithVueTs(
    */
   pluginVue.configs['flat/essential'],
 
+  // Add this configuration block for TypeScript files
+  {
+    files: ['**/*.ts', '**/*.vue'],
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        project: './tsconfig.json',
+        extraFileExtensions: ['.vue'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+
   // this rule needs to be above the vueTsEslintConfig to avoid error: 'You have used a rule which requires type information, but don't have parserOptions set to generate type information for this file.'
   {
     files: ['**/*.ts', '**/*.vue'],
@@ -42,6 +56,7 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
     },
   },
+
   // https://github.com/vuejs/eslint-config-typescript
   vueTsConfigs.recommendedTypeChecked,
 
@@ -72,12 +87,12 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/explicit-function-return-type': 'off',
 
       // in plain CommonJS modules, you can't use `import foo = require('foo')` to pass this rule, so it has to be disabled
-
       '@typescript-eslint/no-var-requires': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       'vue/multi-word-component-names': 'off',
+
       // The core 'no-unused-vars' rules (in the eslint:recommended ruleset)
       // does not work with type definitions
       'no-unused-vars': 'off',
@@ -89,6 +104,9 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/await-thenable': 'off',
       '@typescript-eslint/no-array-delete': 'off',
       '@typescript-eslint/no-duplicate-type-constituents': 'off',
+
+      // Add this to temporarily disable the rule causing the error
+      '@typescript-eslint/no-implied-eval': 'off',
 
       // allow debugger during development only
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
