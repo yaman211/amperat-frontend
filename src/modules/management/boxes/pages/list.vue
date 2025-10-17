@@ -7,6 +7,30 @@
       <q-btn color="primary" label="إضافة علبة" @click="goToCreate" />
     </div>
     <q-card-section>
+      <template v-if="loading">
+        <div class="row q-col-gutter-md">
+          <div class="col-12 col-sm-6 col-md-4" v-for="i in 9" :key="i">
+            <q-card
+              class="q-mx-sm q-pa-sm"
+              style="border-radius: 18px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07)"
+            >
+              <q-card-section class="column items-center">
+                <q-skeleton type="QAvatar" size="48px" />
+                <div>
+                  <div>
+                    <q-skeleton type="text" width="100px" />
+                  </div>
+                </div>
+              </q-card-section>
+              <q-separator />
+              <q-card-actions align="right" class="q-pt-md">
+                <q-skeleton type="QBtn" size="30px" class="q-mx-sm" />
+                <q-skeleton type="QBtn" size="30px" class="q-mx-sm" />
+              </q-card-actions>
+            </q-card>
+          </div>
+        </div>
+      </template>
       <div class="row q-col-gutter-md">
         <div v-for="box in boxes" :key="box.id" class="col-12 col-sm-6 col-md-4">
           <q-card
@@ -47,10 +71,16 @@ const $q = useQuasar();
 
 const router = useRouter();
 const boxes = ref<Box[]>([]);
+const loading = ref(false);
 
 const fetchBoxes = async () => {
-  const res = await Box.getSectorBoxes(props.sectorId);
-  boxes.value = res;
+  loading.value = true;
+  try {
+    const res = await Box.getSectorBoxes(props.sectorId);
+    boxes.value = res;
+  } finally {
+    loading.value = false;
+  }
 };
 
 const goToBox = (box: Box) => {
@@ -64,7 +94,7 @@ const goToBox = (box: Box) => {
 };
 
 const goToCreate = () => {
-  router.push({ name: 'box-create' });
+  router.push({ name: 'box-create', query: { sectorId: props.sectorId } });
 };
 
 const goToUpdate = (boxId: number) => {

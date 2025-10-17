@@ -10,7 +10,7 @@
       />
       <sector-select v-model="form.sectorId" class="q-mb-md" />
       <div class="row q-gutter-sm">
-        <q-btn type="submit" color="primary" label="تحديث" />
+        <q-btn type="submit" color="primary" label="تحديث" :loading="loading" />
         <q-btn flat label="إلغاء" @click="goBack" />
       </div>
     </q-form>
@@ -26,6 +26,7 @@ import SectorSelect from 'src/modules/management/sectors/components/sector-selec
 const router = useRouter();
 const route = useRoute();
 const form = ref<{ boxNumber: number; sectorId: number }>({ boxNumber: 0, sectorId: 0 });
+const loading = ref(false);
 
 const fetchBox = async () => {
   const id = Number(route.params.id);
@@ -40,8 +41,13 @@ const fetchBox = async () => {
 const onSubmit = async () => {
   const id = Number(route.params.id);
   if (!form.value.sectorId) return;
-  await Box.update(id, form.value);
-  router.back();
+  loading.value = true;
+  try {
+    await Box.update(id, form.value);
+    router.back();
+  } finally {
+    loading.value = false;
+  }
 };
 
 const goBack = () => router.back();

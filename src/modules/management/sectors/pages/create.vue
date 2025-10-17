@@ -10,7 +10,7 @@
       />
       <q-input v-model="form.description" label="الوصف" filled class="q-mb-md" />
       <div class="row q-gutter-sm">
-        <q-btn type="submit" color="primary" label="حفظ" />
+        <q-btn type="submit" color="primary" label="حفظ" :loading="loading" />
         <q-btn flat label="إلغاء" @click="goBack" />
       </div>
     </q-form>
@@ -24,10 +24,16 @@ import { Sector } from 'src/models/sector.model';
 
 const router = useRouter();
 const form = ref({ name: '', description: '' });
+const loading = ref(false);
 
 const onSubmit = async () => {
-  await Sector.create(form.value);
-  router.back();
+  loading.value = true;
+  try {
+    await Sector.create(form.value);
+    router.back();
+  } finally {
+    loading.value = false;
+  }
 };
 
 const goBack = () => router.back();

@@ -7,6 +7,30 @@
       <q-btn color="primary" label="إضافة قطاع" @click="goToCreate" />
     </div>
     <q-card-section>
+      <template v-if="loading">
+        <div class="row q-col-gutter-md">
+          <div class="col-12 col-sm-6 col-md-4" v-for="i in 9" :key="i">
+            <q-card
+              class="q-mx-sm q-pa-sm"
+              style="border-radius: 18px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07)"
+            >
+              <q-card-section class="row items-center">
+                <q-skeleton type="QAvatar" size="48px" />
+                <div class="q-ml-md">
+                  <div>
+                    <q-skeleton type="text" width="100px" />
+                  </div>
+                </div>
+              </q-card-section>
+              <q-separator />
+              <q-card-actions align="right" class="q-pt-md">
+                <q-skeleton type="QBtn" size="30px" class="q-mx-sm" />
+                <q-skeleton type="QBtn" size="30px" class="q-mx-sm" />
+              </q-card-actions>
+            </q-card>
+          </div>
+        </div>
+      </template>
       <div class="row q-col-gutter-md">
         <div class="col-12 col-sm-6 col-md-4" v-for="sector in sectors" :key="sector.id">
           <q-card
@@ -60,10 +84,16 @@ import { useQuasar } from 'quasar';
 
 const router = useRouter();
 const sectors = ref<Sector[]>([]);
+const loading = ref(false);
 
 const fetchSectors = async () => {
-  const res = await Sector.getAll();
-  sectors.value = res;
+  loading.value = true;
+  try {
+    const res = await Sector.getAll();
+    sectors.value = res;
+  } finally {
+    loading.value = false;
+  }
 };
 
 const goToBoxes = (sectorId: number) => {
