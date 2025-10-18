@@ -1,6 +1,7 @@
 <template>
-  <div class="flex justify-center items-center" style="height: 80vh">
-    <div style="border: 2px solid cyan; width: 300px; height: 300px" class="q-mx-auto q-mt">
+  <div class="flex column justify-center items-center" style="height: 80vh">
+    <div class="q-mb-lg" style="color: white">ضع المربع على الرمز الخاص بك</div>
+    <div style="border: 2px solid white; width: 300px; height: 300px" class="q-mx-auto q-mt">
       <div class="scan"></div>
     </div>
   </div>
@@ -32,8 +33,8 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .scan {
   width: 100%;
-  height: 50px;
-  background: linear-gradient(cyan, transparent);
+  height: 5px;
+  background: linear-gradient(white, transparent);
   animation: scanning 1.5s linear alternate infinite;
 }
 
@@ -42,7 +43,7 @@ onMounted(async () => {
     transform: translatey(0px);
   }
   100% {
-    transform: translatey(270px);
+    transform: translatey(290px);
   }
 }
 </style>

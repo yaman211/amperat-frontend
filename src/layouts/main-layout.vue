@@ -59,12 +59,14 @@
       style="height: 100%; opacity: 0.08"
     /> -->
     <q-page-container
-      class="q-px-md q-mt-md"
+      class="q-px-md"
       :class="leftDrawerOpen && !$q.platform.is.capacitor ? 'q-ml-md' : ''"
       style="min-height: calc(100vh - 17px)"
     >
       <q-pull-to-refresh @refresh="refresh">
-        <router-view />
+        <div class="q-pt-md">
+          <router-view />
+        </div>
       </q-pull-to-refresh>
     </q-page-container>
   </q-layout>

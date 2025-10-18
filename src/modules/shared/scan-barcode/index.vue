@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center" style="height: 80vh">
-    <div style="border: 2px solid cyan; width: 300px; height: 200px" class="q-mx-auto q-mt">
+    <div style="border: 2px solid white; width: 300px; height: 200px" class="q-mx-auto q-mt">
       <div class="scan"></div>
     </div>
   </div>
@@ -46,8 +46,8 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .scan {
   width: 100%;
-  height: 50px;
-  background: linear-gradient(cyan, transparent);
+  height: 5px;
+  background: linear-gradient(white, transparent);
   animation: scanning 1.5s linear alternate infinite;
 }
 

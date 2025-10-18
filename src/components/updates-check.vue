@@ -2,9 +2,9 @@
   <div
     v-if="versionsStore.checkingForUpdates || versionsStore.mustUpdate"
     class="row items-center justify-center"
-    style="height: 100vh; position: relative; z-index: 999999; background-color: white; width: 100%"
+    style="height: 100vh; position: absolute; z-index: 999999; background-color: white; width: 100%"
   >
-    <div v-if="versionsStore.checkingForUpdates" class="column items-center">
+    <div v-if="versionsStore.checkingForUpdates || true" class="column items-center">
       <q-img
         :src="require('src/assets/logo-vertical-full.svg')"
         style="width: 250px"

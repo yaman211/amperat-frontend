@@ -48,7 +48,7 @@ const routes: RouteRecordRaw = {
       component: () => import('./scan-barcode/index.vue'),
       props: true,
       meta: {
-        title: 'ضع الكاميرة على الكود',
+        title: 'مسح رمز الساعة',
       },
     },
     {
@@ -56,7 +56,7 @@ const routes: RouteRecordRaw = {
       component: () => import('./clock-qr-scan/index.vue'),
       props: true,
       meta: {
-        title: 'ضع الكاميرة على الكود',
+        title: 'رمز المشترك',
         notForLoggedInUsers: true,
       },
     },
