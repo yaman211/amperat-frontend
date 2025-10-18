@@ -49,12 +49,12 @@ mkdir -p "$VERSION_DIR"
 print_info "Step 1: Building mobile app..."
 cd "$PROJECT_ROOT" || exit 1
 
-# if npm run build-mobile; then
-#     print_success "Build completed successfully"
-# else
-#     print_error "Build failed"
-#     exit 1
-# fi
+if npm run build-mobile; then
+    print_success "Build completed successfully"
+else
+    print_error "Build failed"
+    exit 1
+fi
 
 # Step 2: Copy APK to releases folder
 print_info "Step 2: Copying APK to releases folder..."
