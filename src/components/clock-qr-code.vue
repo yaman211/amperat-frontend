@@ -8,6 +8,7 @@
       style="width: 192px; background-repeat: no-repeat; background-size: contain"
       :src="imageData"
     />
+    <div class="text-subtitle1">{{ 'AMP-' + clock.id }}</div>
   </div>
 </template>
 
