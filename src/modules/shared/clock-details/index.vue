@@ -105,13 +105,19 @@
                   </div>
                 </div>
                 <div class="row items-center justify-between q-gutter-x-md q-mt-sm">
-                  <div class="row items-center q-gutter-x-md">
+                  <div
+                    class="row items-center q-gutter-x-md"
+                    v-if="idx !== clockDetailsStore.invoices?.length - 1"
+                  >
                     <q-icon name="confirmation_number" color="primary" size="sm" />
                     <div class="text-weight-bold">
                       التأشيرة المدفوع لها:
-                      <span class="text-primary">{{ invoice.paidUntilReadingNumber || '--' }}</span>
+                      <span class="text-primary">{{
+                        invoice.paidUntilReadingNumberBeforeTheInvoice + invoice.consuming || '--'
+                      }}</span>
                     </div>
                   </div>
+                  <div v-else></div>
                   <div class="row items-center q-gutter-x-md">
                     <q-btn
                       color="primary"

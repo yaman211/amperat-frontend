@@ -26,10 +26,10 @@
         آخر تأشيرة:
         <span class="q-ml-sm text-primary">{{ lastReading?.readingNumber || '--' }}</span>
       </div>
-      <div class="text-weight-bold flex items-center" v-if="lastInvoice?.paidUntilReadingNumber">
+      <div class="text-weight-bold flex items-center" v-if="clock?.paidUntilReadingNumber">
         <q-icon name="confirmation_number" class="q-mr-sm" />
         التأشيرة المدفوع لها:
-        <span class="q-ml-sm text-primary">{{ lastInvoice?.paidUntilReadingNumber || '--' }}</span>
+        <span class="q-ml-sm text-primary">{{ clock?.paidUntilReadingNumber || '--' }}</span>
       </div>
       <div class="text-weight-bold flex items-center">
         <q-icon :name="clock.consuming < 0 ? 'account_balance_wallet' : 'bolt'" class="q-mr-sm" />

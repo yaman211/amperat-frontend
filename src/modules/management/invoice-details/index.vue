@@ -51,7 +51,7 @@
       </div>
       <div>
         <span class="label">التأشيرة المدفوع لها:</span>
-        <span>{{ invoice.paidUntilReadingNumber }}</span>
+        <span>{{ invoice.paidUntilReadingNumberBeforeTheInvoice + invoice.consuming }}</span>
       </div>
     </div>
     <div class="divider"></div>
