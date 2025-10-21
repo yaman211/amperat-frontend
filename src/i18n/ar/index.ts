@@ -10,6 +10,7 @@ export default {
     [UserRoles.EMPLOYEE]: 'موظف',
     [UserRoles.MANAGER]: 'مدير',
     [UserRoles.CUSTOMER]: 'زبون',
+    [UserRoles.SUPER_ADMIN]: 'مدير النظام',
   },
   clockStatus: {
     [ClockStatus.ACTIVE]: 'فعالة',

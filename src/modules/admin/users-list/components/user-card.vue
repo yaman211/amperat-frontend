@@ -15,6 +15,10 @@
         <span class="text-primary">{{ $t(`userRoles.${user.role}`) }}</span>
       </div>
       <div class="text-weight-bold">
+        المولدة:
+        <span class="text-primary">{{ user.vendor?.name || '--' }}</span>
+      </div>
+      <div class="text-weight-bold">
         تأكيد الحساب:
         <span class="text-primary">{{ user.isVerified ? 'مؤكد' : 'غير مؤكد' }}</span>
       </div>
