@@ -27,4 +27,7 @@ export default {
     INDEX: 'statistics',
   },
   VERSIONS: 'versions',
+  ADMIN: {
+    USERS: 'users',
+  },
 };

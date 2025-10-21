@@ -3,6 +3,7 @@ import SharedModuleRoutes from '../modules/shared/routes';
 import AuthModuleRoutes from '../modules/auth/routes';
 import ManagementModuleRoutes from '../modules/management/routes';
 import StatisticsModuleRoutes from '../modules/statistics/routes';
+import AdminModuleRoutes from '../modules/admin/routes';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -21,6 +22,7 @@ const routes: RouteRecordRaw[] = [
       AuthModuleRoutes,
       ManagementModuleRoutes,
       StatisticsModuleRoutes,
+      AdminModuleRoutes,
     ],
   },
 

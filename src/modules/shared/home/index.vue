@@ -210,6 +210,15 @@ const actions = [
     },
     can: () => authStore.user?.isManager,
   },
+
+  {
+    name: 'المستخدمين',
+    icon: 'person',
+    handler: () => {
+      router.push('/admin/users-list');
+    },
+    can: () => authStore.user?.isSuperAdmin,
+  },
 ];
 
 const allowedActions = computed(() => {

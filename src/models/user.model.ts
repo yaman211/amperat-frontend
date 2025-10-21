@@ -1,9 +1,10 @@
 import { api } from 'src/boot/axios';
 import { ME } from 'src/modules/auth/endpoints';
-import { MY_USERS, USER_BY_ID } from 'src/modules/management/endpoints';
+import { MY_USERS, USER_BY_ID, USERS_LIST } from 'src/modules/management/endpoints';
 import { Invite } from './invite.model';
 import { Pagination } from './pagination.model';
 import { Vendor } from './vendor.model';
+import { UPDATE_USER } from 'src/modules/admin/endpoints';
 
 export enum UserRoles {
   CUSTOMER = 'customer',
@@ -20,6 +21,7 @@ export default class User {
   lastName!: string;
   password!: string;
   phone!: string;
+  isVerified!: boolean;
   role!: UserRoles;
   vendorId!: number | null;
   vendor!: Vendor | null;
@@ -42,6 +44,19 @@ export default class User {
     return data;
   }
 
+  static async getUsersList(params = {}) {
+    const res = await api.get(USERS_LIST, {
+      params: params,
+    });
+    const data = new Pagination(User, res.data);
+    return data;
+  }
+
+  static async getUserById(id: number) {
+    const res = await api.get(USER_BY_ID(id));
+    return new User(res.data);
+  }
+
   async refreshMe() {
     const res = await api.get(ME);
     const { user, token } = res.data;
@@ -62,6 +77,10 @@ export default class User {
     this.vendorId = null;
   }
 
+  async update(data: any) {
+    await api.put(UPDATE_USER(this.id), data);
+  }
+
   public get fullName(): string {
     return this.firstName + ' ' + this.lastName;
   }
@@ -80,5 +99,9 @@ export default class User {
 
   public get isGovernmental() {
     return this.role === UserRoles.GOVERNMENTAL;
+  }
+
+  public get isSuperAdmin() {
+    return this.role === UserRoles.SUPER_ADMIN;
   }
 }
