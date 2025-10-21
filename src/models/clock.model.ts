@@ -19,21 +19,22 @@ export enum ClockStatus {
 }
 
 export class Clock {
-  id: number;
-  vendorId: number;
-  userId: number;
-  status: ClockStatus;
-  ownerName: string;
-  consuming: number;
+  id!: number;
+  vendorId!: number;
+  userId!: number;
+  status!: ClockStatus;
+  ownerName!: string;
+  consuming!: number;
+  paidUntilReadingNumber!: number;
   // boxNumber?: number;
   box?: {
     id: number;
     boxNumber: number;
     sectorId: number;
   };
-  vendor: Vendor;
-  user: User;
-  token: string;
+  vendor!: Vendor;
+  user!: User;
+  token!: string;
 
   constructor(obj: any) {
     Object.keys(obj).forEach((key) => {
