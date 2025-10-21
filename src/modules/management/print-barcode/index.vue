@@ -1,7 +1,40 @@
 <template>
   <div>
     <div class="q-mx-lg">
-      <q-input label="رقم العلبة" v-model="boxNumber" outlined rounded filled type="number">
+      <div>
+        <div class="row q-gutter-sm">
+          <sector-select
+            v-model="sectorId"
+            :clearable="true"
+            outlined
+            filled
+            dense
+            without-validation
+            style="flex: 1"
+          />
+          <box-select
+            v-model="boxId"
+            class="col-12 col-md-2"
+            :clearable="true"
+            :sector-id="sectorId"
+            outlined
+            filled
+            dense
+            without-validation
+            style="flex: 1"
+          />
+          <q-btn
+            outline
+            icon="search"
+            @click.stop.prevent="getBoxClocks"
+            color="primary"
+            :loading="barcodeStore.loading"
+            :disable="!boxId"
+          />
+        </div>
+      </div>
+      <q-separator class="q-mt-md" />
+      <!-- <q-input label="رقم العلبة" v-model="boxNumber" outlined rounded filled type="number">
         <template v-slot:prepend>
           <q-btn
             outline
@@ -11,7 +44,7 @@
             :loading="barcodeStore.loading"
           />
         </template>
-      </q-input>
+      </q-input> -->
       <q-input
         label="رقم الساعة"
         v-model="clockId"
@@ -63,6 +96,8 @@
 <script lang="ts" setup>
 import ClockBarcode from 'src/components/clock-barcode.vue';
 import ClockQrCode from 'src/components/clock-qr-code.vue';
+import SectorSelect from 'src/modules/management/sectors/components/sector-select.vue';
+import BoxSelect from 'src/modules/management/boxes/components/box-select.vue';
 import NoData from 'src/components/no-data.vue';
 
 import { ref, onUnmounted, onMounted } from 'vue';
@@ -72,15 +107,17 @@ import { useRoute } from 'vue-router';
 
 const boxNumber = ref<number | undefined>(undefined);
 const clockId = ref<number | undefined>(undefined);
+const sectorId = ref<number | undefined>(undefined);
+const boxId = ref<number | undefined>(undefined);
 const content = ref<HTMLElement | null>(null);
 const tab = ref<'barcode' | 'qrcode'>('barcode');
 const barcodeStore = useBarcodeStore();
 const route = useRoute();
 
 const getBoxClocks = () => {
-  if (!boxNumber.value) return;
+  if (!boxId.value) return;
   clockId.value = undefined;
-  barcodeStore.fetchClocksByBox(boxNumber.value);
+  barcodeStore.fetchClocksByBox(boxId.value);
 };
 const getClock = () => {
   if (!clockId.value) return;

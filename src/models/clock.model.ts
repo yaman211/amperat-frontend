@@ -1,5 +1,5 @@
 import { api } from 'src/boot/axios';
-import { CLOCKS_BY_BOX, CLOCKS_BY_BOX_BY_NUMBER } from 'src/modules/management/endpoints';
+import { CLOCKS_BY_BOX, CLOCKS_BY_BOX_BY_ID } from 'src/modules/management/endpoints';
 import {
   CLOCKS,
   CLOCKS_SEARCH,
@@ -66,7 +66,7 @@ export class Clock {
   }
 
   static async getBoxClocks(boxNumber: number): Promise<Clock[]> {
-    const res = await api.get(CLOCKS_BY_BOX_BY_NUMBER(boxNumber));
+    const res = await api.get(CLOCKS_BY_BOX_BY_ID(boxNumber));
     return res.data.map((c: any) => new Clock(c));
   }
 

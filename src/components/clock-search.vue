@@ -12,7 +12,7 @@
         emit-value
         use-input
         input-debounce="700"
-        option-label="ownerName"
+        :option-label="optionLabel"
         option-value="id"
         v-model="ownerClock"
       >
@@ -82,6 +82,11 @@ async function filterFn(ownerName: string, update: any, abort: any) {
     options.value = opt;
   });
 }
+
+const optionLabel = (opt: Clock) => {
+  if (!opt) return;
+  return opt.ownerName + ' - علبة رقم: ' + (opt.box?.boxNumber || '--');
+};
 
 const searchById = async () => {
   searchLoading.value = true;
