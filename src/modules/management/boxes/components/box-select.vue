@@ -9,7 +9,6 @@
     filled
     emit-value
     map-options
-    :disabled="!sectorId"
   />
 </template>
 
@@ -40,12 +39,14 @@ onMounted(fetchBoxes);
 
 watch(
   () => props.sectorId,
-  (val) => {
+  (val, oldVal) => {
     options.value = [];
     if (val) {
       fetchBoxes();
     }
-    emit('update:modelValue', undefined);
+    if (oldVal) {
+      emit('update:modelValue', undefined);
+    }
   },
 );
 </script>
