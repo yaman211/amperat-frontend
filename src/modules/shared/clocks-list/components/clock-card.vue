@@ -12,6 +12,11 @@
         <span class="q-ml-sm text-primary">{{ clock.ownerName }}</span>
       </div>
       <div class="text-weight-bold flex items-center">
+        <q-icon name="call" class="q-mr-sm" />
+        رقم الموبايل:
+        <span class="q-ml-sm text-primary">{{ clock.ownerPhone || '--' }}</span>
+      </div>
+      <div class="text-weight-bold flex items-center">
         <q-icon name="business" class="q-mr-sm" />
         مقدم الخدمة:
         <span class="q-ml-sm text-primary">{{ clock.vendor.name }}</span>
