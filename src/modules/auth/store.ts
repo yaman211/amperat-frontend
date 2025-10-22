@@ -7,13 +7,11 @@ export const useAuthStore = defineStore(storesNames.AUTH.INDEX, {
   state: () =>
     ({
       token: LocalStorage.getItem('token') || undefined,
-      user: LocalStorage.has('user')
-        ? new User(LocalStorage.getItem('user'))
-        : undefined,
-    } as {
+      user: LocalStorage.has('user') ? new User(LocalStorage.getItem('user')) : undefined,
+    }) as {
       token: string | undefined;
       user: User | undefined;
-    }),
+    },
   getters: {
     isLoggedIn(state) {
       return state.token !== undefined && state.user !== undefined;
@@ -24,6 +22,7 @@ export const useAuthStore = defineStore(storesNames.AUTH.INDEX, {
       const user = new User(data.user);
       this.user = user;
       this.token = data.token;
+      console.log({ user });
       LocalStorage.set('user', user);
       LocalStorage.set('token', data.token);
     },

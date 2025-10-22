@@ -10,16 +10,17 @@ import { isDate } from 'src/utils/date';
 import { Clock } from './clock.model';
 
 export class Invoice {
-  id: number;
-  clockId: number;
-  createdByUserId: number;
-  vendorId: number;
-  consuming: number;
-  price: number;
-  lastReadingNumber: number;
-  paidUntilReadingNumber: number;
+  id!: number;
+  clockId!: number;
+  createdByUserId!: number;
+  vendorId!: number;
+  consuming!: number;
+  price!: number;
+  lastReadingNumber!: number;
+  paidUntilReadingNumber!: number;
+  paidUntilReadingNumberBeforeTheInvoice!: number;
   clock?: Clock;
-  createdAt: Date;
+  createdAt!: Date;
 
   constructor(obj: any) {
     Object.entries(obj).forEach(([key, val]) => {

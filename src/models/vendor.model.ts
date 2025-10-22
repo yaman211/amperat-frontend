@@ -9,6 +9,7 @@ export enum VendorStatus {
 export class Vendor {
   id!: number;
   name!: string;
+  phone!: string;
   address!: string;
   kwPrice!: number;
   status!: VendorStatus;
@@ -19,7 +20,7 @@ export class Vendor {
     });
   }
 
-  async update(data: { name: string; address: string; kwPrice: number }) {
+  async update(data: { name: string; address: string; phone: string; kwPrice: number }) {
     await api.put(VENDOR_BY_ID(this.id), data);
     Object.assign(this, data);
   }
