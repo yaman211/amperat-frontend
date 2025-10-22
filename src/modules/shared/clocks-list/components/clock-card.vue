@@ -36,7 +36,7 @@
         {{ clock.consuming < 0 ? 'الرصيد' : 'الإستهلاك' }} الحالي:
         <span class="q-ml-sm text-primary">{{
           clock.consuming < 0
-            ? `${-clock.consuming} كيلو لقدام`
+            ? `${-clock.consuming} كيلو مسبق`
             : clock.consuming == 0
               ? 'لا يوجد'
               : `${clock.consuming} كيلو كسر`

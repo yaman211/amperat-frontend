@@ -56,7 +56,7 @@ const pieData = computed(() => {
   if (lessThanZero === 0 && equalZero === 0 && greaterThanZero === 0) return null;
   return {
     labels: [
-      `تم الدفع لقدام (${lessThanZero})`,
+      `تم الدفع مسبقاً (${lessThanZero})`,
       `لا يوجد استهلاك (${equalZero})`,
       `عليها كسر (${greaterThanZero})`,
     ],
