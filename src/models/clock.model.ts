@@ -24,6 +24,7 @@ export class Clock {
   userId!: number;
   status!: ClockStatus;
   ownerName!: string;
+  ownerPhone!: string;
   consuming!: number;
   paidUntilReadingNumber!: number;
   // boxNumber?: number;

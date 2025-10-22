@@ -1,6 +1,9 @@
 <template>
   <q-card class="q-pa-md rounded-lg">
     <div class="column q-gutter-y-sm">
+      <q-avatar size="58px" color="primary" text-color="white" class="q-mb-xs q-mx-auto">
+        <q-icon name="person" size="28px" />
+      </q-avatar>
       <div class="text-weight-bold">
         الاسم: <span class="text-primary">{{ user.fullName }}</span>
       </div>
@@ -11,7 +14,7 @@
         العمل:
         <span class="text-primary">{{ $t(`userRoles.${user.role}`) }}</span>
       </div>
-      <div class="flex justify-between">
+      <div class="flex justify-evenly q-pt-md">
         <q-btn
           label="تعديل الوظيفة"
           outline
