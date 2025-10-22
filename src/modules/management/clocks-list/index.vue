@@ -259,7 +259,7 @@ const filters = ref({
 
 const consumingOptions = [
   {
-    label: 'تم الدفع لقدام',
+    label: 'تم الدفع مسبقاً',
     value: '1',
   },
   {
@@ -282,7 +282,7 @@ const columns = [
     label: 'الاستهلاك',
     field: (clock: any) => {
       return clock.consuming < 0
-        ? `${-clock.consuming} كيلو لقدام`
+        ? `${-clock.consuming} كيلو مسبق`
         : clock.consuming == 0
           ? 'لا يوجد'
           : `${clock.consuming} كيلو كسر`;
