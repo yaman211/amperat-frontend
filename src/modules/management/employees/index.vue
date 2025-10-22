@@ -14,12 +14,14 @@
     </NoData>
 
     <q-infinite-scroll @load="onLoad" :offset="250">
-      <div class="column q-gutter-y-md q-px-md">
-        <UserCard
+      <div class="row q-col-gutter-md">
+        <div
           v-for="user in employeesStore.employees"
           :key="user.id"
-          :user="user"
-        />
+          class="col-12 col-sm-6 col-md-4"
+        >
+          <UserCard :user="user" />
+        </div>
       </div>
       <template v-slot:loading>
         <div class="row justify-center q-my-md">
