@@ -13,6 +13,20 @@
           rounded
           filled
         />
+
+        <q-input
+          v-model="phone"
+          label="رقم الموبايل"
+          lazy-rules
+          :rules="[
+            (val) => !val || (val && val.length === 10 && !isNaN(val)) || 'أدخل رقم موبايل صحيح',
+          ]"
+          type="number"
+          outlined
+          rounded
+          filled
+        />
+
         <q-input
           v-model="address"
           label="العنوان"
@@ -56,6 +70,7 @@ import { useRouter } from 'vue-router';
 
 const name = ref('');
 const address = ref('');
+const phone = ref('');
 const kwPrice = ref(0);
 const loading = ref(false);
 const router = useRouter();
@@ -65,6 +80,7 @@ onMounted(() => {
   if (authStore.user && authStore.user.vendor) {
     name.value = authStore.user.vendor.name;
     address.value = authStore.user.vendor.address;
+    phone.value = authStore.user.vendor.phone;
     kwPrice.value = authStore.user.vendor.kwPrice;
   }
 });
@@ -76,8 +92,10 @@ const onSubmit = async () => {
       await authStore.user.vendor.update({
         name: name.value,
         address: address.value,
+        phone: phone.value,
         kwPrice: +kwPrice.value,
       });
+      await authStore.refreshUser();
     }
     router.push('/');
     Notify.create({

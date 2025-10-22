@@ -3,7 +3,7 @@
     <q-img
       :src="require('src/assets/logo.svg')"
       style="
-        opacity: 0.1;
+        opacity: 0.2;
         position: absolute;
         width: 30%;
         top: 30%;
@@ -12,8 +12,11 @@
       "
     />
     <div class="invoice-header">
-      <div class="q-mb-sm">
+      <div class="q-mb-xs">
         <span class="invoice-title">مولدة {{ clock.vendor?.name || '--' }}</span>
+      </div>
+      <div v-if="invoice.clock?.vendor?.phone" class="invoice-date text-center q-mb-sm">
+        <span>{{ invoice.clock?.vendor?.phone }}</span>
       </div>
       <div class="invoice-date">
         رقم الفاتورة: <span>{{ invoice.id }}</span>
@@ -62,6 +65,7 @@
       </div>
     </div>
     <div class="divider"></div>
+
     <div class="footer-note text-center">
       <p>شكراً لزيارتكم</p>
     </div>

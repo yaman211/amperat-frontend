@@ -73,6 +73,7 @@
     <div class="row q-col-gutter-md q-mt-md" v-if="showEditBtn && canEdit">
       <div class="col-12 col-md-4 q-px-sm">
         <q-btn
+          v-if="$q.platform.is.desktop"
           label="طباعة الكود"
           icon="print"
           color="primary"
@@ -112,12 +113,10 @@ import { ClockStatus } from 'src/models/clock.model';
 import ClockBarcode from 'src/components/clock-barcode.vue';
 import { useAuthStore } from 'src/modules/auth/store';
 import { computed } from 'vue';
-import { Invoice } from 'src/models/invoice.model';
 import { Reading } from 'src/models/reading.model';
 
 const props = defineProps<{
   clock: Clock;
-  lastInvoice?: Invoice;
   lastReading?: Reading;
   hideDetailsBtn?: boolean;
   showEditBtn?: boolean;

@@ -7,7 +7,6 @@
         hideDetailsBtn
         showEditBtn
         showBarcode
-        :lastInvoice="clockDetailsStore.lastInvoice || undefined"
         :lastReading="clockDetailsStore.lastReading || undefined"
       />
       <q-tabs v-model="tab" class="bg-grey-2 q-my-md rounded-md" dense align="justify">
@@ -31,7 +30,7 @@
                 :key="reading.id"
                 class="q-pa-md rounded-lg"
               >
-                <div class="row items-center justify-between q-gutter-x-md q-mb-sm">
+                <div class="row items-center justify-between q-gutter-md">
                   <div class="row items-center q-gutter-x-md">
                     <q-icon name="bolt" color="primary" size="sm" />
                     <div class="text-weight-bold">
@@ -47,11 +46,16 @@
                     </div>
                   </div>
                 </div>
-                <div class="row items-center justify-center q-gutter-x-md q-mt-sm">
-                  <q-icon name="confirmation_number" color="primary" size="sm" />
-                  <div class="text-weight-bold">
-                    رقم التأشيرة:
-                    <span class="text-primary">{{ reading.readingNumber }}</span>
+                <div
+                  class="row items-center q-gutter-x-md q-mb-sm"
+                  :class="{ 'justify-center': $q.platform.is.desktop }"
+                >
+                  <div class="row items-center justify-center q-gutter-x-md q-mt-md">
+                    <q-icon name="confirmation_number" color="primary" size="sm" />
+                    <div class="text-weight-bold">
+                      رقم التأشيرة:
+                      <span class="text-primary">{{ reading.readingNumber }}</span>
+                    </div>
                   </div>
                 </div>
               </q-card>
@@ -105,10 +109,7 @@
                   </div>
                 </div>
                 <div class="row items-center justify-between q-gutter-x-md q-mt-sm">
-                  <div
-                    class="row items-center q-gutter-x-md"
-                    v-if="idx !== clockDetailsStore.invoices?.length - 1"
-                  >
+                  <div class="row items-center q-gutter-x-md">
                     <q-icon name="confirmation_number" color="primary" size="sm" />
                     <div class="text-weight-bold">
                       التأشيرة المدفوع لها:
@@ -117,9 +118,9 @@
                       }}</span>
                     </div>
                   </div>
-                  <div v-else></div>
                   <div class="row items-center q-gutter-x-md">
                     <q-btn
+                      v-if="canShowInvoiceDetails"
                       color="primary"
                       label="تفاصيل الفاتورة"
                       @click="$router.push(`/management/invoice-details/${invoice.id}`)"
@@ -127,7 +128,7 @@
                       flat
                     />
                     <q-btn
-                      v-if="idx === 0 && clockDetailsStore.invoices?.length > 1"
+                      v-if="idx === 0 && clockDetailsStore.invoices?.length > 1 && canDeleteInvoice"
                       color="primary"
                       label="حذف الفاتورة"
                       @click="revertLastInvoice"
@@ -153,11 +154,12 @@
 <script lang="ts" setup>
 import Loader from 'src/components/loader.vue';
 import ClockCard from '../clocks-list/components/clock-card.vue';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useClockDetailsStore } from './store';
 import { dateFormatter } from 'src/utils/date';
 import { Notify, useQuasar } from 'quasar';
 import { Invoice } from 'src/models/invoice.model';
+import { useAuthStore } from 'src/modules/auth/store';
 
 const props = defineProps<{
   id?: string;
@@ -165,6 +167,7 @@ const props = defineProps<{
 }>();
 
 const clockDetailsStore = useClockDetailsStore();
+const authStore = useAuthStore();
 const tab = ref<'readings' | 'invoices'>('readings');
 
 if (props.id) {
@@ -172,6 +175,14 @@ if (props.id) {
 } else if (props.token) {
   clockDetailsStore.fetchClockDataByToken(props.token);
 }
+
+const canShowInvoiceDetails = computed(() => {
+  return authStore.user?.isAccountant || authStore?.user?.isManager;
+});
+
+const canDeleteInvoice = computed(() => {
+  return authStore.user?.isAccountant || authStore?.user?.isManager;
+});
 
 const onLoadReadings = async (page: number, done: (d: boolean) => void) => {
   if (props.id) {

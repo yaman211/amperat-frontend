@@ -100,7 +100,7 @@ const route = useRoute();
 const router = useRouter();
 
 if (authStore.isLoggedIn) {
-  authStore.user?.refreshMe().catch((err) => {
+  authStore.refreshUser().catch((err) => {
     if (err.response) {
       router.push('/auth/logout');
     }
