@@ -64,7 +64,7 @@
           withoutValidation
           :debounce="750"
         />
-        <div>
+        <div v-if="!$q.platform.is.capacitor">
           <q-btn
             label="تصدير البيانات"
             icon="ios_share"
@@ -253,6 +253,7 @@ import SectorSelect from 'src/modules/management/sectors/components/sector-selec
 import BoxSelect from 'src/modules/management/boxes/components/box-select.vue';
 import { ClockStatus } from 'src/models/clock.model';
 import { useRoute } from 'vue-router';
+import { useQuasar } from 'quasar';
 
 const route = useRoute();
 
@@ -267,6 +268,8 @@ const filters = ref({
   boxId: route.query.boxId || undefined,
   consuming: undefined,
 });
+
+const $q = useQuasar();
 
 const consumingOptions = [
   {
