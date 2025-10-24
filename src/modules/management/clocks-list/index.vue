@@ -64,6 +64,16 @@
           withoutValidation
           :debounce="750"
         />
+        <div>
+          <q-btn
+            label="تصدير البيانات"
+            icon="ios_share"
+            color="primary"
+            size="md"
+            :loading="exportLoading"
+            @click="exportPdf"
+          />
+        </div>
       </div>
     </q-card>
     <q-table
@@ -248,6 +258,7 @@ const route = useRoute();
 
 const clocks = ref<any[]>([]);
 const loading = ref<boolean>(false);
+const exportLoading = ref<boolean>(false);
 const filters = ref({
   ownerName: undefined,
   // minConsuming: undefined,
@@ -313,9 +324,9 @@ const columns = [
   },
 ];
 
-const onRequest = async (params: any) => {
-  console.log({ params });
+const lastRequestParams = ref({});
 
+const onRequest = async (params: any) => {
   const filters = { ...params.filter };
   if (filters.consuming?.value === '1') {
     filters.maxConsuming = 0;
@@ -328,14 +339,18 @@ const onRequest = async (params: any) => {
     const limit = params.pagination.rowsPerPage;
     const offset = limit * (params.pagination.page - 1) || undefined;
     console.log({ limit, offset });
+
+    const queryParams = {
+      limit,
+      offset,
+      ...(filters || {}),
+    };
+    lastRequestParams.value = queryParams;
+
     const { data } = await api.get('/clocks/list', {
-      params: {
-        limit,
-        offset,
-        ...(filters || {}),
-      },
+      params: queryParams,
     });
-    console.log(data);
+    // console.log(data);
     clocks.value = data.rows;
     pagination.value = {
       ...pagination.value,
@@ -343,6 +358,25 @@ const onRequest = async (params: any) => {
     };
   } finally {
     loading.value = false;
+  }
+};
+
+const exportPdf = async () => {
+  exportLoading.value = true;
+  try {
+    const response = await api.get('/clocks/export', {
+      params: lastRequestParams.value,
+      responseType: 'blob', // IMPORTANT: receive binary data
+    });
+    const blob = new Blob([response.data], { type: 'application/pdf' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `الساعات - ${new Date().toLocaleDateString('en', { timeZone: 'Asia/Riyadh' })} - ${new Date().toLocaleTimeString('en', { timeZone: 'Asia/Riyadh' })}.pdf`;
+    link.click();
+    window.URL.revokeObjectURL(link.href);
+    // console.log({ data });
+  } finally {
+    exportLoading.value = false;
   }
 };
 

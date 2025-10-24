@@ -46,15 +46,19 @@
                     </div>
                   </div>
                 </div>
-                <div
-                  class="row items-center q-gutter-x-md q-mb-sm"
-                  :class="{ 'justify-center': $q.platform.is.desktop }"
-                >
+                <div class="row items-center justify-between q-gutter-md q-pt-md">
                   <div class="row items-center justify-center q-gutter-x-md q-mt-md">
                     <q-icon name="confirmation_number" color="primary" size="sm" />
                     <div class="text-weight-bold">
                       رقم التأشيرة:
                       <span class="text-primary">{{ reading.readingNumber }}</span>
+                    </div>
+                  </div>
+                  <div class="row items-center justify-center q-gutter-x-md q-mt-md">
+                    <q-icon name="person" color="primary" size="sm" />
+                    <div class="text-weight-bold">
+                      مُدخل التأشيرة:
+                      <span class="text-primary">{{ reading.createdBy }}</span>
                     </div>
                   </div>
                 </div>
@@ -76,7 +80,7 @@
                 :key="invoice.id"
                 class="q-pa-md rounded-lg"
               >
-                <div class="row items-center justify-between q-gutter-x-md q-mb-sm">
+                <div class="row items-center justify-between q-gutter-x-md q-gutter-y-sm q-mb-sm">
                   <div class="row items-center q-gutter-x-md">
                     <q-icon name="bolt" color="primary" size="sm" />
                     <div class="text-weight-bold">
@@ -92,7 +96,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row items-center justify-between q-gutter-x-md">
+                <div class="row items-center justify-between q-gutter-x-md q-gutter-y-sm q-mb-sm">
                   <div class="row items-center q-gutter-x-md">
                     <q-icon name="attach_money" color="primary" size="sm" />
                     <div class="text-weight-bold">
@@ -108,7 +112,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row items-center justify-between q-gutter-x-md q-mt-sm">
+                <div class="row items-center justify-between q-gutter-x-md q-gutter-y-sm q-mt-sm">
                   <div class="row items-center q-gutter-x-md">
                     <q-icon name="confirmation_number" color="primary" size="sm" />
                     <div class="text-weight-bold">
@@ -119,23 +123,33 @@
                     </div>
                   </div>
                   <div class="row items-center q-gutter-x-md">
-                    <q-btn
-                      v-if="canShowInvoiceDetails"
-                      color="primary"
-                      label="تفاصيل الفاتورة"
-                      @click="$router.push(`/management/invoice-details/${invoice.id}`)"
-                      size="sm"
-                      flat
-                    />
-                    <q-btn
-                      v-if="idx === 0 && clockDetailsStore.invoices?.length > 1 && canDeleteInvoice"
-                      color="primary"
-                      label="حذف الفاتورة"
-                      @click="revertLastInvoice"
-                      size="sm"
-                      flat
-                    />
+                    <q-icon name="person" color="primary" size="sm" />
+                    <div class="text-weight-bold">
+                      مُدخل الفاتورة:
+                      <span class="text-primary">{{ invoice.createdBy }}</span>
+                    </div>
                   </div>
+                </div>
+
+                <div class="row items-center justify-center q-gutter-x-md q-mt-sm">
+                  <q-btn
+                    v-if="canShowInvoiceDetails"
+                    color="primary"
+                    icon="info"
+                    label="تفاصيل الفاتورة"
+                    @click="$router.push(`/management/invoice-details/${invoice.id}`)"
+                    size="md"
+                    outline
+                  />
+                  <q-btn
+                    v-if="idx === 0 && clockDetailsStore.invoices?.length > 1 && canDeleteInvoice"
+                    color="red"
+                    icon="delete"
+                    label="حذف الفاتورة"
+                    @click="revertLastInvoice"
+                    size="md"
+                    outline
+                  />
                 </div>
               </q-card>
             </div>
