@@ -13,6 +13,7 @@ export class Invoice {
   id!: number;
   clockId!: number;
   createdByUserId!: number;
+  createdByUser?: { firstName: string; lastName: string };
   vendorId!: number;
   consuming!: number;
   price!: number;
@@ -27,6 +28,11 @@ export class Invoice {
       if (isDate(val)) this[key] = new Date(val as string);
       else this[key] = val;
     });
+  }
+
+  public get createdBy(): string {
+    if (!this.createdByUser) return '';
+    return `${this.createdByUser.firstName} ${this.createdByUser.lastName}`;
   }
 
   static async createInvoice(clockId: number, data: { consuming: number; price: number }) {

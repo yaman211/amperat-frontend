@@ -7,6 +7,7 @@ export class Reading {
   id: number;
   clockId: number;
   createdByUserId: number;
+  createdByUser?: { firstName: string; lastName: string };
   consuming: number;
   readingNumber: number;
   createdAt: Date;
@@ -16,6 +17,11 @@ export class Reading {
       if (isDate(val)) this[key] = new Date(val as string);
       else this[key] = val;
     });
+  }
+
+  public get createdBy(): string {
+    if (!this.createdByUser) return '';
+    return `${this.createdByUser.firstName} ${this.createdByUser.lastName}`;
   }
 
   static async getClockReadings(clockId: number, params = {}) {
