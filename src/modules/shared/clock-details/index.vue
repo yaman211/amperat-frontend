@@ -26,7 +26,7 @@
           <q-infinite-scroll @load="onLoadReadings" :offset="100">
             <div class="column q-gutter-y-md q-px-md q-mb-sm">
               <q-card
-                v-for="reading in clockDetailsStore.readings"
+                v-for="(reading, idx) in clockDetailsStore.readings"
                 :key="reading.id"
                 class="q-pa-md rounded-lg"
               >
@@ -61,6 +61,19 @@
                       <span class="text-primary">{{ reading.createdBy }}</span>
                     </div>
                   </div>
+                </div>
+                <div
+                  class="row items-center justify-center q-gutter-md q-mt-sm"
+                  v-if="idx === 0 && clockDetailsStore.readings?.length > 1 && canDeleteReading"
+                >
+                  <q-btn
+                    color="red"
+                    icon="delete"
+                    label="حذف التأشيرة"
+                    @click="revertLastReading"
+                    size="md"
+                    outline
+                  />
                 </div>
               </q-card>
             </div>
@@ -131,7 +144,7 @@
                   </div>
                 </div>
 
-                <div class="row items-center justify-center q-gutter-x-md q-mt-sm">
+                <div class="row items-center justify-center q-gutter-md q-mt-sm">
                   <q-btn
                     v-if="canShowInvoiceDetails"
                     color="primary"
@@ -174,6 +187,7 @@ import { dateFormatter } from 'src/utils/date';
 import { Notify, useQuasar } from 'quasar';
 import { Invoice } from 'src/models/invoice.model';
 import { useAuthStore } from 'src/modules/auth/store';
+import { Reading } from 'src/models/reading.model';
 
 const props = defineProps<{
   id?: string;
@@ -195,6 +209,10 @@ const canShowInvoiceDetails = computed(() => {
 });
 
 const canDeleteInvoice = computed(() => {
+  return authStore.user?.isAccountant || authStore?.user?.isManager;
+});
+
+const canDeleteReading = computed(() => {
   return authStore.user?.isAccountant || authStore?.user?.isManager;
 });
 
@@ -225,7 +243,24 @@ const revertLastInvoice = async () => {
   }).onOk(async () => {
     await Invoice.revertLastInvoice(+(props.id as string));
     Notify.create({
-      message: 'تم اضافة التأشيرة',
+      message: 'تم حذف الفاتورة',
+      type: 'positive',
+    });
+    window.location.reload();
+  });
+};
+
+const revertLastReading = async () => {
+  $q.dialog({
+    title: 'حذف التأشيرة',
+    message: 'هل انت متأكد من حذف آخر تأشيرة ؟',
+    ok: {
+      color: 'primary',
+    },
+  }).onOk(async () => {
+    await Reading.revertLastReading(+(props.id as string));
+    Notify.create({
+      message: 'تم حذف التأشيرة',
       type: 'positive',
     });
     window.location.reload();
