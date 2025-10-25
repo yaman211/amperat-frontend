@@ -11,3 +11,4 @@ export const CLOCK_BY_Token_READINGS = (token: string) => `/readings/token/${tok
 export const CLOCK_BY_ID_INVOICES = (clockId: number) => `/invoices/${clockId}`;
 export const CLOCK_BY_TOKEN_INVOICES = (token: string) => `/invoices/token/${token}`;
 export const CLOCK_BY_ID_LAST_READING = (clockId: number) => `/readings/${clockId}/last`;
+export const REVERT_LAST_READING = (clockId: number) => `/readings/${clockId}/revert-last-reading`;

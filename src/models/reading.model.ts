@@ -1,7 +1,12 @@
 import { api } from 'src/boot/axios';
-import { CLOCK_BY_ID_READINGS, CLOCK_BY_Token_READINGS } from 'src/modules/shared/endpoints';
+import {
+  CLOCK_BY_ID_READINGS,
+  CLOCK_BY_Token_READINGS,
+  REVERT_LAST_READING,
+} from 'src/modules/shared/endpoints';
 import { isDate } from 'src/utils/date';
 import { Pagination } from './pagination.model';
+import { REVERT_LAST_INVOICE } from 'src/modules/management/endpoints';
 
 export class Reading {
   id: number;
@@ -39,5 +44,9 @@ export class Reading {
   static async createReading(clockId: number, data: { readingNumber: number }) {
     const res = await api.post(CLOCK_BY_ID_READINGS(clockId), data);
     return new Reading(res.data);
+  }
+
+  static revertLastReading(clockId: number): Promise<Reading> {
+    return api.post(REVERT_LAST_READING(clockId));
   }
 }
