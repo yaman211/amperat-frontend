@@ -85,6 +85,7 @@
       :grid="viewMode !== 'table'"
       v-model:pagination="pagination"
       @request="onRequest"
+      :rows-per-page-options="[10, 25, 50, 100]"
       class="rounded-md"
       style="
         box-shadow:
@@ -340,6 +341,7 @@ const onRequest = async (params: any) => {
   loading.value = true;
   try {
     const limit = params.pagination.rowsPerPage;
+    pagination.value = params.pagination;
     const offset = limit * (params.pagination.page - 1) || undefined;
     console.log({ limit, offset });
 
@@ -371,10 +373,10 @@ const exportPdf = async () => {
       params: lastRequestParams.value,
       responseType: 'blob', // IMPORTANT: receive binary data
     });
-    const blob = new Blob([response.data], { type: 'application/pdf' });
+    const blob = new Blob([response.data], { type: 'text/csv' });
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.download = `الساعات - ${new Date().toLocaleDateString('en', { timeZone: 'Asia/Riyadh' })} - ${new Date().toLocaleTimeString('en', { timeZone: 'Asia/Riyadh' })}.pdf`;
+    link.download = `Clocks - ${new Date().toLocaleDateString('en', { timeZone: 'Asia/Riyadh' })} - ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh' })}.csv`;
     link.click();
     window.URL.revokeObjectURL(link.href);
     // console.log({ data });
