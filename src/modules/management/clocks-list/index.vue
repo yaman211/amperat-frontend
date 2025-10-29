@@ -373,7 +373,7 @@ const exportPdf = async () => {
       params: lastRequestParams.value,
       responseType: 'blob', // IMPORTANT: receive binary data
     });
-    const blob = new Blob([response.data], { type: 'text/csv' });
+    const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
     link.download = `Clocks - ${new Date().toLocaleDateString('en', { timeZone: 'Asia/Riyadh' })} - ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh' })}.csv`;
