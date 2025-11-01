@@ -138,6 +138,14 @@ const actions = [
     can: () => authStore.user?.isManager || authStore.user?.isEmployee,
   },
   {
+    name: 'قائمة الفواتير',
+    icon: 'request_page',
+    handler: () => {
+      router.push('/management/invoices-list');
+    },
+    can: () => authStore.user?.isManager || authStore.user?.isAccountant,
+  },
+  {
     name: 'دفع فاتورة',
     icon: 'paid',
     handler: () => {

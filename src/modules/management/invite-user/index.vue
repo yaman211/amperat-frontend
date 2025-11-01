@@ -1,7 +1,8 @@
 <template>
   <div class="column justify-center items-center" style="height: 90vh">
-    <div class="q-pa-md q-mx-auto" style="width: 300px">
-      <div class="text-weight-medium">
+    <q-card class="q-pa-md rounded-md q-mx-auto" style="width: 350px">
+      <div class="text-h6 q-mb-sm text-wight-medium">معلومات العامل</div>
+      <div class="text-weight-medium text-caption text-grey-7">
         سيتم إرسال دعوة إلى صاحب الرقم المدخل ليعمل بالوظيفة المحددة
       </div>
 
@@ -43,7 +44,7 @@
       <div class="text-weight-bold q-mt-md text-negative text-center">
         ملاحظة: يجب أن يكون صاحب الرقم لديه حساب مؤكد على التطبيق
       </div>
-    </div>
+    </q-card>
   </div>
 </template>
 

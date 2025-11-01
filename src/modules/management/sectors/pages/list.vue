@@ -2,9 +2,9 @@
   <q-page padding>
     <div class="row items-center q-mb-md">
       <div class="col">
-        <h2>القطاعات</h2>
+        <div class="text-h3">القطاعات</div>
       </div>
-      <q-btn color="primary" label="إضافة قطاع" @click="goToCreate" />
+      <q-btn color="primary" label="إضافة قطاع" icon="add" @click="goToCreate" />
     </div>
     <q-card-section>
       <template v-if="loading">

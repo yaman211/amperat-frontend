@@ -1,8 +1,10 @@
 <template>
   <div class="column justify-center items-center" style="height: 95vh">
-    <div class="text-h6 q-my-md">تعديل بيانات المولدة:</div>
+    <!-- <div class="text-h6 q-my-md">تعديل بيانات المولدة:</div> -->
 
-    <div class="q-pa-md q-mx-auto" style="width: 300px">
+    <q-card class="q-pa-md rounded-md q-mx-auto" style="width: 350px">
+      <div class="text-h6 q-mb-sm text-wight-medium">بيانات المولدة</div>
+
       <q-form @submit="onSubmit" class="q-gutter-md q-mt-md">
         <q-input
           v-model="name"
@@ -58,7 +60,7 @@
           />
         </div>
       </q-form>
-    </div>
+    </q-card>
   </div>
 </template>
 

@@ -112,6 +112,13 @@ const routes: RouteRecordRaw = {
       props: true,
     },
     {
+      path: 'invoices-list',
+      name: 'invoices-list',
+      component: () => import('./invoices-list/index.vue'),
+      meta: { title: 'قائمة الفواتير' },
+      props: true,
+    },
+    {
       path: 'invoice-details/:id',
       name: 'invoice-details',
       component: () => import('./invoice-details/index.vue'),

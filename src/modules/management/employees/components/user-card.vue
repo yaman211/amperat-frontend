@@ -33,7 +33,7 @@
       </div>
     </div>
     <q-dialog v-model="isOpen">
-      <q-card style="width: 100%">
+      <q-card style="width: 100%" class="q-pa-md">
         <q-card-section class="row items-center">
           <span class="text-h6 text-primary">تعديل وظيفة عامل </span>
         </q-card-section>

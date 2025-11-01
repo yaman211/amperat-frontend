@@ -6,42 +6,6 @@
         <div class="text-h5 text-primary">الفلاتر</div>
       </div>
       <div class="row q-col-gutter-md">
-        <q-input
-          v-model="filters.ownerName"
-          label="اسم المالك"
-          filled
-          dense
-          class="col-12 col-md-3"
-          :debounce="750"
-        />
-        <q-select
-          label="الاستهلاك"
-          v-model="filters.consuming"
-          :options="consumingOptions"
-          filled
-          dense
-          class="col-12 col-md-2"
-          :debounce="750"
-          clearable
-        />
-        <!-- <q-input
-          v-model.number="filters.minConsuming"
-          type="number"
-          label="الحد الأدنى للاستهلاك"
-          filled
-          dense
-          class="col-12 col-md-2"
-          :debounce="750"
-        />
-        <q-input
-          v-model.number="filters.maxConsuming"
-          type="number"
-          label="الحد الأعلى للاستهلاك"
-          filled
-          dense
-          class="col-12 col-md-2"
-          :debounce="750"
-        /> -->
         <sector-select
           v-model="filters.sectorId"
           class="col-12 col-md-2"
@@ -59,6 +23,28 @@
           withoutValidation
           :debounce="750"
         />
+        <q-input
+          v-model="filters.date"
+          placeholder="التاريخ"
+          mask="date"
+          class="col-12 col-md-2"
+          dense
+          filled
+          clearable
+          :debounce="750"
+        >
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-date v-model="filters.date">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="إغلاق" color="primary" flat />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
         <div v-if="!$q.platform.is.capacitor">
           <q-btn
             label="تصدير البيانات"
@@ -72,7 +58,7 @@
       </div>
     </q-card>
     <q-table
-      :rows="clocks"
+      :rows="invoices"
       :loading="loading"
       :columns="columns"
       :filter="filters"
@@ -86,9 +72,11 @@
         box-shadow:
           0 4px 24px rgba(0, 0, 0, 0.1),
           0 1.5px 4px rgba(0, 0, 0, 0.08);
+        max-height: 70vh;
       "
     >
-      <template v-slot:top>
+      <!-- TODO: support card view -->
+      <!-- <template v-slot:top>
         <div class="">
           <q-btn
             dense
@@ -120,7 +108,7 @@
             <div class="row items-center q-mb-xs">
               <q-icon name="bolt" class="q-mr-xs" color="amber" />
               <span class="text-subtitle2">الاستهلاك:</span>
-              <span class="q-ml-xs">{{ formatConsuming(props.row.consuming) }}</span>
+              <span class="q-ml-xs">{{ props.row.consuming }}</span>
             </div>
             <div class="row items-center q-mb-xs">
               <q-icon name="location_on" class="q-mr-xs" color="blue" />
@@ -152,9 +140,8 @@
               @click="$router.push(`/shared/clock-details/${props.row.id}`)"
               :aria-label="'عرض'"
               class="q-mr-xs"
-            >
-              <q-tooltip> عرض التفاصيل </q-tooltip>
-            </q-btn>
+            />
+
             <q-btn
               flat
               dense
@@ -164,9 +151,7 @@
               @click="$router.push(`/management/new-reading?clockId=${props.row.id}`)"
               :aria-label="'إضافة قراءة'"
               class="q-mr-xs"
-            >
-              <q-tooltip> اضافة قراءة </q-tooltip>
-            </q-btn>
+            />
             <q-btn
               flat
               dense
@@ -175,9 +160,7 @@
               color="orange"
               @click="$router.push(`/management/pay-invoice?clockId=${props.row.id}`)"
               :aria-label="'إضافة فاتورة'"
-            >
-              <q-tooltip> اضافة فاتورة </q-tooltip>
-            </q-btn>
+            />
             <q-btn
               flat
               dense
@@ -187,20 +170,18 @@
               @click="$router.push(`/shared/clock-edit/${props.row.id}`)"
               :aria-label="'تعديل'"
               class="q-mr-xs"
-            >
-              <q-tooltip> تعديل </q-tooltip>
-            </q-btn>
+            />
           </q-card-actions>
         </q-card>
-      </template>
+      </template> -->
 
-      <template v-slot:body-cell-status="props">
+      <!-- <template v-slot:body-cell-status="props">
         <q-td :props="props">
           <div :class="props.row.status === ClockStatus.ACTIVE ? 'text-primary' : 'text-negative'">
             {{ $t(`clockStatus.${props.row.status}`) }}
           </div>
         </q-td>
-      </template>
+      </template> -->
 
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
@@ -210,46 +191,23 @@
             round
             icon="visibility"
             color="primary"
-            @click="$router.push(`/shared/clock-details/${props.row.id}`)"
+            @click="$router.push(`/management/invoice-details/${props.row.id}`)"
             :aria-label="'عرض'"
             class="q-mr-xs"
           >
-            <q-tooltip> عرض التفاصيل </q-tooltip>
+            <q-tooltip> عرض الفاتورة </q-tooltip>
           </q-btn>
           <q-btn
             flat
             dense
             round
-            icon="add_chart"
-            color="green"
-            @click="$router.push(`/management/new-reading?clockId=${props.row.id}`)"
-            :aria-label="'إضافة قراءة'"
+            icon="article"
+            color="primary"
+            @click="$router.push(`/shared/clock-details/${props.row.clockId}`)"
+            :aria-label="'عرض الساعة'"
             class="q-mr-xs"
           >
-            <q-tooltip> اضافة قراءة </q-tooltip>
-          </q-btn>
-          <q-btn
-            flat
-            dense
-            round
-            icon="receipt_long"
-            color="orange"
-            @click="$router.push(`/management/pay-invoice?clockId=${props.row.id}`)"
-            :aria-label="'إضافة فاتورة'"
-          >
-            <q-tooltip> اضافة فاتورة </q-tooltip>
-          </q-btn>
-          <q-btn
-            flat
-            dense
-            round
-            icon="edit"
-            color="secondary"
-            @click="$router.push(`/shared/clock-edit/${props.row.id}`)"
-            :aria-label="'تعديل'"
-            class="q-mr-xs"
-          >
-            <q-tooltip> تعديل </q-tooltip>
+            <q-tooltip> عرض الساعة </q-tooltip>
           </q-btn>
         </q-td>
       </template>
@@ -262,37 +220,22 @@ import { ref } from 'vue';
 import { api } from 'src/boot/axios';
 import SectorSelect from 'src/modules/management/sectors/components/sector-select.vue';
 import BoxSelect from 'src/modules/management/boxes/components/box-select.vue';
-import { ClockStatus } from 'src/models/clock.model';
 import { useRoute } from 'vue-router';
 import { useQuasar } from 'quasar';
-import { formatConsuming } from 'src/utils';
+import { dateFormatter } from 'src/utils/date';
 
 const route = useRoute();
 
-const clocks = ref<any[]>([]);
+const invoices = ref<any[]>([]);
 const loading = ref<boolean>(false);
 const exportLoading = ref<boolean>(false);
 const filters = ref({
-  ownerName: undefined,
-  // minConsuming: undefined,
-  // maxConsuming: undefined,
   sectorId: route.query.sectorId || undefined,
   boxId: route.query.boxId || undefined,
-  consuming: undefined,
+  date: undefined,
 });
 
 const $q = useQuasar();
-
-const consumingOptions = [
-  {
-    label: 'تم الدفع مسبقاً',
-    value: '1',
-  },
-  {
-    label: 'عليها كسر',
-    value: '2',
-  },
-];
 
 const pagination = ref({
   page: 1,
@@ -302,34 +245,54 @@ const pagination = ref({
 const viewMode = ref('table');
 
 const columns = [
-  { name: 'ownerName', label: 'اسم المالك', field: 'ownerName', align: 'left' as const },
+  { name: 'id', label: 'رقم الفاتورة', field: 'id', align: 'left' as const },
+  // { name: 'clockId', label: 'رقم الساعة', field: 'clockId', align: 'left' as const },
+  {
+    name: 'ownerName',
+    label: 'اسم المشترك',
+    field: (row: any) => row.clock?.ownerName,
+    align: 'left' as const,
+  },
   {
     name: 'consuming',
-    label: 'الاستهلاك',
-    field: (clock: any) => {
-      return clock.consuming < 0
-        ? `${-clock.consuming} كيلو مسبق`
-        : clock.consuming == 0
-          ? 'لا يوجد'
-          : `${clock.consuming} كيلو كسر`;
-    },
+    label: 'عدد الكيلو واط المدفوع',
+    field: 'consuming',
+    align: 'left' as const,
+  },
+  {
+    name: 'price',
+    label: 'السعر',
+    field: (row: any) => `${row.price} ل.س`,
+    align: 'left' as const,
+  },
+  {
+    name: 'paidUntil',
+    label: 'التاشيرة المدفوع لها',
+    field: (row: any) => row.paidUntilReadingNumberBeforeTheInvoice + row.consuming,
+    align: 'left' as const,
+  },
+  {
+    name: 'createdBy',
+    label: 'تمت الاضافة بواسطة',
+    field: (row: any) => `${row.createdByUser?.firstName} ${row.createdByUser?.lastName}`,
+    align: 'left' as const,
+  },
+  {
+    name: 'createdAt',
+    label: 'التاريخ',
+    field: (row: any) => dateFormatter(row.createdAt),
     align: 'left' as const,
   },
   {
     name: 'sectorName',
     label: 'القطاع',
-    field: (row: any) => row.box?.sector?.name || '--',
+    field: (row: any) => row.clock?.box?.sector?.name || '--',
     align: 'left' as const,
   },
   {
     name: 'boxNumber',
     label: 'رقم العلبة',
-    field: (row: any) => row.box?.boxNumber || '--',
-    align: 'left' as const,
-  },
-  {
-    name: 'status',
-    label: 'الحالة',
+    field: (row: any) => row.clock?.box?.boxNumber || '--',
     align: 'left' as const,
   },
   {
@@ -343,18 +306,11 @@ const lastRequestParams = ref({});
 
 const onRequest = async (params: any) => {
   const filters = { ...params.filter };
-  if (filters.consuming?.value === '1') {
-    filters.maxConsuming = 0;
-  } else if (filters.consuming?.value === '2') {
-    filters.minConsuming = 1;
-  }
-  delete filters.consuming;
   loading.value = true;
   try {
     const limit = params.pagination.rowsPerPage;
     pagination.value = params.pagination;
     const offset = limit * (params.pagination.page - 1) || undefined;
-    console.log({ limit, offset });
 
     const queryParams = {
       limit,
@@ -363,11 +319,11 @@ const onRequest = async (params: any) => {
     };
     lastRequestParams.value = queryParams;
 
-    const { data } = await api.get('/clocks/list', {
+    const { data } = await api.get('/invoices/list', {
       params: queryParams,
     });
-    // console.log(data);
-    clocks.value = data.rows;
+
+    invoices.value = data.rows;
     pagination.value = {
       ...pagination.value,
       rowsNumber: data.count,
@@ -380,14 +336,14 @@ const onRequest = async (params: any) => {
 const exportPdf = async () => {
   exportLoading.value = true;
   try {
-    const response = await api.get('/clocks/export', {
+    const response = await api.get('/invoices/export', {
       params: lastRequestParams.value,
       responseType: 'blob', // IMPORTANT: receive binary data
     });
     const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.download = `Clocks - ${new Date().toLocaleDateString('en', { timeZone: 'Asia/Riyadh' })} - ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh' })}.csv`;
+    link.download = `Invoices - ${new Date().toLocaleDateString('en', { timeZone: 'Asia/Riyadh' })} - ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh' })}.csv`;
     link.click();
     window.URL.revokeObjectURL(link.href);
     // console.log({ data });
