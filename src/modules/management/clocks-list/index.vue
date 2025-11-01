@@ -86,6 +86,7 @@
         box-shadow:
           0 4px 24px rgba(0, 0, 0, 0.1),
           0 1.5px 4px rgba(0, 0, 0, 0.08);
+        max-height: 70vh;
       "
     >
       <template v-slot:top>
