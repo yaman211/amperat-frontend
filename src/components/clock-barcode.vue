@@ -1,15 +1,11 @@
 <template>
-  <div class="flex column justify-center items-center">
+  <div class="flex column justify-center items-center bg-white">
     <div class="q-mx-auto text-center text-weight-bold">
       {{ clock.ownerName }}
     </div>
     <img
       :id="barcodeValue"
-      style="
-        width: 192px;
-        background-repeat: no-repeat;
-        background-size: contain;
-      "
+      style="width: 192px; background-repeat: no-repeat; background-size: contain"
     />
   </div>
 </template>
@@ -27,7 +23,7 @@ const props = withDefaults(
   {
     width: 192,
     height: 50,
-  }
+  },
 );
 
 const barcodeValue = computed(() => {

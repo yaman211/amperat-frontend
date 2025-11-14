@@ -15,12 +15,14 @@ export class Version {
     });
   }
 
-  static async check({ platform, currentVersion }: any): Promise<{
+  static async check({ platform, currentVersion, adminApp }: any): Promise<{
     updateAvailable: boolean;
     latestVersion: string;
     versionInfo: Version | null;
   }> {
-    const res = await api.get('/versions/check', { params: { platform, currentVersion } });
+    const res = await api.get('/versions/check', {
+      params: { platform, currentVersion, adminApp },
+    });
     return res.data;
   }
 }

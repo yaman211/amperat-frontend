@@ -4,6 +4,7 @@ import AuthModuleRoutes from '../modules/auth/routes';
 import ManagementModuleRoutes from '../modules/management/routes';
 import StatisticsModuleRoutes from '../modules/statistics/routes';
 import AdminModuleRoutes from '../modules/admin/routes';
+import CustomersModuleRoutes from '../modules/customers/routes';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -23,6 +24,7 @@ const routes: RouteRecordRaw[] = [
       ManagementModuleRoutes,
       StatisticsModuleRoutes,
       AdminModuleRoutes,
+      CustomersModuleRoutes,
     ],
   },
 

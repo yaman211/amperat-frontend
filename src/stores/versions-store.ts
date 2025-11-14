@@ -36,9 +36,11 @@ export const useVersionsStore = defineStore(storesNames.VERSIONS, {
       try {
         // await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate delay
         const currentVersion = process.env.VERSION || '1.0.0';
+        const adminApp = process.env.ADMIN_APP;
         const res = await Version.check({
           platform: 'android',
           currentVersion,
+          adminApp,
         });
         this.forceUpdate = res.versionInfo?.forceUpdate || false;
         this.latestVersion = res.latestVersion || '';

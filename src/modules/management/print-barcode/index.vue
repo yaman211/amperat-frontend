@@ -84,7 +84,12 @@
     </div>
     <div v-else ref="content" class="q-mt-lg">
       <div class="row">
-        <div class="col-4 cell" v-for="clock in barcodeStore.clocks" :key="clock.id">
+        <div
+          class="cell"
+          :class="tab === 'barcode' ? 'col-4' : 'col-6'"
+          v-for="clock in barcodeStore.clocks"
+          :key="clock.id"
+        >
           <ClockBarcode v-if="tab === 'barcode'" :clock="clock" />
           <ClockQrCode v-if="tab === 'qrcode'" :clock="clock" />
         </div>

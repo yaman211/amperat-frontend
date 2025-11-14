@@ -10,13 +10,14 @@
 <script lang="ts" setup>
 import { useScanBarcode } from 'src/utils/barcode';
 import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useScanQrCodeStore } from './store';
 
 const { startScan } = useScanBarcode();
 const scanQrCodeStore = useScanQrCodeStore();
 scanQrCodeStore.$reset();
 const router = useRouter();
+const route = useRoute();
 
 onMounted(async () => {
   // console.log('test');
@@ -25,7 +26,10 @@ onMounted(async () => {
   scanQrCodeStore.setCode(res as string);
 
   router.replace({
-    path: `/shared/clock-details/token/${res}`,
+    path: `/customers/clock-details/public/${res}`,
+    query: {
+      withSave: route.query.withSave,
+    },
   });
 });
 </script>

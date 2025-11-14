@@ -188,20 +188,39 @@ import { Notify, useQuasar } from 'quasar';
 import { Invoice } from 'src/models/invoice.model';
 import { useAuthStore } from 'src/modules/auth/store';
 import { Reading } from 'src/models/reading.model';
+import { useRoute } from 'vue-router';
+import { useCustomersStore } from 'src/modules/customers/store';
 
 const props = defineProps<{
   id?: string;
-  token?: string;
+  publicId?: string;
 }>();
 
 const clockDetailsStore = useClockDetailsStore();
 const authStore = useAuthStore();
 const tab = ref<'readings' | 'invoices'>('readings');
+const route = useRoute();
+const customersStore = useCustomersStore();
 
 if (props.id) {
   clockDetailsStore.fetchClockData(+props.id);
-} else if (props.token) {
-  clockDetailsStore.fetchClockDataByToken(props.token);
+} else if (props.publicId) {
+  clockDetailsStore.fetchClockDataByPublicId(props.publicId).then(() => {
+    if (route.query.withSave && clockDetailsStore.clock) {
+      if (customersStore.isSaved(clockDetailsStore.clock)) {
+        Notify.create({
+          message: 'الساعة محفوطة بالفعل',
+          type: 'warning',
+        });
+        return;
+      }
+      customersStore.saveClock(clockDetailsStore.clock);
+      Notify.create({
+        message: 'تم حفظ الساعة بنجاح',
+        type: 'positive',
+      });
+    }
+  });
 }
 
 const canShowInvoiceDetails = computed(() => {
@@ -219,16 +238,16 @@ const canDeleteReading = computed(() => {
 const onLoadReadings = async (page: number, done: (d: boolean) => void) => {
   if (props.id) {
     await clockDetailsStore.fetchClockReadings(+props?.id, page - 1);
-  } else if (props.token) {
-    await clockDetailsStore.fetchClockReadingsByToken(props.token, page - 1);
+  } else if (props.publicId) {
+    await clockDetailsStore.fetchClockReadingsByPublicId(props.publicId, page - 1);
   }
   done(clockDetailsStore.readings.length === clockDetailsStore.readingsCount);
 };
 const onLoadInvoices = async (page: number, done: (d: boolean) => void) => {
   if (props.id) {
     await clockDetailsStore.fetchClockInvoices(+props.id, page - 1);
-  } else if (props.token) {
-    await clockDetailsStore.fetchClockInvoicesByToken(props.token, page - 1);
+  } else if (props.publicId) {
+    await clockDetailsStore.fetchClockInvoicesByPublicId(props.publicId, page - 1);
   }
   done(clockDetailsStore.invoices.length === clockDetailsStore.invoicesCount);
 };
@@ -275,9 +294,9 @@ onMounted(async () => {
   if (props.id) {
     clockDetailsStore.fetchClockReadings(+props?.id, 0, true);
     clockDetailsStore.fetchClockInvoices(+props.id, 0, true);
-  } else if (props.token) {
-    clockDetailsStore.fetchClockReadingsByToken(props.token, 0, true);
-    clockDetailsStore.fetchClockInvoicesByToken(props.token, 0, true);
+  } else if (props.publicId) {
+    clockDetailsStore.fetchClockReadingsByPublicId(props.publicId, 0, true);
+    clockDetailsStore.fetchClockInvoicesByPublicId(props.publicId, 0, true);
   }
 });
 </script>

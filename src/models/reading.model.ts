@@ -1,7 +1,7 @@
 import { api } from 'src/boot/axios';
 import {
   CLOCK_BY_ID_READINGS,
-  CLOCK_BY_Token_READINGS,
+  CLOCK_BY_PUBLIC_ID_READINGS,
   REVERT_LAST_READING,
 } from 'src/modules/shared/endpoints';
 import { isDate } from 'src/utils/date';
@@ -35,8 +35,8 @@ export class Reading {
     });
     return new Pagination(Reading, res.data);
   }
-  static async getClockReadingsByToken(token: string, params = {}) {
-    const res = await api.get(CLOCK_BY_Token_READINGS(token), {
+  static async getClockReadingsByPublicId(publicId: string, params = {}) {
+    const res = await api.get(CLOCK_BY_PUBLIC_ID_READINGS(publicId), {
       params,
     });
     return new Pagination(Reading, res.data);
