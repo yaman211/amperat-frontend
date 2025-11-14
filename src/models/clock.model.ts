@@ -5,7 +5,7 @@ import {
   CLOCKS_SEARCH,
   CLOCK_BY_ID,
   CLOCK_BY_ID_LAST_READING,
-  CLOCK_BY_TOKEN,
+  CLOCK_BY_PUBLIC_ID,
   MY_CLOCKS,
 } from 'src/modules/shared/endpoints';
 import { Pagination } from './pagination.model';
@@ -35,7 +35,8 @@ export class Clock {
   };
   vendor!: Vendor;
   user!: User;
-  token!: string;
+  publicId!: string;
+  notificationsEnabled!: boolean;
 
   constructor(obj: any) {
     Object.keys(obj).forEach((key) => {
@@ -43,6 +44,7 @@ export class Clock {
     });
     if (obj.vendor) this.vendor = new Vendor(obj.vendor);
     if (obj.user) this.user = new User(obj.user);
+    this.notificationsEnabled = this.notificationsEnabled || false;
   }
 
   static async getMyClocks(params = {}) {
@@ -57,8 +59,8 @@ export class Clock {
     const res = await api.get(CLOCK_BY_ID(id));
     return new Clock(res.data);
   }
-  static async getClockByToken(token: string, params: any = {}) {
-    const res = await api.get(CLOCK_BY_TOKEN(token), { params });
+  static async getClockByPublicId(publicId: string, params: any = {}) {
+    const res = await api.get(CLOCK_BY_PUBLIC_ID(publicId), { params });
     return new Clock(res.data);
   }
 
@@ -95,5 +97,10 @@ export class Clock {
   async getLastReading() {
     const res = await api.get(CLOCK_BY_ID_LAST_READING(this.id));
     return new Reading(res.data);
+  }
+
+  async updateNotificationsEnabled(value: boolean) {
+    this.notificationsEnabled = value;
+    // TODO: call api
   }
 }

@@ -19,15 +19,6 @@ const routes: RouteRecordRaw = {
       },
     },
     {
-      path: 'clock-details/token/:token',
-      component: () => import('./clock-details/index.vue'),
-      props: true,
-      meta: {
-        title: 'تفاصيل الساعة',
-        notForLoggedInUsers: true,
-      },
-    },
-    {
       path: 'clock-details/:id',
       component: () => import('./clock-details/index.vue'),
       props: true,

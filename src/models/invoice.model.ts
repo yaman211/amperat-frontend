@@ -5,7 +5,7 @@ import {
   REVERT_LAST_INVOICE,
 } from 'src/modules/management/endpoints';
 import { Pagination } from './pagination.model';
-import { CLOCK_BY_ID_INVOICES, CLOCK_BY_TOKEN_INVOICES } from 'src/modules/shared/endpoints';
+import { CLOCK_BY_ID_INVOICES, CLOCK_BY_PUBLIC_ID_INVOICES } from 'src/modules/shared/endpoints';
 import { isDate } from 'src/utils/date';
 import { Clock } from './clock.model';
 
@@ -47,8 +47,8 @@ export class Invoice {
     return new Pagination(Invoice, res.data);
   }
 
-  static async getClockInvoicesByToken(token: string, params = {}) {
-    const res = await api.get(CLOCK_BY_TOKEN_INVOICES(token), {
+  static async getClockInvoicesByPublicId(publicId: string, params = {}) {
+    const res = await api.get(CLOCK_BY_PUBLIC_ID_INVOICES(publicId), {
       params,
     });
     return new Pagination(Invoice, res.data);

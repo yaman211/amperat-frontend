@@ -44,14 +44,14 @@ export const useClockDetailsStore = defineStore(storesNames.SHARED.CLOCK_DETAILS
         this.loading = false;
       }
     },
-    async fetchClockDataByToken(token: string) {
+    async fetchClockDataByPublicId(publicId: string) {
       this.loading = true;
       try {
         const fcmToken = localStorage.getItem('fcmToken');
         const params = {
           fcmToken,
         };
-        const clock = await Clock.getClockByToken(token, params);
+        const clock = await Clock.getClockByPublicId(publicId, params);
         this.clock = clock;
       } finally {
         this.loading = false;
@@ -76,11 +76,11 @@ export const useClockDetailsStore = defineStore(storesNames.SHARED.CLOCK_DETAILS
         this.readingsLoading = false;
       }
     },
-    async fetchClockReadingsByToken(token: string, page: number, justLast = false) {
+    async fetchClockReadingsByPublicId(publicId: string, page: number, justLast = false) {
       this.invoices = [];
       this.readingsLoading = true;
       try {
-        const data = await Reading.getClockReadingsByToken(token, {
+        const data = await Reading.getClockReadingsByPublicId(publicId, {
           offset: page * PER_PAGE,
           limit: PER_PAGE,
         });
@@ -114,11 +114,11 @@ export const useClockDetailsStore = defineStore(storesNames.SHARED.CLOCK_DETAILS
         this.invoicesLoading = false;
       }
     },
-    async fetchClockInvoicesByToken(token: string, page: number, justLast = false) {
+    async fetchClockInvoicesByPublicId(publicId: string, page: number, justLast = false) {
       this.readings = [];
       this.invoicesLoading = true;
       try {
-        const data = await Invoice.getClockInvoicesByToken(token, {
+        const data = await Invoice.getClockInvoicesByPublicId(publicId, {
           offset: page * PER_PAGE,
           limit: PER_PAGE,
         });

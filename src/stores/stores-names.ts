@@ -30,4 +30,7 @@ export default {
   ADMIN: {
     USERS: 'users',
   },
+  CUSTOMERS: {
+    INDEX: 'customers',
+  },
 };
