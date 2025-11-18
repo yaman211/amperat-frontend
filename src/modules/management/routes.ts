@@ -125,6 +125,12 @@ const routes: RouteRecordRaw = {
       meta: { title: 'تفاصيل الفاتورة' },
       props: true,
     },
+    {
+      path: 'readings-list',
+      name: 'readings-list',
+      component: () => import('./readings-list/index.vue'),
+      meta: { title: 'قائمة التأشيرات' },
+    },
   ],
 };
 

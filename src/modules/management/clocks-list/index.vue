@@ -1,9 +1,21 @@
 <template>
   <q-page>
     <q-card class="q-mb-md q-pa-md rounded-md">
-      <div class="row items-center q-mb-md">
-        <q-icon name="filter_alt" color="primary" size="32px" class="q-mr-sm" />
-        <div class="text-h5 text-primary">الفلاتر</div>
+      <div class="row items-center justify-between q-mb-md">
+        <div class="row items-center">
+          <q-icon name="filter_alt" color="primary" size="32px" class="q-mr-sm" />
+          <div class="text-h5 text-primary">الفلاتر</div>
+        </div>
+        <div v-if="!$q.platform.is.capacitor">
+          <q-btn
+            label="تصدير البيانات"
+            icon="ios_share"
+            color="primary"
+            size="md"
+            :loading="exportLoading"
+            @click="exportPdf"
+          />
+        </div>
       </div>
       <div class="row q-col-gutter-md">
         <q-input
@@ -11,7 +23,7 @@
           label="اسم المالك"
           filled
           dense
-          class="col-12 col-md-3"
+          class="col-12 col-md-2"
           :debounce="750"
         />
         <q-select
@@ -24,7 +36,7 @@
           :debounce="750"
           clearable
         />
-        <!-- <q-input
+        <q-input
           v-model.number="filters.minConsuming"
           type="number"
           label="الحد الأدنى للاستهلاك"
@@ -32,6 +44,7 @@
           dense
           class="col-12 col-md-2"
           :debounce="750"
+          :disable="!!filters.consuming"
         />
         <q-input
           v-model.number="filters.maxConsuming"
@@ -41,7 +54,8 @@
           dense
           class="col-12 col-md-2"
           :debounce="750"
-        /> -->
+          :disable="!!filters.consuming"
+        />
         <sector-select
           v-model="filters.sectorId"
           class="col-12 col-md-2"
@@ -59,16 +73,6 @@
           withoutValidation
           :debounce="750"
         />
-        <div v-if="!$q.platform.is.capacitor">
-          <q-btn
-            label="تصدير البيانات"
-            icon="ios_share"
-            color="primary"
-            size="md"
-            :loading="exportLoading"
-            @click="exportPdf"
-          />
-        </div>
       </div>
     </q-card>
     <q-table
@@ -275,8 +279,8 @@ const loading = ref<boolean>(false);
 const exportLoading = ref<boolean>(false);
 const filters = ref({
   ownerName: undefined,
-  // minConsuming: undefined,
-  // maxConsuming: undefined,
+  minConsuming: undefined,
+  maxConsuming: undefined,
   sectorId: route.query.sectorId || undefined,
   boxId: route.query.boxId || undefined,
   consuming: undefined,
@@ -343,13 +347,17 @@ const columns = [
 const lastRequestParams = ref({});
 
 const onRequest = async (params: any) => {
-  const filters = { ...params.filter };
-  if (filters.consuming?.value === '1') {
-    filters.maxConsuming = 0;
-  } else if (filters.consuming?.value === '2') {
-    filters.minConsuming = 1;
+  const reqFilters = { ...params.filter };
+  if (reqFilters.consuming?.value === '1') {
+    reqFilters.maxConsuming = 0;
+    filters.value.maxConsuming = undefined;
+    filters.value.minConsuming = undefined;
+  } else if (reqFilters.consuming?.value === '2') {
+    reqFilters.minConsuming = 1;
+    filters.value.maxConsuming = undefined;
+    filters.value.minConsuming = undefined;
   }
-  delete filters.consuming;
+  delete reqFilters.consuming;
   loading.value = true;
   try {
     const limit = params.pagination.rowsPerPage;
@@ -360,7 +368,7 @@ const onRequest = async (params: any) => {
     const queryParams = {
       limit,
       offset,
-      ...(filters || {}),
+      ...(reqFilters || {}),
     };
     lastRequestParams.value = queryParams;
 

@@ -18,6 +18,24 @@
         </div>
       </div>
       <div class="row q-col-gutter-md">
+        <q-input
+          v-model.number="filters.minConsuming"
+          type="number"
+          label="الحد الأدنى للاستهلاك"
+          filled
+          dense
+          class="col-12 col-md-2"
+          :debounce="750"
+        />
+        <q-input
+          v-model.number="filters.maxConsuming"
+          type="number"
+          label="الحد الأعلى للاستهلاك"
+          filled
+          dense
+          class="col-12 col-md-2"
+          :debounce="750"
+        />
         <sector-select
           v-model="filters.sectorId"
           class="col-12 col-md-2"
@@ -60,7 +78,7 @@
       </div>
     </q-card>
     <q-table
-      :rows="invoices"
+      :rows="readings"
       :loading="loading"
       :columns="columns"
       :filter="filters"
@@ -191,18 +209,6 @@
             flat
             dense
             round
-            icon="visibility"
-            color="primary"
-            @click="$router.push(`/management/invoice-details/${props.row.id}`)"
-            :aria-label="'عرض'"
-            class="q-mr-xs"
-          >
-            <q-tooltip> عرض الفاتورة </q-tooltip>
-          </q-btn>
-          <q-btn
-            flat
-            dense
-            round
             icon="article"
             color="primary"
             @click="$router.push(`/shared/clock-details/${props.row.clockId}`)"
@@ -228,13 +234,15 @@ import { dateFormatter } from 'src/utils/date';
 
 const route = useRoute();
 
-const invoices = ref<any[]>([]);
+const readings = ref<any[]>([]);
 const loading = ref<boolean>(false);
 const exportLoading = ref<boolean>(false);
 const filters = ref({
   sectorId: route.query.sectorId || undefined,
   boxId: route.query.boxId || undefined,
   date: undefined,
+  maxConsuming: undefined,
+  minConsuming: undefined,
 });
 
 const $q = useQuasar();
@@ -247,8 +255,8 @@ const pagination = ref({
 const viewMode = ref('table');
 
 const columns = [
-  { name: 'id', label: 'رقم الفاتورة', field: 'id', align: 'left' as const },
-  // { name: 'clockId', label: 'رقم الساعة', field: 'clockId', align: 'left' as const },
+  // { name: 'id', label: 'رقم التأشيرة', field: 'id', align: 'left' as const },
+  { name: 'clockId', label: 'رقم الساعة', field: 'clockId', align: 'left' as const },
   {
     name: 'ownerName',
     label: 'اسم المشترك',
@@ -257,20 +265,14 @@ const columns = [
   },
   {
     name: 'consuming',
-    label: 'عدد الكيلو واط المدفوع',
+    label: 'عدد الكيلو واط المستهلك',
     field: 'consuming',
     align: 'left' as const,
   },
   {
-    name: 'price',
-    label: 'السعر',
-    field: (row: any) => `${row.price} ل.س`,
-    align: 'left' as const,
-  },
-  {
-    name: 'paidUntil',
-    label: 'التاشيرة المدفوع لها',
-    field: (row: any) => row.paidUntilReadingNumberBeforeTheInvoice + row.consuming,
+    name: 'readingNumber',
+    label: 'التأشيرة',
+    field: 'readingNumber',
     align: 'left' as const,
   },
   {
@@ -321,11 +323,11 @@ const onRequest = async (params: any) => {
     };
     lastRequestParams.value = queryParams;
 
-    const { data } = await api.get('/invoices/list', {
+    const { data } = await api.get('/readings/list', {
       params: queryParams,
     });
 
-    invoices.value = data.rows;
+    readings.value = data.rows;
     pagination.value = {
       ...pagination.value,
       rowsNumber: data.count,
@@ -338,14 +340,14 @@ const onRequest = async (params: any) => {
 const exportPdf = async () => {
   exportLoading.value = true;
   try {
-    const response = await api.get('/invoices/export', {
+    const response = await api.get('/readings/export', {
       params: lastRequestParams.value,
       responseType: 'blob', // IMPORTANT: receive binary data
     });
     const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.download = `Invoices - ${new Date().toLocaleDateString('en', { timeZone: 'Asia/Riyadh' })} - ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh' })}.csv`;
+    link.download = `Readings - ${new Date().toLocaleDateString('en', { timeZone: 'Asia/Riyadh' })} - ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh' })}.csv`;
     link.click();
     window.URL.revokeObjectURL(link.href);
     // console.log({ data });

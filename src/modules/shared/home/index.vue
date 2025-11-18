@@ -130,6 +130,14 @@ const actions = [
     can: () => authStore.user?.isManager || authStore.user?.isAccountant,
   },
   {
+    name: 'قائمة التأشيرات',
+    icon: 'query_stats',
+    handler: () => {
+      router.push('/management/readings-list');
+    },
+    can: () => authStore.user?.isManager || authStore.user?.isAccountant,
+  },
+  {
     name: 'إنشاء تأشيرة جديدة',
     icon: 'edit_calendar',
     handler: () => {
