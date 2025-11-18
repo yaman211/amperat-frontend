@@ -52,15 +52,15 @@
         />
       </div>
       <template v-else>
-        <div class="text-subtitle1 q-mx-auto text-center q-mt-lg">يمكنك التواصل معنا عبر</div>
+        <div class="text-subtitle1 q-mx-auto text-center q-mt-lg">تابعنا على</div>
         <div class="row justify-center q-mt-md items-center q-gutter-x-md">
           <q-icon name="facebook" size="46px" color="blue" @click="onFbClicked()" />
-          <q-img
+          <!-- <q-img
             :src="require('src/assets/icons/whatsapp.svg')"
             width="42px"
             color="green"
             @click="onWhatsAppClicked()"
-          />
+          /> -->
         </div>
       </template>
     </div>
