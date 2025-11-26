@@ -5,18 +5,23 @@
     :style="scanningBarcode ? '' : 'background-color: #f7f7f7'"
   >
     <q-header elevated>
-      <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+      <div class="row justify-between items-center">
+        <q-toolbar style="max-width: fit-content">
+          <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-img
-          :src="require('src/assets/logo-white.svg')"
-          style="width: 40px"
-          class="rounded-borders q-ml-sm cursor-pointer"
-          @click="router.push('/')"
-        />
+          <q-img
+            :src="require('src/assets/logo-white.svg')"
+            style="width: 40px"
+            class="rounded-borders q-ml-sm cursor-pointer"
+            @click="router.push('/')"
+          />
 
-        <q-toolbar-title> أمبيرات {{ pageName ? `- ${pageName}` : '' }} </q-toolbar-title>
-      </q-toolbar>
+          <q-toolbar-title> أمبيرات {{ pageName ? `- ${pageName}` : '' }} </q-toolbar-title>
+        </q-toolbar>
+        <div v-if="dynamicHeaderComponent && $q.platform.is.desktop">
+          <component :is="dynamicHeaderComponent" />
+        </div>
+      </div>
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
@@ -98,6 +103,8 @@ function contactUs() {
 
 const route = useRoute();
 const router = useRouter();
+
+const dynamicHeaderComponent = route.meta.dynamicHeaderComponent;
 
 if (authStore.isLoggedIn) {
   authStore.refreshUser().catch((err) => {

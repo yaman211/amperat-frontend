@@ -8,10 +8,9 @@
       option-label="label"
       option-value="id"
       map-options
-      outlined
-      rounded
+      dense
       filled
-      :hint="customDate"
+      class="bg-white rounded-sm"
     ></q-select>
     <q-dialog v-model="isDialogOpen" persistent>
       <div>

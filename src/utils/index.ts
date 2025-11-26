@@ -9,3 +9,16 @@ export const formatConsuming = (consuming: number) => {
     return `${Math.abs(consuming)} كيلو مسبق`;
   }
 };
+
+export const commaFormatter = (num: number) => {
+  if (!num) return num;
+  try {
+    return new Intl.NumberFormat('en-US', {
+      style: 'decimal',
+      maximumFractionDigits: 2, // Ensure at most two decimal places
+    }).format(num);
+  } catch (err) {
+    console.error(err);
+    return num;
+  }
+};
