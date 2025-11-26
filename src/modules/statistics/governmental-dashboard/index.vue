@@ -25,7 +25,7 @@
 import DateSelect from 'src/components/date-select.vue';
 import VendorSelect from 'src/components/vendor-select.vue';
 import ClocksCount from '../components/clocks-count/index.vue';
-import InvoicesChart from '../components/invoices-chart/index.vue';
+import InvoicesChart from '../components/invoices-amount-chart/index.vue';
 
 import { ref, watch } from 'vue';
 import { useStatisticsStore } from '../store';

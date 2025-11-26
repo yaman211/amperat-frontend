@@ -1,37 +1,32 @@
 <template>
   <q-card class="q-pa-md rounded-lg statistics-card">
-    <div class="text-h5 q-mb-md flex items-center">
-      <q-icon name="bar_chart" class="q-mr-sm text-primary" size="32px" />
-      إحصائيات عامة
+    <div class="text-h6 flex items-center">
+      <q-icon name="speed" class="q-mr-sm text-primary" size="32px" />
+      عدد الساعات حسب الاستهلاك
     </div>
-    <Loader v-if="statisticsStore.loading" style="height: 90px" />
-    <template v-else>
-      <div class="row justify-between">
-        <div>
-          <div class="stat-row flex items-center q-gutter-sm q-mb-md">
-            <q-icon name="schedule" class="stat-icon text-blue" size="28px" />
-            <div class="stat-label text-weight-bold text-subtitle1">عدد الساعات:</div>
-            <div class="stat-value text-h6">
-              {{ statisticsStore.clocksCounts === null ? '--' : statisticsStore.clocksCounts }}
-            </div>
-          </div>
+    <div class="text-grey-6 text-caption q-mb-md">هذا الجزء غير تابع لفلتر التاريخ</div>
 
-          <div class="stat-row flex items-center q-gutter-sm q-mb-md">
-            <q-icon name="groups" class="stat-icon text-green" size="28px" />
-            <div class="stat-label text-weight-bold text-subtitle1">عدد الموظفين:</div>
-            <div class="stat-value text-h6">قريباً</div>
-          </div>
-          <div class="stat-row flex items-center q-gutter-sm">
-            <q-icon name="account_balance" class="stat-icon text-orange" size="28px" />
-            <div class="stat-label text-weight-bold text-subtitle1">عدد المحاسبين :</div>
-            <div class="stat-value text-h6">قريباً</div>
+    <q-separator />
+    <Loader v-if="statisticsStore.loading" style="height: 250px" />
+    <template v-else>
+      <div class="flex justify-between items-center q-pt-md">
+        <div class="column q-gutter-y-lg">
+          <div
+            class="flex items-center q-gutter-x-sm"
+            v-for="item in labelsWithCount"
+            :key="item.label"
+          >
+            <div
+              style="border-radius: 100%; width: 8px; height: 8px"
+              :style="{ backgroundColor: item.color }"
+            ></div>
+            <div class="text-grey-6">{{ item.label }}:</div>
+            <div class="font-weight-medium text-subtitle1">{{ item.count }}</div>
           </div>
         </div>
-        <div>
-          <!-- Pie Chart Section -->
-          <div class="q-mb-md q-mx-auto" style="height: 270px; width: 100%">
-            <Pie v-if="pieData" :data="pieData" :options="pieOptions" />
-          </div>
+        <!-- Pie Chart Section -->
+        <div class="" style="height: 220px">
+          <Doughnut v-if="pieData" :data="pieData" :options="options" />
         </div>
       </div>
     </template>
@@ -43,48 +38,65 @@ import Loader from 'src/components/loader.vue';
 import { useStatisticsStore } from '../../store';
 
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
-import { Pie } from 'vue-chartjs';
+import { Doughnut } from 'vue-chartjs';
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
+ChartJS.defaults.font.family = 'alexandria, sans-serif';
 
 const statisticsStore = useStatisticsStore();
 
 import { computed } from 'vue';
+import { commaFormatter } from 'src/utils';
+
+const labelsWithCount = computed(() => {
+  const { lessThanZero, equalZero, greaterThanZero } = statisticsStore.clockConsumptionGrouping;
+  return [
+    {
+      label: 'تم الدفع مسبقاً',
+      count: commaFormatter(lessThanZero),
+      color: '#42A5F5',
+    },
+    {
+      label: 'لا يوجد استهلاك',
+      count: commaFormatter(equalZero),
+      color: '#66BB6A',
+    },
+    {
+      label: 'عليها كسر',
+      count: commaFormatter(greaterThanZero),
+      color: '#FFA726',
+    },
+  ];
+});
 
 const pieData = computed(() => {
   const { lessThanZero, equalZero, greaterThanZero } = statisticsStore.clockConsumptionGrouping;
   if (lessThanZero === 0 && equalZero === 0 && greaterThanZero === 0) return null;
   return {
-    labels: [
-      `تم الدفع مسبقاً (${lessThanZero})`,
-      `لا يوجد استهلاك (${equalZero})`,
-      `عليها كسر (${greaterThanZero})`,
-    ],
+    labels: [`تم الدفع مسبقاً`, `لا يوجد استهلاك`, `عليها كسر`],
     datasets: [
       {
         data: [lessThanZero, equalZero, greaterThanZero],
         backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726'],
         borderWidth: 1,
+        borderRadius: 5,
       },
     ],
   };
 });
 
-const pieOptions = {
+const options = {
   responsive: true,
   plugins: {
     legend: {
       display: true,
       position: 'bottom',
-      labels: {
-        font: { family: 'Tajawal, sans-serif' },
-      },
     },
-    title: {
-      display: true,
-      text: 'توزيع الساعات حسب الاستهلاك',
-      font: { size: 16, family: 'Tajawal, sans-serif' },
-    },
+    // title: {
+    //   display: false,
+    //   text: 'توزيع الساعات حسب الاستهلاك',
+    //   font: { size: 16, family: 'Tajawal, sans-serif' },
+    // },
   },
 };
 </script>

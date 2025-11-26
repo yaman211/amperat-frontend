@@ -1,17 +1,17 @@
 <template>
   <q-card class="q-pa-md rounded-lg">
     <div class="text-h6 q-mb-md text-weight-medium">
-      <q-icon name="sticky_note_2" class="q-mr-sm text-primary" size="32px" />
-      عدد التأشيرات التي تم ادخالها
+      <q-icon name="paid" class="q-mr-sm text-secondary" size="32px" />
+      قيمة الفواتير المدفوعة
     </div>
     <q-separator class="q-mb-md" />
     <Loader v-if="statisticsStore.loading" style="height: 300px" />
-    <template v-else-if="!statisticsStore.readingsCount.labels.length">
+    <template v-else-if="!statisticsStore.invoices.labels.length">
       <NoData />
     </template>
     <template v-else>
       <div style="height: 300px; width: 100%">
-        <Bar :data="statisticsStore.readingsCount" />
+        <Bar :data="statisticsStore.invoices" :options="options" />
       </div>
     </template>
   </q-card>

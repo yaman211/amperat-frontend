@@ -13,6 +13,11 @@ export const useStatisticsStore = defineStore(storesNames.STATISTICS.INDEX, {
     },
     invoicesCountAmount: null,
     consumingAmount: null,
+    generalCounts: {
+      usersCount: 0,
+      sectorsCount: 0,
+      boxesCount: 0,
+    },
   }),
   getters: {
     clockConsumptionGrouping(): {
@@ -54,8 +59,8 @@ export const useStatisticsStore = defineStore(storesNames.STATISTICS.INDEX, {
         labels,
         datasets: [
           {
-            backgroundColor: '#0094ce99',
-            borderColor: '#0094ce',
+            backgroundColor: '#26a69999',
+            borderColor: '#26a69a',
             borderRadius: 20,
             borderWidth: 5,
             label: 'قيمة الفواتير',
@@ -91,6 +96,33 @@ export const useStatisticsStore = defineStore(storesNames.STATISTICS.INDEX, {
         ],
       };
     },
+    invoicesCount() {
+      if (!this.invoicesCountAmount) {
+        return {
+          labels: [],
+          datasets: [],
+        };
+      }
+      const labels: any = [];
+      const data: any = [];
+      (this.invoicesCountAmount as any).data.forEach((item: any) => {
+        labels.push(item.period);
+        data.push(item.count);
+      });
+      return {
+        labels,
+        datasets: [
+          {
+            backgroundColor: '#26a69999',
+            borderColor: '#26a69a',
+            borderRadius: 20,
+            borderWidth: 5,
+            label: 'عدد الفواتير',
+            data,
+          },
+        ],
+      };
+    },
     readingsCount() {
       if (!this.consumingAmount) {
         return {
@@ -116,6 +148,49 @@ export const useStatisticsStore = defineStore(storesNames.STATISTICS.INDEX, {
             data,
           },
         ],
+      };
+    },
+    totals() {
+      if (!this.invoicesCountAmount || !this.consumingAmount) {
+        return {
+          invoices: {
+            count: 0,
+            amount: 0,
+          },
+          readings: {
+            count: 0,
+            amount: 0,
+          },
+        };
+      }
+      const invoicesCount: number = (this.invoicesCountAmount as any).data.reduce(
+        (acc: number, cur: any) => {
+          console.log({ cur, acc });
+          return acc + cur.count;
+        },
+        0,
+      );
+      const readingsCount: number = (this.consumingAmount as any).data.reduce(
+        (acc: number, cur: any) => acc + cur.count,
+        0,
+      );
+      const invoicesAmount: number = (this.invoicesCountAmount as any).data.reduce(
+        (acc: number, cur: any) => acc + cur.totalAmount,
+        0,
+      );
+      const readingsAmount: number = (this.consumingAmount as any).data.reduce(
+        (acc: number, cur: any) => acc + cur.totalAmount,
+        0,
+      );
+      return {
+        invoices: {
+          count: invoicesCount,
+          amount: invoicesAmount,
+        },
+        readings: {
+          count: readingsCount,
+          amount: readingsAmount,
+        },
       };
     },
   },
@@ -148,14 +223,24 @@ export const useStatisticsStore = defineStore(storesNames.STATISTICS.INDEX, {
         console.error(err);
       }
     },
+    async getGeneralCount({ vendorId }: any) {
+      try {
+        const res = await api.get(ep.GENERAL_COUNTS, { params: { vendorId } });
+        this.generalCounts = res.data;
+      } catch (err) {
+        console.error(err);
+      }
+    },
     async getStatistics({ vendorId, from, to }: any) {
       this.loading = true;
+      await new Promise((res) => setTimeout(() => res(0), 5000));
       try {
         await Promise.all([
           this.getClocksCount({ vendorId, from, to }),
           this.getInvoicesAmount({ vendorId, from, to }),
           this.getReadingsCount({ vendorId, from, to }),
           this.getReadingsConsuming({ vendorId, from, to }),
+          this.getGeneralCount({ vendorId }),
         ]);
       } finally {
         this.loading = false;
