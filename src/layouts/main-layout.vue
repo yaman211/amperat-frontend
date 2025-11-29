@@ -104,7 +104,9 @@ function contactUs() {
 const route = useRoute();
 const router = useRouter();
 
-const dynamicHeaderComponent = route.meta.dynamicHeaderComponent;
+const dynamicHeaderComponent = computed(() => {
+  return route.meta.dynamicHeaderComponent;
+});
 
 if (authStore.isLoggedIn) {
   authStore.refreshUser().catch((err) => {
