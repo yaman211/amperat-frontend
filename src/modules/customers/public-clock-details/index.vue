@@ -122,9 +122,18 @@
               <q-icon name="attach_money" size="20px" color="green-7" />
             </div>
             <div class="q-pl-md">
-              <div class="text-grey-6">المبلغ</div>
+              <div class="text-grey-6">المبلغ الكلي</div>
               <div class="font-weight- text-subtitle1 text-green-7">
-                {{ clockDetailsStore.lastInvoice?.price }} ل.س
+                {{
+                  clockDetailsStore.lastInvoice?.totalPrice || clockDetailsStore.lastInvoice?.price
+                }}
+                ل.س
+              </div>
+              <div
+                v-if="clockDetailsStore.lastInvoice?.applicationFees"
+                class="text-caption text-grey-6"
+              >
+                (متضمنة رسوم: {{ clockDetailsStore.lastInvoice?.applicationFees }} ل.س)
               </div>
             </div>
           </div>

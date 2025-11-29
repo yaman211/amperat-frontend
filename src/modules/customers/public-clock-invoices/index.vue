@@ -20,9 +20,12 @@
                   <q-icon name="attach_money" size="20px" color="green-7" />
                 </div>
                 <div class="q-pl-md">
-                  <div class="text-grey-6">المبلغ</div>
+                  <div class="text-grey-6">المبلغ الكلي</div>
                   <div class="font-weight- text-subtitle1 text-green-7">
-                    {{ invoice.price }} ل.س
+                    {{ invoice.totalPrice || invoice.price }} ل.س
+                  </div>
+                  <div v-if="invoice.applicationFees" class="text-caption text-grey-6">
+                    (متضمنة رسوم: {{ invoice.applicationFees }} ل.س)
                   </div>
                 </div>
               </div>
