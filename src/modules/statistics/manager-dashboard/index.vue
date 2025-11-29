@@ -8,14 +8,8 @@
     <div class="column q-gutter-sm q-mt-md">
       <!-- <Loader v-if="statisticsStore.loading" /> -->
       <div class="row q-gutter-y-md">
-        <div class="col-md-4 col-12 q-px-sm">
-          <GeneralStats />
-        </div>
-        <div class="col-md-4 col-12 q-px-sm">
-          <ClocksCount />
-        </div>
-        <div class="col-md-4 col-12 row justify-between">
-          <div class="col-6 q-px-sm">
+        <div class="col-12 row q-col-gutter-y-md">
+          <div class="col-md-4 col-12 q-px-sm">
             <LabelValueCard
               icon="paid"
               label="مجموع قيم الفواتير"
@@ -24,7 +18,16 @@
               :loading="statisticsStore.loading"
             />
           </div>
-          <div class="col-6 q-px-sm">
+          <div class="col-md-4 col-12 q-px-sm">
+            <LabelValueCard
+              icon="monetization_on"
+              label="مجموع رسوم التطبيق"
+              :value="`${commaFormatter(totals.applicationFees.amount)} ل.س`"
+              variant="negative"
+              :loading="statisticsStore.loading"
+            />
+          </div>
+          <div class="col-md-4 col-12 q-px-sm">
             <LabelValueCard
               icon="request_page"
               label="عدد الفواتير"
@@ -33,7 +36,16 @@
               :loading="statisticsStore.loading"
             />
           </div>
-          <div class="col-6 q-mt-md q-px-sm">
+        </div>
+
+        <div class="col-md-4 col-12 q-px-sm">
+          <GeneralStats />
+        </div>
+        <div class="col-md-4 col-12 q-px-sm">
+          <ClocksCount />
+        </div>
+        <div class="col-md-4 col-12 column q-px-sm">
+          <div class="q-pb-md">
             <LabelValueCard
               icon="query_stats"
               label="مجموع الكيلو واط"
@@ -42,15 +54,13 @@
               :loading="statisticsStore.loading"
             />
           </div>
-          <div class="col-6 q-mt-md q-px-sm">
-            <LabelValueCard
-              icon="sticky_note_2"
-              label="عدد التأشيرات"
-              :value="`${commaFormatter(totals.readings.count)}`"
-              variant="primary"
-              :loading="statisticsStore.loading"
-            />
-          </div>
+          <LabelValueCard
+            icon="sticky_note_2"
+            label="عدد التأشيرات"
+            :value="`${commaFormatter(totals.readings.count)}`"
+            variant="primary"
+            :loading="statisticsStore.loading"
+          />
         </div>
         <div class="col-md-6 col-12 q-px-sm">
           <InvoicesAmountChart />

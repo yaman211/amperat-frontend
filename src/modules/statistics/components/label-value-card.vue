@@ -6,14 +6,22 @@
         :style="
           variant === 'primary'
             ? 'background-color: #0094ce20'
-            : 'background-color: rgba(38, 166, 153, 0.15)'
+            : variant === 'negative'
+              ? 'background-color: #f4433620'
+              : 'background-color: rgba(38, 166, 153, 0.15)'
         "
       >
         <!-- <q-icon name="electric_bolt" size="20px" color="primary" /> -->
         <q-icon
           v-if="icon"
           :name="icon"
-          :class="variant === 'primary' ? 'text-primary' : 'text-secondary'"
+          :class="
+            variant === 'primary'
+              ? 'text-primary'
+              : variant === 'negative'
+                ? 'text-negative'
+                : 'text-secondary'
+          "
           size="24px"
         />
       </div>
@@ -32,7 +40,7 @@
 import Loader from 'src/components/loader.vue';
 defineProps<{
   icon?: string;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'negative';
   label?: string;
   value?: string | number;
   loading?: boolean;

@@ -13,6 +13,7 @@ export const useStatisticsStore = defineStore(storesNames.STATISTICS.INDEX, {
     },
     invoicesCountAmount: null,
     consumingAmount: null,
+    applicationFeesAmount: null,
     generalCounts: {
       usersCount: 0,
       sectorsCount: 0,
@@ -64,6 +65,33 @@ export const useStatisticsStore = defineStore(storesNames.STATISTICS.INDEX, {
             borderRadius: 20,
             borderWidth: 5,
             label: 'قيمة الفواتير',
+            data,
+          },
+        ],
+      };
+    },
+    applicationFees() {
+      if (!this.applicationFeesAmount) {
+        return {
+          labels: [],
+          datasets: [],
+        };
+      }
+      const labels: any = [];
+      const data: any = [];
+      (this.applicationFeesAmount as any).data.forEach((item: any) => {
+        labels.push(item.period);
+        data.push(item.totalAmount);
+      });
+      return {
+        labels,
+        datasets: [
+          {
+            backgroundColor: '#f4433699',
+            borderColor: '#f44336',
+            borderRadius: 20,
+            borderWidth: 5,
+            label: 'رسوم التطبيق',
             data,
           },
         ],
@@ -161,6 +189,9 @@ export const useStatisticsStore = defineStore(storesNames.STATISTICS.INDEX, {
             count: 0,
             amount: 0,
           },
+          applicationFees: {
+            amount: 0,
+          },
         };
       }
       const invoicesCount: number = (this.invoicesCountAmount as any).data.reduce(
@@ -182,6 +213,12 @@ export const useStatisticsStore = defineStore(storesNames.STATISTICS.INDEX, {
         (acc: number, cur: any) => acc + cur.totalAmount,
         0,
       );
+      const applicationFeesAmount: number = this.applicationFeesAmount
+        ? (this.applicationFeesAmount as any).data.reduce(
+            (acc: number, cur: any) => acc + cur.totalAmount,
+            0,
+          )
+        : 0;
       return {
         invoices: {
           count: invoicesCount,
@@ -190,6 +227,9 @@ export const useStatisticsStore = defineStore(storesNames.STATISTICS.INDEX, {
         readings: {
           count: readingsCount,
           amount: readingsAmount,
+        },
+        applicationFees: {
+          amount: applicationFeesAmount,
         },
       };
     },
@@ -209,6 +249,14 @@ export const useStatisticsStore = defineStore(storesNames.STATISTICS.INDEX, {
         const res = await api.get(ep.INVOICES_COUNT_AMOUNT, { params: { vendorId, from, to } });
         console.log({ res });
         this.invoicesCountAmount = res.data;
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    async getApplicationFeesAmount({ vendorId, from, to }: any) {
+      try {
+        const res = await api.get(ep.APPLICATION_FEES_AMOUNT, { params: { vendorId, from, to } });
+        this.applicationFeesAmount = res.data;
       } catch (err) {
         console.error(err);
       }
@@ -238,6 +286,7 @@ export const useStatisticsStore = defineStore(storesNames.STATISTICS.INDEX, {
         await Promise.all([
           this.getClocksCount({ vendorId, from, to }),
           this.getInvoicesAmount({ vendorId, from, to }),
+          this.getApplicationFeesAmount({ vendorId, from, to }),
           this.getReadingsCount({ vendorId, from, to }),
           this.getReadingsConsuming({ vendorId, from, to }),
           this.getGeneralCount({ vendorId }),
