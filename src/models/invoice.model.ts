@@ -17,6 +17,8 @@ export class Invoice {
   vendorId!: number;
   consuming!: number;
   price!: number;
+  applicationFees!: number;
+  totalPrice!: number;
   lastReadingNumber!: number;
   paidUntilReadingNumber!: number;
   paidUntilReadingNumberBeforeTheInvoice!: number;

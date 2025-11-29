@@ -6,7 +6,7 @@
         opacity: 0.2;
         position: absolute;
         width: 30%;
-        top: 30%;
+        top: 35%;
         left: 50%;
         transform: translate(-50%, -50%);
       "
@@ -47,7 +47,14 @@
         <span class="label">الكمية المدفوعة:</span> <span>{{ invoice.consuming }} كيلو</span>
       </div>
       <div>
-        <span class="label">القيمة المدفوعة:</span> <span>{{ invoice.price }}</span>
+        <span class="label">سعر الاستهلاك:</span> <span>{{ invoice.price }} ل.س</span>
+      </div>
+      <div>
+        <span class="label">رسوم التطبيق:</span> <span>{{ invoice.applicationFees || 0 }} ل.س</span>
+      </div>
+      <div>
+        <span class="label">السعر الكلي:</span>
+        <span>{{ invoice.totalPrice || invoice.price }} ل.س</span>
       </div>
       <div>
         <span class="label">رقم آخر تأشيرة:</span> <span>{{ invoice.lastReadingNumber }}</span>

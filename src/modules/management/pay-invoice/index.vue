@@ -100,9 +100,12 @@ const toStep2 = async () => {
 
 const $q = useQuasar();
 const onSubmit = () => {
+  const applicationFees = authStore.user?.vendor?.applicationFees || 0;
+  const total = +price.value + +applicationFees;
   $q.dialog({
     title: 'إضافة فاتورة',
-    message: `هل انت متأكد من اضافة فاتورة استهلاك ${consuming.value} كيلو بقيمة ${price.value} ليرة سورية ؟`,
+    message: `هل انت متأكد من اضافة فاتورة استهلاك ${consuming.value} كيلو بقيمة ${price.value} ليرة سورية؟
+    (رسوم التطبيق: ${applicationFees} ل.س - المجموع: ${total} ل.س)`,
     ok: {
       color: 'primary',
     },

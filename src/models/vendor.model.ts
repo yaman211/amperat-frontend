@@ -12,6 +12,7 @@ export class Vendor {
   phone!: string;
   address!: string;
   kwPrice!: number;
+  applicationFees!: number;
   status!: VendorStatus;
 
   constructor(obj: any) {

@@ -263,8 +263,20 @@ const columns = [
   },
   {
     name: 'price',
-    label: 'السعر',
+    label: 'سعر الاستهلاك',
     field: (row: any) => `${row.price} ل.س`,
+    align: 'left' as const,
+  },
+  {
+    name: 'applicationFees',
+    label: 'رسوم التطبيق',
+    field: (row: any) => `${row.applicationFees || 0} ل.س`,
+    align: 'left' as const,
+  },
+  {
+    name: 'totalPrice',
+    label: 'السعر الكلي',
+    field: (row: any) => `${row.totalPrice || row.price} ل.س`,
     align: 'left' as const,
   },
   {
