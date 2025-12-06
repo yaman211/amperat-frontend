@@ -47,9 +47,30 @@
 
 <script setup lang="ts">
 import { useVersionsStore } from '../stores/versions-store';
+import { watch, onUnmounted, computed } from 'vue';
 
 const versionsStore = useVersionsStore();
 versionsStore.checkVersion();
+
+const isOverlayVisible = computed(
+  () => versionsStore.checkingForUpdates || versionsStore.mustUpdate,
+);
+
+watch(
+  isOverlayVisible,
+  (visible) => {
+    if (visible) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  },
+  { immediate: true },
+);
+
+onUnmounted(() => {
+  document.body.style.overflow = '';
+});
 
 const openDownloadLink = () => {
   window.open(versionsStore.versionInfo?.updateUrl as string, '_blank');
