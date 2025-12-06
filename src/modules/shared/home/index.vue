@@ -74,7 +74,7 @@
     </q-banner>
 
     <!-- Sections -->
-    <div v-for="(section, index) in visibleSections" :key="index" class="q-mb-xl">
+    <div v-for="(section, index) in visibleSections" :key="index" class="q-pb-xl">
       <div class="row items-center q-mb-md">
         <q-icon :name="section.icon" color="primary" size="24px" class="q-mr-sm" />
         <div class="text-h6 text-weight-bold text-grey-9">{{ section.title }}</div>
