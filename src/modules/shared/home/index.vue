@@ -1,76 +1,106 @@
 <template>
   <div>
-    <q-card class="q-pa-md rounded-md column q-gutter-sm">
-      <div class="text-weight-bold">
-        أهلاً وسهلاً بك يا
-        <span class="text-primary"> {{ authStore.user?.fullName }}</span>
-      </div>
-      <div class="text-weight-bold" v-if="authStore.user?.vendor">
-        أنت تعمل حالياً لدى
-        <span class="text-primary">{{ authStore.user?.vendor.name }} </span>
-      </div>
-      <div class="text-weight-bold" v-if="authStore.user?.vendor">
-        العمل الحالي
-        <span class="text-primary">{{ $t(`userRoles.${authStore.user?.role}`) }} </span>
-      </div>
-    </q-card>
-    <q-banner class="bg-primary rounded-md text-white q-mt-md" v-if="authStore.user?.myInvite">
-      لديك دعوة من {{ authStore.user?.myInvite.vendor.name }} للعمل كـ
-      {{ $t(`userRoles.${authStore.user?.myInvite.role}`) }}
-      <template v-slot:action>
-        <q-btn
-          outline
-          color="white"
-          label="قبول"
-          @click="inviteRespond(InviteStatus.ACCEPTED)"
-          :loading="inviteLoading"
-        />
-        <q-btn
-          outline
-          color="white"
-          label="رفض"
-          @click="inviteRespond(InviteStatus.REJECTED)"
-          :loading="inviteLoading"
-        />
-      </template>
-    </q-banner>
-    <div class="q-mt-lg text-h5">الخيارات المتاحة :</div>
-    <div
-      class="q-my-lg text-white"
-      :class="$q.platform.is.desktop ? 'row' : 'column q-gutter-md'"
-      :style="$q.platform.is.desktop ? '' : ''"
-    >
-      <div
-        v-for="(action, i) in allowedActions"
-        :key="i"
-        :class="$q.platform.is.desktop ? 'col-3 q-pa-sm' : ''"
-      >
-        <q-card
-          flat
-          bordered
-          class="rounded-lg q-pa-md bg-primary text-white cursor-pointer"
-          @click="action.handler()"
-        >
-          <div class="column justify-center items-center">
-            <div
-              class="q-pa-md rounded-lg justify-center items-center q-mb-sm"
-              style="background-color: #fff3"
-            >
-              <q-icon :name="action.icon" size="25px" color="white" />
-            </div>
-            <div class="text-h6 text-center">{{ action.name }}</div>
-            <!-- <div class="text-caption text-center">عرض تفاصيل استهلاك الكهرباء والفواتير</div> -->
+    <!-- Welcome Card -->
+    <q-card class="welcome-card q-pa-lg rounded-xl relative-position overflow-hidden q-mb-lg">
+      <div class="row items-center justify-between relative-position" style="z-index: 1">
+        <div class="col-auto">
+          <div class="text-grey-7 q-mb-xs">أهلاً وسهلاً بك</div>
+          <div class="text-h5 text-weight-bold text-primary q-mb-sm">
+            {{ authStore.user?.fullName }}
           </div>
-        </q-card>
+          <div class="row q-gutter-sm">
+            <q-badge
+              v-if="authStore.user?.vendor"
+              color="blue-1"
+              text-color="primary"
+              class="q-px-sm q-py-xs"
+            >
+              {{ authStore.user?.vendor.name }}
+            </q-badge>
+            <q-badge
+              v-if="authStore.user?.role"
+              color="blue-1"
+              text-color="primary"
+              class="q-px-sm q-py-xs"
+            >
+              {{ $t(`userRoles.${authStore.user?.role}`) }}
+            </q-badge>
+          </div>
+        </div>
+        <div class="col-auto">
+          <q-btn flat color="grey-7" icon="logout" label="تسجيل الخروج" @click="logout" />
+        </div>
+      </div>
+      <!-- Decorative background shape -->
+      <div
+        class="absolute-top-left bg-blue-1"
+        style="
+          width: 150px;
+          height: 150px;
+          border-radius: 50%;
+          transform: translate(-30%, -30%);
+          opacity: 0.5;
+        "
+      ></div>
+    </q-card>
 
-        <!-- <q-card
-          class="q-pa-md rounded-md column justify-center items-center q-gutter-x-sm cursor-pointer"
-          @click="action.handler()"
-          style="background: #0094ce"
-        >
-          <q-icon :name="action.icon" size="60px" />
-          <div class="text-weight-bold text-h6">{{ action.name }}</div>
-        </q-card> -->
+    <!-- Invite Banner -->
+    <q-banner
+      class="bg-primary rounded-xl text-white q-mb-xl shadow-2"
+      v-if="authStore.user?.myInvite"
+    >
+      <div class="row items-center justify-between">
+        <div class="text-h6">
+          لديك دعوة من {{ authStore.user?.myInvite.vendor.name }} للعمل كـ
+          {{ $t(`userRoles.${authStore.user?.myInvite.role}`) }}
+        </div>
+        <div class="q-gutter-sm">
+          <q-btn
+            outline
+            color="white"
+            label="قبول"
+            @click="inviteRespond(InviteStatus.ACCEPTED)"
+            :loading="inviteLoading"
+          />
+          <q-btn
+            outline
+            color="white"
+            label="رفض"
+            @click="inviteRespond(InviteStatus.REJECTED)"
+            :loading="inviteLoading"
+          />
+        </div>
+      </div>
+    </q-banner>
+
+    <!-- Sections -->
+    <div v-for="(section, index) in visibleSections" :key="index" class="q-mb-xl">
+      <div class="row items-center q-mb-md">
+        <q-icon :name="section.icon" color="primary" size="24px" class="q-mr-sm" />
+        <div class="text-h6 text-weight-bold text-grey-9">{{ section.title }}</div>
+        <q-separator class="q-ml-md col" />
+      </div>
+
+      <div class="row q-col-gutter-md">
+        <div v-for="(action, i) in section.items" :key="i" class="col-12 col-sm-6 col-md-3">
+          <q-card
+            flat
+            bordered
+            class="action-card cursor-pointer rounded-xl full-height transition-all"
+            @click="action.handler()"
+          >
+            <q-card-section class="column items-center justify-center q-pa-lg full-height">
+              <div
+                class="icon-wrapper q-mb-md rounded-lg row items-center justify-center transition-all"
+              >
+                <q-icon :name="action.icon" size="32px" class="action-icon transition-all" />
+              </div>
+              <div class="text-h6 text-weight-bold text-center action-text transition-all">
+                {{ action.name }}
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
       </div>
     </div>
   </div>
@@ -88,6 +118,11 @@ const authStore = useAuthStore();
 const inviteLoading = ref(false);
 const $q = useQuasar();
 
+const logout = async () => {
+  await authStore.logout();
+  router.push('/auth/login');
+};
+
 const inviteRespond = async (status: InviteStatus.ACCEPTED | InviteStatus.REJECTED) => {
   inviteLoading.value = true;
   try {
@@ -104,142 +139,184 @@ onMounted(async () => {
   if (authStore.user) authStore.user.myInvite = invite;
 });
 
-const actions = [
+const sections = [
   {
-    name: 'قائمة ساعاتك',
-    icon: 'sticky_note_2',
-    handler: () => {
-      router.push('/shared/clocks-list');
-    },
-    can: () => false,
+    title: 'العدادات',
+    icon: 'bolt',
+    items: [
+      {
+        name: 'قائمة الساعات',
+        icon: 'list_alt',
+        handler: () => router.push('/management/clocks-list'),
+        can: () => authStore.user?.isManager || authStore.user?.isAccountant,
+      },
+      {
+        name: 'استعراض بيانات ساعة',
+        icon: 'qr_code',
+        handler: () => router.push('/management/browse-clock'),
+        can: () => authStore.user?.isManager || authStore.user?.isAccountant,
+      },
+      {
+        name: 'إنشاء ساعة جديدة',
+        icon: 'add',
+        handler: () => router.push('/management/new-clock'),
+        can: () => authStore.user?.isManager || authStore.user?.isAccountant,
+      },
+      {
+        name: 'طباعة باركود',
+        icon: 'print',
+        handler: () => router.push('/management/print-barcode'),
+        platform: () => $q.platform.is.desktop,
+        can: () => authStore.user?.isManager || authStore.user?.isAccountant,
+      },
+    ],
   },
   {
-    name: 'قائمة الساعات',
-    icon: 'sticky_note_2',
-    handler: () => {
-      router.push('/management/clocks-list');
-    },
-    can: () => authStore.user?.isManager || authStore.user?.isAccountant,
+    title: 'الفواتير والتأشيرات',
+    icon: 'receipt_long',
+    items: [
+      {
+        name: 'قائمة الفواتير',
+        icon: 'receipt',
+        handler: () => router.push('/management/invoices-list'),
+        can: () => authStore.user?.isManager || authStore.user?.isAccountant,
+      },
+      {
+        name: 'دفع فاتورة',
+        icon: 'credit_card',
+        handler: () => router.push('/management/pay-invoice'),
+        can: () => authStore.user?.isManager || authStore.user?.isAccountant,
+      },
+      {
+        name: 'قائمة التأشيرات',
+        icon: 'assignment',
+        handler: () => router.push('/management/readings-list'),
+        can: () => authStore.user?.isManager || authStore.user?.isAccountant,
+      },
+      {
+        name: 'إنشاء تأشيرة جديدة',
+        icon: 'note_add',
+        handler: () => router.push('/management/new-reading'),
+        can: () => authStore.user?.isManager || authStore.user?.isEmployee,
+      },
+    ],
   },
   {
-    name: 'استعراض بيانات ساعة',
-    icon: 'article',
-    handler: () => {
-      router.push('/management/browse-clock');
-    },
-    can: () => authStore.user?.isManager || authStore.user?.isAccountant,
+    title: 'الإدارة',
+    icon: 'people',
+    items: [
+      {
+        name: 'معلومات المولدة',
+        icon: 'settings',
+        handler: () => router.push('/management/edit-vendor'),
+        can: () => authStore.user?.isManager,
+      },
+      {
+        name: 'القطاعات',
+        icon: 'place',
+        handler: () => router.push('/management/sectors'),
+        can: () => authStore.user?.isManager,
+      },
+      {
+        name: 'دعوة عامل جديد',
+        icon: 'person_add',
+        handler: () => router.push('/management/invite-user'),
+        can: () => authStore.user?.isManager,
+      },
+      {
+        name: 'إدارة العمال',
+        icon: 'group',
+        handler: () => router.push('/management/employees'),
+        can: () => authStore.user?.isManager,
+      },
+      {
+        name: 'المستخدمين',
+        icon: 'manage_accounts',
+        handler: () => router.push('/admin/users-list'),
+        can: () => authStore.user?.isSuperAdmin,
+      },
+    ],
   },
   {
-    name: 'قائمة التأشيرات',
-    icon: 'query_stats',
-    handler: () => {
-      router.push('/management/readings-list');
-    },
-    can: () => authStore.user?.isManager || authStore.user?.isAccountant,
-  },
-  {
-    name: 'إنشاء تأشيرة جديدة',
-    icon: 'edit_calendar',
-    handler: () => {
-      router.push('/management/new-reading');
-    },
-    can: () => authStore.user?.isManager || authStore.user?.isEmployee,
-  },
-  {
-    name: 'قائمة الفواتير',
-    icon: 'request_page',
-    handler: () => {
-      router.push('/management/invoices-list');
-    },
-    can: () => authStore.user?.isManager || authStore.user?.isAccountant,
-  },
-  {
-    name: 'دفع فاتورة',
-    icon: 'paid',
-    handler: () => {
-      router.push('/management/pay-invoice');
-    },
-    can: () => authStore.user?.isManager || authStore.user?.isAccountant,
-  },
-  {
-    name: 'إنشاء ساعة جديدة',
-    icon: 'note_add',
-    handler: () => {
-      router.push('/management/new-clock');
-    },
-    can: () => authStore.user?.isManager || authStore.user?.isAccountant,
-  },
-  {
-    name: 'طباعة باركود',
-    icon: 'qr_code_2',
-    handler: () => {
-      router.push('/management/print-barcode');
-    },
-    platform: () => $q.platform.is.desktop,
-    can: () => authStore.user?.isManager || authStore.user?.isAccountant,
-  },
-  {
-    name: 'القطاعات',
-    icon: 'domain',
-    handler: () => {
-      router.push('/management/sectors');
-    },
-    can: () => authStore.user?.isManager,
-  },
-  {
-    name: 'إدارة العمال',
-    icon: 'manage_accounts',
-    handler: () => {
-      router.push('/management/employees');
-    },
-    can: () => authStore.user?.isManager,
-  },
-  {
-    name: 'دعوة عامل جديد',
-    icon: 'perm_contact_calendar',
-    handler: () => {
-      router.push('/management/invite-user');
-    },
-    can: () => authStore.user?.isManager,
-  },
-  {
-    name: 'معلومات المولدة',
-    icon: 'settings',
-    handler: () => {
-      router.push('/management/edit-vendor');
-    },
-    can: () => authStore.user?.isManager,
-  },
-  {
-    name: 'إحصائيات المولدات',
+    title: 'التقارير',
     icon: 'analytics',
-    handler: () => {
-      router.push('/statistics/governmental-dashboard');
-    },
-    can: () => authStore.user?.isGovernmental,
-  },
-  {
-    name: 'الإحصائيات',
-    icon: 'analytics',
-    handler: () => {
-      router.push('/statistics/manager-dashboard');
-    },
-    can: () => authStore.user?.isManager,
-  },
-
-  {
-    name: 'المستخدمين',
-    icon: 'person',
-    handler: () => {
-      router.push('/admin/users-list');
-    },
-    can: () => authStore.user?.isSuperAdmin,
+    items: [
+      {
+        name: 'الإحصائيات',
+        icon: 'bar_chart',
+        handler: () => router.push('/statistics/manager-dashboard'),
+        can: () => authStore.user?.isManager,
+      },
+      {
+        name: 'إحصائيات المولدات',
+        icon: 'insights',
+        handler: () => router.push('/statistics/governmental-dashboard'),
+        can: () => authStore.user?.isGovernmental,
+      },
+    ],
   },
 ];
 
-const allowedActions = computed(() => {
-  return actions.filter((a) => a.can() && (!a.platform || a.platform()));
+const visibleSections = computed(() => {
+  return sections
+    .map((section) => ({
+      ...section,
+      items: section.items.filter((item) => item.can() && (!item.platform || item.platform())),
+    }))
+    .filter((section) => section.items.length > 0);
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.welcome-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+.action-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+
+  .icon-wrapper {
+    width: 60px;
+    height: 60px;
+    background-color: #e3f2fd; // Light blue background
+    border-radius: 12px;
+    transition: all 0.3s ease;
+
+    .action-icon {
+      color: var(--q-primary);
+      transition: all 0.3s ease;
+    }
+  }
+
+  .action-text {
+    color: #424242;
+    transition: all 0.3s ease;
+  }
+
+  &:hover {
+    background-color: var(--q-primary);
+    border-color: var(--q-primary);
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    .icon-wrapper {
+      background-color: rgba(255, 255, 255, 0.2);
+
+      .action-icon {
+        color: white;
+      }
+    }
+
+    .action-text {
+      color: white;
+    }
+  }
+}
+</style>
