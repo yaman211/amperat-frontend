@@ -53,6 +53,16 @@
           withoutValidation
           :debounce="750"
         />
+        <employee-select
+          v-if="authStore.user?.isManager"
+          v-model="filters.createdBy"
+          class="col-12 col-md-2"
+          :clearable="true"
+          dense
+          withoutValidation
+          :debounce="750"
+          :roles="[UserRoles.EMPLOYEE, UserRoles.MANAGER]"
+        />
         <q-input
           v-model="filters.date"
           placeholder="التاريخ"
@@ -228,11 +238,15 @@ import { ref } from 'vue';
 import { api } from 'src/boot/axios';
 import SectorSelect from 'src/modules/management/sectors/components/sector-select.vue';
 import BoxSelect from 'src/modules/management/boxes/components/box-select.vue';
+import EmployeeSelect from 'src/components/employee-select.vue';
 import { useRoute } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { dateFormatter } from 'src/utils/date';
+import { UserRoles } from 'src/models/user.model';
+import { useAuthStore } from 'src/modules/auth/store';
 
 const route = useRoute();
+const authStore = useAuthStore();
 
 const readings = ref<any[]>([]);
 const loading = ref<boolean>(false);
@@ -243,6 +257,7 @@ const filters = ref({
   date: undefined,
   maxConsuming: undefined,
   minConsuming: undefined,
+  createdBy: undefined,
 });
 
 const $q = useQuasar();
