@@ -40,14 +40,14 @@ const periodOptions: PeriodOption[] = [
   {
     id: 0,
     label: 'الشهر الحالي',
-    from: () => moment().startOf('month').toDate(),
-    to: () => moment().endOf('month').toDate(),
+    from: () => moment().startOf('month').format('YYYY-MM-DD'),
+    to: () => moment().endOf('month').format('YYYY-MM-DD'),
   },
   {
     id: 1,
     label: 'السنة الحالية',
-    from: () => moment().startOf('year').toDate(),
-    to: () => moment().endOf('year').toDate(),
+    from: () => moment().startOf('year').format('YYYY-MM-DD'),
+    to: () => moment().endOf('year').format('YYYY-MM-DD'),
   },
   {
     id: 2,
@@ -99,7 +99,17 @@ const close = () => {
   onSelectOption(periodOptions[lastSelectedOption.value - 1] as PeriodOption);
 };
 const save = () => {
-  selectedDate.value = proxyDate.value;
+  const format = (d: string) => d?.replace(/\//g, '-') || '';
+
+  if (typeof proxyDate.value === 'string') {
+    const date = format(proxyDate.value);
+    selectedDate.value = { from: date, to: date };
+  } else {
+    selectedDate.value = {
+      from: format(proxyDate.value.from),
+      to: format(proxyDate.value.to),
+    };
+  }
   emit('input', selectedDate.value);
 };
 

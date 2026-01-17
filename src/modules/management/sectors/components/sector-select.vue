@@ -16,18 +16,25 @@
 import { ref, onMounted, computed } from 'vue';
 import { Sector } from 'src/models/sector.model';
 
-const props = defineProps<{ modelValue?: number | undefined; withoutValidation?: boolean }>();
+const props = defineProps<{
+  modelValue?: number | undefined | null;
+  withoutValidation?: boolean;
+  withAllOption?: boolean;
+}>();
 const emit = defineEmits(['update:modelValue']);
-const options = ref<Sector[]>([]);
+const options = ref<any[]>([]);
 
 const inputValue = computed({
   get: () => props.modelValue,
-  set: (val: number) => emit('update:modelValue', val),
+  set: (val: number | null) => emit('update:modelValue', val),
 });
 
 const fetchSectors = async () => {
   const res = await Sector.getAll();
   options.value = res;
+  if (props.withAllOption) {
+    options.value.unshift({ id: null, name: 'الكل' });
+  }
 };
 
 onMounted(fetchSectors);

@@ -35,10 +35,10 @@
           <q-input
             v-model="price"
             type="number"
-            label="المبلغ المدفوع"
+            label="المبلغ المدفوع (عملة قديمة)"
             lazyRules
             :rules="[(val) => (+val >= 0 && !isNaN(val)) || 'أدخل سعر صحيح']"
-            suffix="ليرة سورية"
+            suffix="ليرة سورية قديمة"
             outlined
             rounded
             filled
