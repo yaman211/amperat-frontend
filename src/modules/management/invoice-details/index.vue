@@ -47,7 +47,12 @@
         <span class="label">الكمية المدفوعة:</span> <span>{{ invoice.consuming }} كيلو</span>
       </div>
       <div>
-        <span class="label">القيمة المدفوعة:</span> <span>{{ invoice.price }}</span>
+        <span class="label">القيمة المدفوعة:</span>
+        <span>{{ formatNewCurrency(invoice.price) }} ل.س </span>
+      </div>
+      <div>
+        <div></div>
+        <div style="color: gray; font-size: 12px">ما يعادل: {{ invoice.price }} ل.س قديمة</div>
       </div>
       <div>
         <span class="label">رقم آخر تأشيرة:</span> <span>{{ invoice.lastReadingNumber }}</span>
@@ -107,6 +112,11 @@ const printInvoice = () => {
   cloned.classList.add('printable');
   window.print();
   document.body.removeChild(cloned);
+};
+
+const formatNewCurrency = (price: number) => {
+  if (!price) return '0.00';
+  return (price / 100).toFixed(2);
 };
 
 onMounted(fetchInvoice);
