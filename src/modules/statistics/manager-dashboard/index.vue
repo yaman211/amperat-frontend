@@ -4,6 +4,15 @@
       <div class="column q-gutter-sm">
         <DateSelect @input="setDate" />
       </div>
+      <div class="column q-gutter-sm q-mt-sm">
+        <SectorSelect
+          v-model="sectorId"
+          with-all-option
+          without-validation
+          dense
+          @input="setDate"
+        />
+      </div>
     </q-card>
     <div class="column q-gutter-sm q-mt-md">
       <!-- <Loader v-if="statisticsStore.loading" /> -->
@@ -71,6 +80,7 @@
 
 <script lang="ts" setup>
 import DateSelect from 'src/components/date-select.vue';
+import SectorSelect from 'src/modules/management/sectors/components/sector-select.vue';
 import GeneralStats from '../components/general-stats.vue';
 import ClocksCount from '../components/clocks-count/index.vue';
 import InvoicesAmountChart from '../components/invoices-amount-chart/index.vue';
@@ -89,6 +99,7 @@ const date = ref({
   from: null,
   to: null,
 });
+const sectorId = ref<number | null>(null);
 
 const $q = useQuasar();
 
@@ -104,6 +115,7 @@ const fetchData = () => {
   statisticsStore.getStatistics({
     from: date.value.from,
     to: date.value.to,
+    sectorId: sectorId.value,
   });
 };
 
@@ -111,9 +123,10 @@ const totals = computed(() => {
   return statisticsStore.totals;
 });
 
-// watch(selectedVendor, () => {
-//   fetchData();
-// });
+watch(sectorId, () => {
+  fetchData();
+});
+
 watch(date, () => {
   fetchData();
 });
