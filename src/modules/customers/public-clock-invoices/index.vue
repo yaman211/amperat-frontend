@@ -22,7 +22,7 @@
                 <div class="q-pl-md">
                   <div class="text-grey-6">المبلغ</div>
                   <div class="font-weight- text-subtitle1 text-green-7">
-                    {{ invoice.price }} ل.س
+                    {{ invoice.price }} ل.س قديمة
                   </div>
                 </div>
               </div>

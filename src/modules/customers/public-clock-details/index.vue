@@ -124,7 +124,7 @@
             <div class="q-pl-md">
               <div class="text-grey-6">المبلغ</div>
               <div class="font-weight- text-subtitle1 text-green-7">
-                {{ clockDetailsStore.lastInvoice?.price }} ل.س
+                {{ clockDetailsStore.lastInvoice?.price }} ل.س قديمة
               </div>
             </div>
           </div>

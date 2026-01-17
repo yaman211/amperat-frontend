@@ -279,7 +279,7 @@ const columns = [
   {
     name: 'price',
     label: 'السعر',
-    field: (row: any) => `${row.price} ل.س`,
+    field: (row: any) => `${row.price} ل.س قديمة`,
     align: 'left' as const,
   },
   {
