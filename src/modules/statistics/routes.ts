@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
-import StatisticsDateFilter from './components/date-filter.vue';
+import StatisticsFilters from './components/filters.vue';
 
 const routes: RouteRecordRaw = {
   path: 'statistics',
@@ -17,7 +17,7 @@ const routes: RouteRecordRaw = {
       component: () => import('./manager-dashboard/index.vue'),
       meta: {
         title: 'الإحصائيات',
-        dynamicHeaderComponent: StatisticsDateFilter,
+        dynamicHeaderComponent: StatisticsFilters,
       },
     },
   ],

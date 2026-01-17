@@ -195,52 +195,55 @@ export const useStatisticsStore = defineStore(storesNames.STATISTICS.INDEX, {
     },
   },
   actions: {
-    async getClocksCount({ vendorId, from, to }: any) {
+    async getClocksCount({ vendorId, from, to, sectorId }: any) {
       try {
-        const res = await api.get(ep.CLOCKS_COUNT, { params: { vendorId } });
+        const res = await api.get(ep.CLOCKS_COUNT, { params: { vendorId, sectorId } });
         this.clockCounts = res.data;
         console.log({ res: res.data });
       } catch (err) {
         console.error(err);
       }
     },
-    async getInvoicesAmount({ vendorId, from, to }: any) {
+    async getInvoicesAmount({ vendorId, from, to, sectorId }: any) {
       try {
-        const res = await api.get(ep.INVOICES_COUNT_AMOUNT, { params: { vendorId, from, to } });
+        const res = await api.get(ep.INVOICES_COUNT_AMOUNT, {
+          params: { vendorId, from, to, sectorId },
+        });
         console.log({ res });
         this.invoicesCountAmount = res.data;
       } catch (err) {
         console.error(err);
       }
     },
-    async getReadingsCount({ vendorId, from, to }: any) {},
-    async getReadingsConsuming({ vendorId, from, to }: any) {
+    async getReadingsCount({ vendorId, from, to, sectorId }: any) {},
+    async getReadingsConsuming({ vendorId, from, to, sectorId }: any) {
       try {
-        const res = await api.get(ep.READINGS_CONSUMING, { params: { vendorId, from, to } });
+        const res = await api.get(ep.READINGS_CONSUMING, {
+          params: { vendorId, from, to, sectorId },
+        });
         console.log({ res });
         this.consumingAmount = res.data;
       } catch (err) {
         console.error(err);
       }
     },
-    async getGeneralCount({ vendorId }: any) {
+    async getGeneralCount({ vendorId, sectorId }: any) {
       try {
-        const res = await api.get(ep.GENERAL_COUNTS, { params: { vendorId } });
+        const res = await api.get(ep.GENERAL_COUNTS, { params: { vendorId, sectorId } });
         this.generalCounts = res.data;
       } catch (err) {
         console.error(err);
       }
     },
-    async getStatistics({ vendorId, from, to }: any) {
+    async getStatistics({ vendorId, from, to, sectorId }: any) {
       this.loading = true;
-      await new Promise((res) => setTimeout(() => res(0), 5000));
       try {
         await Promise.all([
-          this.getClocksCount({ vendorId, from, to }),
-          this.getInvoicesAmount({ vendorId, from, to }),
-          this.getReadingsCount({ vendorId, from, to }),
-          this.getReadingsConsuming({ vendorId, from, to }),
-          this.getGeneralCount({ vendorId }),
+          this.getClocksCount({ vendorId, from, to, sectorId }),
+          this.getInvoicesAmount({ vendorId, from, to, sectorId }),
+          this.getReadingsCount({ vendorId, from, to, sectorId }),
+          this.getReadingsConsuming({ vendorId, from, to, sectorId }),
+          this.getGeneralCount({ vendorId, sectorId }),
         ]);
       } finally {
         this.loading = false;
